@@ -1,0 +1,10 @@
+name: SparkTrail
+version: ${project.version}
+author: DSH105
+description: Mobs Under Your Control.
+website: http://dev.bukkit.org/server-mods/sparktrail/
+main: ${main.class}
+prefix: SparkTrail
+commands:
+    stupdate:
+        description: Update the plugin.
