@@ -1,7 +1,6 @@
 package com.github.dsh105.sparktrail.api.event;
 
 import com.github.dsh105.sparktrail.particle.Effect;
-import com.github.dsh105.sparktrail.particle.EffectType;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

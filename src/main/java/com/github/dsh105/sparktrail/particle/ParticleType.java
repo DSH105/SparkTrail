@@ -1,6 +1,7 @@
 package com.github.dsh105.sparktrail.particle;
 
 import com.github.dsh105.sparktrail.logger.Logger;
+import com.github.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import com.github.dsh105.sparktrail.particle.type.*;
 import com.github.dsh105.sparktrail.particle.type.Void;
 import org.bukkit.FireworkEffect;
@@ -54,70 +55,70 @@ public enum ParticleType {
 		return this.frequency;
 	}
 
-	public Class<? extends Effect> getEffectInstance(EffectType effectType) {
+	public Effect getEffectInstance(EffectHolder effectHolder) {
 		Effect effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(ParticleType.class, EffectType.class).newInstance(this, effectType);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, EffectType.class).newInstance(effectHolder, this);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
 		}
-		return null;
+		return effect;
 	}
 
-	public BlockBreak getBlockBreakInstance(EffectType effectType, int id, int meta) {
+	public BlockBreak getBlockBreakInstance(EffectHolder effectHolder, int id, int meta) {
 		BlockBreak effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(ParticleType.class, EffectType.class, Integer.class, Integer.class).newInstance(this, effectType, id, meta);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, EffectType.class, Integer.class, Integer.class).newInstance(effectHolder, this, id, meta);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
 		}
 		return null;
 	}
 
-	public Firework getFireworkInstance(EffectType effectType, FireworkEffect fe) {
+	public Firework getFireworkInstance(EffectHolder effectHolder, FireworkEffect fe) {
 		Firework effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(ParticleType.class, EffectType.class, FireworkEffect.class).newInstance(this, effectType, fe);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, EffectType.class, FireworkEffect.class).newInstance(effectHolder, this, fe);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
 		}
 		return null;
 	}
 
-	public Note getNoteInstance(EffectType effectType, Note.NoteType noteType) {
+	public Note getNoteInstance(EffectHolder effectHolder, Note.NoteType noteType) {
 		BlockCrack effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(ParticleType.class, EffectType.class, Note.NoteType.class).newInstance(this, effectType, noteType);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, EffectType.class, Note.NoteType.class).newInstance(effectHolder, this, noteType);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
 		}
 		return null;
 	}
 
-	public Potion getPotionInstance(EffectType effectType, Potion.PotionType potionType) {
+	public Potion getPotionInstance(EffectHolder effectHolder, Potion.PotionType potionType) {
 		Potion effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(ParticleType.class, EffectType.class, Potion.PotionType.class).newInstance(this, effectType, potionType);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, EffectType.class, Potion.PotionType.class).newInstance(effectHolder, this, potionType);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
 		}
 		return null;
 	}
 
-	public Smoke getSmokeInstance(EffectType effectType, FireworkEffect fe, Smoke.SmokeType smokeType) {
+	public Smoke getSmokeInstance(EffectHolder effectHolder, Smoke.SmokeType smokeType) {
 		Smoke effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(ParticleType.class, EffectType.class, Smoke.SmokeType.class).newInstance(this, effectType, smokeType);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, EffectType.class, Smoke.SmokeType.class).newInstance(effectHolder, this, smokeType);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
 		}
 		return null;
 	}
 
-	public Swirl getSwirlInstance(EffectType effectType, FireworkEffect fe, Swirl.SwirlType swirlType, UUID uuid) {
+	public Swirl getSwirlInstance(EffectHolder effectHolder, Swirl.SwirlType swirlType, UUID uuid) {
 		Swirl effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(ParticleType.class, EffectType.class, Swirl.SwirlType.class, UUID.class).newInstance(this, effectType, swirlType, uuid);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, EffectType.class, Swirl.SwirlType.class, UUID.class).newInstance(effectHolder, this, swirlType, uuid);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
 		}

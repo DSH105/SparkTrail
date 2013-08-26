@@ -1,7 +1,7 @@
 package com.github.dsh105.sparktrail.particle.type;
 
 import com.github.dsh105.sparktrail.particle.Effect;
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import org.bukkit.Location;
 
@@ -11,15 +11,17 @@ import org.bukkit.Location;
 
 public class Ender extends Effect {
 
-	public Ender(ParticleType particleType, EffectType effectType) {
-		super(particleType, effectType);
+	public Ender(EffectHolder effectHolder, ParticleType particleType) {
+		super(effectHolder, particleType);
 	}
 
 	@Override
 	public boolean play() {
 		boolean shouldPlay = super.play();
 		if (shouldPlay) {
-			this.world.playEffect(new Location(this.world, this.locX, this.locY, this.locZ), org.bukkit.Effect.ENDER_SIGNAL, 0);
+			for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+				this.getWorld().playEffect(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), org.bukkit.Effect.ENDER_SIGNAL, 0);
+			}
 		}
 		return shouldPlay;
 	}

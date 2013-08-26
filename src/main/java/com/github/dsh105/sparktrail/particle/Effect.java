@@ -2,6 +2,7 @@ package com.github.dsh105.sparktrail.particle;
 
 import com.github.dsh105.sparktrail.SparkTrail;
 import com.github.dsh105.sparktrail.api.event.EffectPlayEvent;
+import com.github.dsh105.sparktrail.config.options.ConfigOptions;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -12,28 +13,40 @@ import org.bukkit.scheduler.BukkitTask;
 
 public abstract class Effect {
 
+	private EffectHolder holder;
+
+	protected DisplayType displayType;
 	protected ParticleType particleType;
-	private EffectType effectType;
 	protected BukkitTask task;
 
-	public World world;
-	public int locX;
-	public int locY;
-	public int locZ;
-
-	public Effect(ParticleType particleType, EffectType effectType) {
+	public Effect(EffectHolder effectHolder, ParticleType particleType) {
+		this.holder = effectHolder;
 		this.particleType = particleType;
-		this.effectType = effectType;
+
+		this.displayType = ConfigOptions.instance.getEffectDisplay(this.particleType);
+		if (this.displayType == null) {
+			this.displayType = DisplayType.NORMAL;
+		}
 	}
 
-	public void updateLocation(int x, int y, int z) {
-		this.locX = x;
-		this.locY = y;
-		this.locZ = z;
+	public EffectHolder.EffectType getEffectType() {
+		return this.holder.effectType;
 	}
 
-	public EffectType getEffectType() {
-		return this.effectType;
+	public int getX() {
+		return holder.locX;
+	}
+
+	public int getY() {
+		return holder.locY;
+	}
+
+	public int getZ() {
+		return holder.locZ;
+	}
+
+	public World getWorld() {
+		return holder.world;
 	}
 
 	public boolean play() {
@@ -44,5 +57,9 @@ public abstract class Effect {
 
 	public void stop() {
 		this.task.cancel();
+	}
+
+	public ParticleType getParticleType() {
+		return particleType;
 	}
 }

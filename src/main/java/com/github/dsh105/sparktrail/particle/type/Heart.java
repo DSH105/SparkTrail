@@ -1,6 +1,6 @@
 package com.github.dsh105.sparktrail.particle.type;
 
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.PacketEffect;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 
@@ -10,8 +10,8 @@ import com.github.dsh105.sparktrail.particle.ParticleType;
 
 public class Heart extends PacketEffect {
 
-	public Heart(ParticleType particleType, EffectType effectType) {
-		super(particleType, effectType);
+	public Heart(EffectHolder effectHolder, ParticleType particleType) {
+		super(effectHolder, particleType);
 	}
 
 	@Override

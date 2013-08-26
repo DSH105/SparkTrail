@@ -2,15 +2,13 @@ package com.github.dsh105.sparktrail.data;
 
 import com.github.dsh105.sparktrail.mysql.SQLEffectHandler;
 import com.github.dsh105.sparktrail.particle.Effect;
-import com.github.dsh105.sparktrail.particle.EffectType;
-import com.github.dsh105.sparktrail.particle.ParticleType;
-import com.github.dsh105.sparktrail.particle.type.*;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.UUID;
 
 /**
  * Project by DSH105
@@ -19,7 +17,7 @@ import java.util.Iterator;
 public class EffectHandler {
 
 	private static EffectHandler instance;
-	private HashSet<Effect> effects = new HashSet<Effect>();
+	private HashSet<EffectHolder> effects = new HashSet<EffectHolder>();
 
 	public EffectHandler() {
 		instance = this;
@@ -29,42 +27,14 @@ public class EffectHandler {
 		return instance;
 	}
 
-	public Effect create(Effect effect) {
-
-	}
-
-	public Effect createEffect(EffectType effectType, ParticleType particleType) {
-
-	}
-
-	public BlockBreak createBlockBreak(ParticleType particleType) {
-
-	}
-
-	public Firework createFirework(ParticleType particleType) {
-
-	}
-
-	public Note createNote(ParticleType particleType) {
-
-	}
-
-	public Potion createPotion(ParticleType particleType) {
-
-	}
-
-	public Smoke createSmoke(ParticleType particleType) {
-
-	}
-
-	public Swirl createSwirl(ParticleType particleType) {
-
+	public void addHolder(EffectHolder effectHolder) {
+		this.effects.add(effectHolder);
 	}
 
 	public void clearEffects() {
-		Iterator<Effect> i = effects.iterator();
+		Iterator<EffectHolder> i = effects.iterator();
 		while (i.hasNext()) {
-			Effect e = i.next();
+			EffectHolder e = i.next();
 			save(e);
 			SQLEffectHandler.save(e);
 			e.stop();
@@ -72,24 +42,20 @@ public class EffectHandler {
 		}
 	}
 
-	public void save(Effect e) {
+	public void save(EffectHolder e) {
 
 	}
 
-	public Effect getEffect(Player p) {
-		return this.getEffect(p.getLocation().getBlockX(), p.getLocation().getBlockY(), p.getLocation().getBlockZ());
+	public EffectHolder getEffect(Location l) {
+		return this.getEffect(l.getBlockX(), l.getBlockY(), l.getBlockZ());
 	}
 
-	public Effect getEffect(Entity e) {
-		return this.getEffect(e.getLocation().getBlockX(), e.getLocation().getBlockY(), e.getLocation().getBlockZ());
-	}
-
-	public Effect getEffect(Block b) {
+	public EffectHolder getEffect(Block b) {
 		return this.getEffect(b.getX(), b.getY(), b.getZ());
 	}
 
-	public Effect getEffect(int x, int y, int z) {
-		for (Effect e : effects) {
+	public EffectHolder getEffect(int x, int y, int z) {
+		for (EffectHolder e : effects) {
 			if (e.locX == x && e.locY == y && e.locZ == z) {
 				return e;
 			}
@@ -97,7 +63,25 @@ public class EffectHandler {
 		return null;
 	}
 
-	public void remove(Effect e) {
+	public EffectHolder getEffect(String playerName) {
+		for (EffectHolder e : effects) {
+			if (e.getDetails().playerName.equals(playerName)) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	public EffectHolder getEffect(UUID mobUuid) {
+		for (EffectHolder e : effects) {
+			if (e.getDetails().mobUuid == mobUuid) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	public void remove(EffectHolder e) {
 		save(e);
 		SQLEffectHandler.save(e);
 		e.stop();

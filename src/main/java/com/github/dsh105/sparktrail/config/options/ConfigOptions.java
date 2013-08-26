@@ -1,7 +1,9 @@
 package com.github.dsh105.sparktrail.config.options;
 
 import com.github.dsh105.sparktrail.config.YAMLConfig;
+import com.github.dsh105.sparktrail.particle.DisplayType;
 import com.github.dsh105.sparktrail.particle.ParticleType;
+import com.github.dsh105.sparktrail.util.EnumUtil;
 import com.github.dsh105.sparktrail.util.StringUtil;
 
 /**
@@ -10,11 +12,46 @@ import com.github.dsh105.sparktrail.util.StringUtil;
 
 public class ConfigOptions extends Options{
 
+	public static ConfigOptions instance;
+
 	public ConfigOptions(YAMLConfig config) {
 		super(config);
+		instance = this;
+		this.setMaxTick();
 	}
 
-	public
+	public int maxTick = 0;
+
+	public void setMaxTick() {
+		for (String key : config.getConfigurationSection("effects").getKeys(false)) {
+			int i = config.getInt("effects." + key + ".frequency", 20);
+			if (this.maxTick < i) {
+				this.maxTick = i;
+			}
+		}
+
+		for (int i = maxTick; i >= maxTick; i++) {
+			if (i % 20 == 0) {
+				maxTick = i;
+				break;
+			}
+		}
+	}
+
+	public int getEffectFrequency(ParticleType particleType) {
+		return config.getInt("effects." + StringUtil.capitalise(particleType.toString()) + ".frequency", 20);
+	}
+
+	public DisplayType getEffectDisplay(ParticleType particleType) {
+		String s = config.getString("effects." + StringUtil.capitalise(particleType.toString()) + ".playType", "normal");
+		if (EnumUtil.isEnumType(DisplayType.class, s.toUpperCase())) {
+			DisplayType dt = DisplayType.valueOf(s.toUpperCase());
+			if (dt != null) {
+				return dt;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public void setDefaults() {
@@ -37,9 +74,9 @@ public class ConfigOptions extends Options{
 
 		for (ParticleType pt : ParticleType.values()) {
 			String name = StringUtil.capitalise(pt.toString());
-			set(name + ".enable", true);
-			set(name + ".frequency", 20);
-			set(name + ".playType", "normal");
+			set("effects." + name + ".enable", true);
+			set("effects." + name + ".frequency", 20);
+			set("effects." + name + ".playType", "normal");
 		}
 	}
 }

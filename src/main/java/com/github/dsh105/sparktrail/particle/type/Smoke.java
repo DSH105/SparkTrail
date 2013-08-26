@@ -1,6 +1,6 @@
 package com.github.dsh105.sparktrail.particle.type;
 
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.PacketEffect;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 
@@ -12,8 +12,8 @@ public class Smoke extends PacketEffect {
 
 	private SmokeType smokeType;
 
-	public Smoke(ParticleType particleType, EffectType effectType, SmokeType smokeType) {
-		super(particleType, effectType);
+	public Smoke(EffectHolder effectHolder, ParticleType particleType, SmokeType smokeType) {
+		super(effectHolder, particleType);
 		this.smokeType = smokeType;
 	}
 

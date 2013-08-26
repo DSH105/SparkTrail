@@ -2,7 +2,7 @@ package com.github.dsh105.sparktrail.particle.type;
 
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.Effect;
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.util.ReflectionUtil;
 import org.bukkit.entity.Entity;
@@ -18,8 +18,8 @@ public class Swirl extends Effect {
 	private SwirlType swirlType;
 	private UUID uuid;
 
-	public Swirl(ParticleType particleType, EffectType effectType, SwirlType swirlType, UUID entityUuid) {
-		super(particleType, effectType);
+	public Swirl(EffectHolder effectHolder, ParticleType particleType, SwirlType swirlType, UUID entityUuid) {
+		super(effectHolder, particleType);
 		this.swirlType = swirlType;
 		this.uuid = entityUuid;
 	}
@@ -29,7 +29,7 @@ public class Swirl extends Effect {
 		boolean shouldPlay = super.play();
 		if (shouldPlay) {
 			Entity entity = null;
-			for (Entity e : world.getEntities()) {
+			for (Entity e : getWorld().getEntities()) {
 				if (e.getUniqueId() == this.uuid) {
 					entity = e;
 				}
@@ -57,7 +57,7 @@ public class Swirl extends Effect {
 	public void stop() {
 		super.stop();
 		Entity entity = null;
-		for (Entity e : world.getEntities()) {
+		for (Entity e : getWorld().getEntities()) {
 			if (e.getUniqueId() == this.uuid) {
 				entity = e;
 			}

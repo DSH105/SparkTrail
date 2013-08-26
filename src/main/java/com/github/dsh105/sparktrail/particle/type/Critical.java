@@ -1,6 +1,6 @@
 package com.github.dsh105.sparktrail.particle.type;
 
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.PacketEffect;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 
@@ -12,8 +12,8 @@ public class Critical extends PacketEffect {
 
 	private CriticalType criticalType;
 
-	public Critical(ParticleType particleType, EffectType effectType, CriticalType criticalType) {
-		super(particleType, effectType);
+	public Critical(EffectHolder effectHolder, ParticleType particleType, CriticalType criticalType) {
+		super(effectHolder, particleType);
 		this.criticalType = criticalType;
 	}
 

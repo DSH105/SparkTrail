@@ -1,7 +1,7 @@
 package com.github.dsh105.sparktrail.particle.type;
 
 import com.github.dsh105.sparktrail.particle.Effect;
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import org.bukkit.Location;
 
@@ -13,8 +13,8 @@ public class Potion extends Effect {
 
 	private PotionType potionType;
 
-	public Potion(ParticleType particleType, EffectType effectType, PotionType potionType) {
-		super(particleType, effectType);
+	public Potion(EffectHolder effectHolder, ParticleType particleType, PotionType potionType) {
+		super(effectHolder, particleType);
 		this.potionType = potionType;
 	}
 
@@ -22,7 +22,9 @@ public class Potion extends Effect {
 	public boolean play() {
 		boolean shouldPlay = super.play();
 		if (shouldPlay) {
-			this.world.playEffect(new Location(this.world, this.locX, this.locY, this.locZ), org.bukkit.Effect.POTION_BREAK, this.potionType.getValue());
+			for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+				this.getWorld().playEffect(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), org.bukkit.Effect.POTION_BREAK, this.potionType.getValue());
+			}
 		}
 		return shouldPlay;
 	}

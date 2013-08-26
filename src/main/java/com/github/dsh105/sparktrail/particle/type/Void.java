@@ -1,6 +1,6 @@
 package com.github.dsh105.sparktrail.particle.type;
 
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.PacketEffect;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 
@@ -10,8 +10,8 @@ import com.github.dsh105.sparktrail.particle.ParticleType;
 
 public class Void extends PacketEffect {
 
-	public Void(ParticleType particleType, EffectType effectType) {
-		super(particleType, effectType);
+	public Void(EffectHolder effectHolder, ParticleType particleType) {
+		super(effectHolder, particleType);
 	}
 
 	@Override

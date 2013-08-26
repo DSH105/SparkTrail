@@ -1,7 +1,7 @@
 package com.github.dsh105.sparktrail.particle.type;
 
 import com.github.dsh105.sparktrail.particle.Effect;
-import com.github.dsh105.sparktrail.particle.EffectType;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.util.ReflectionUtil;
 import org.bukkit.Instrument;
@@ -18,8 +18,8 @@ public class Note extends Effect {
 
 	private NoteType noteType;
 
-	public Note(ParticleType particleType, EffectType effectType, NoteType noteType) {
-		super(particleType, effectType);
+	public Note(EffectHolder effectHolder, ParticleType particleType, NoteType noteType) {
+		super(effectHolder, particleType);
 		this.noteType = noteType;
 	}
 
@@ -27,14 +27,15 @@ public class Note extends Effect {
 	public boolean play() {
 		boolean shouldPlay = super.play();
 		if (shouldPlay) {
-			Location l = new Location(this.world, this.locX, this.locY, this.locZ);
-			Material m = l.getBlock().getType();
-			byte b = l.getBlock().getData();
-			for (Entity e : ReflectionUtil.getNearbyEntities(l, 20)) {
-				if (e instanceof Player) {
-					((Player) e).sendBlockChange(l, Material.NOTE_BLOCK, (byte) 0);
-					((Player) e).playNote(l, Instrument.PIANO, this.noteType.getNote());
-					((Player) e).sendBlockChange(l, m, b);
+			for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+				Material m = l.getBlock().getType();
+				byte b = l.getBlock().getData();
+				for (Entity e : ReflectionUtil.getNearbyEntities(l, 20)) {
+					if (e instanceof Player) {
+						((Player) e).sendBlockChange(l, Material.NOTE_BLOCK, (byte) 0);
+						((Player) e).playNote(l, Instrument.PIANO, this.noteType.getNote());
+						((Player) e).sendBlockChange(l, m, b);
+					}
 				}
 			}
 		}
