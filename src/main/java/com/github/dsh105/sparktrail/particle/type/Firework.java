@@ -13,7 +13,7 @@ import org.bukkit.Location;
 
 public class Firework extends Effect {
 
-	private FireworkEffect fireworkEffect;
+	public FireworkEffect fireworkEffect;
 
 	public Firework(EffectHolder effectHolder, ParticleType particleType, FireworkEffect fireworkEffect) {
 		super(effectHolder, particleType);

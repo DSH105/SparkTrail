@@ -8,6 +8,13 @@ import org.bukkit.ChatColor;
 
 public class StringUtil {
 
+	public static boolean isInt(String s) {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {return false;}
+	}
+
 	public static String capitalise(String s) {
 		String finalString = "";
 		if (s.contains(" ")) {

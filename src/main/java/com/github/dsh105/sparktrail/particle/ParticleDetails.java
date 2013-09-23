@@ -6,6 +6,7 @@ import com.github.dsh105.sparktrail.particle.type.Potion;
 import com.github.dsh105.sparktrail.particle.type.Smoke;
 import com.github.dsh105.sparktrail.particle.type.Swirl;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 
 import java.util.UUID;
@@ -17,32 +18,28 @@ import java.util.UUID;
 public class ParticleDetails {
 
 	private ParticleType particleType;
-	private EffectHolder.EffectType type;
 	private UUID uuid;
 	private String playerName;
 
-	public int blockId;
-	public int blockMeta;
-	public FireworkEffect fireworkEffect;
-	public Note.NoteType noteType;
-	public Potion.PotionType potionType;
-	public Smoke.SmokeType smokeType;
-	public Swirl.SwirlType swirlType;
+	public int blockId = 1;
+	public int blockMeta = 0;
+	public FireworkEffect fireworkEffect = FireworkEffect.builder().withColor(Color.WHITE).with(FireworkEffect.Type.BALL).withFade(Color.WHITE).build();
+	public Note.NoteType noteType = Note.NoteType.GREEN;
+	public Potion.PotionType potionType = Potion.PotionType.AQUA;
+	public Smoke.SmokeType smokeType = Smoke.SmokeType.NORMAL;
+	public Swirl.SwirlType swirlType = Swirl.SwirlType.WHITE;
 
 	public ParticleDetails(ParticleType particleType) {
 		this.particleType = particleType;
-		this.type = EffectHolder.EffectType.LOCATION;
 	}
 
 	public void setMob(UUID uuid) {
 		this.uuid = uuid;
-		this.type = EffectHolder.EffectType.MOB;
 	}
 
 	public void setPlayer(String name, UUID uuid) {
-		this.playerName = name;
 		this.uuid = uuid;
-		this.type = EffectHolder.EffectType.PLAYER;
+		this.playerName = name;
 	}
 
 	public ParticleType getParticleType() {
@@ -72,7 +69,7 @@ public class ParticleDetails {
 		for (Object object : o) {
 			if (o == null) {
 				Logger.log(Logger.LogLevel.WARNING, "Encountered error while initiating Particle Effect (" + this.particleType.toString() + ").", false);
-				return new Object[] {};
+				return null;
 			}
 		}
 		return o;

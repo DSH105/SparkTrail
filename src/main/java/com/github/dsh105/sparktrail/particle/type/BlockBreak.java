@@ -12,8 +12,8 @@ import com.github.dsh105.sparktrail.util.ReflectionUtil;
 
 public class BlockBreak extends PacketEffect {
 
-	private int idValue;
-	private int metaValue;
+	public int idValue;
+	public int metaValue;
 
 	public BlockBreak(EffectHolder effectHolder, ParticleType particleType, int idValue, int metaValue) {
 		super(effectHolder, particleType);

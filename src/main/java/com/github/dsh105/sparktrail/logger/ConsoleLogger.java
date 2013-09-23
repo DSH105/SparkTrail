@@ -20,6 +20,6 @@ public class ConsoleLogger {
 	}
 
 	public static void stackTraceAlert(Logger.LogLevel logLevel, String message) {
-		console.sendMessage(logLevel.getPrefix() + " " + message + " Please report the StackTract (found in the Log File) in the SparkTrail Issue Tracker.");
+		console.sendMessage(logLevel.getPrefix() + " " + message + " Please report any important information (found in the Log File [SparkTrail.log) in the SparkTrail Issue Tracker.");
 	}
 }

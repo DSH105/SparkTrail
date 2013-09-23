@@ -23,7 +23,7 @@ public abstract class Effect {
 		this.holder = effectHolder;
 		this.particleType = particleType;
 
-		this.displayType = ConfigOptions.instance.getEffectDisplay(this.particleType);
+		this.displayType = this.particleType.getDisplayType();
 		if (this.displayType == null) {
 			this.displayType = DisplayType.NORMAL;
 		}

@@ -16,7 +16,7 @@ import org.bukkit.entity.Player;
 
 public class Note extends Effect {
 
-	private NoteType noteType;
+	public NoteType noteType;
 
 	public Note(EffectHolder effectHolder, ParticleType particleType, NoteType noteType) {
 		super(effectHolder, particleType);

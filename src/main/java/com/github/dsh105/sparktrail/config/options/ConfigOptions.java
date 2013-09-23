@@ -38,24 +38,12 @@ public class ConfigOptions extends Options{
 		}
 	}
 
-	public int getEffectFrequency(ParticleType particleType) {
-		return config.getInt("effects." + StringUtil.capitalise(particleType.toString()) + ".frequency", 20);
-	}
-
-	public DisplayType getEffectDisplay(ParticleType particleType) {
-		String s = config.getString("effects." + StringUtil.capitalise(particleType.toString()) + ".playType", "normal");
-		if (EnumUtil.isEnumType(DisplayType.class, s.toUpperCase())) {
-			DisplayType dt = DisplayType.valueOf(s.toUpperCase());
-			if (dt != null) {
-				return dt;
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public void setDefaults() {
 		set("command", "trail");
+
+		set("primaryChatColour", "a");
+		set("secondaryChatColour", "e");
 
 		set("autoUpdate", false);
 		set("checkForUpdates", true);

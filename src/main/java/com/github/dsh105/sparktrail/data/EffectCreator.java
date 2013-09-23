@@ -12,6 +12,8 @@ import com.github.dsh105.sparktrail.particle.type.Smoke;
 import com.github.dsh105.sparktrail.particle.type.Swirl;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.UUID;
@@ -22,7 +24,7 @@ import java.util.UUID;
 
 public class EffectCreator {
 
-	public static EffectHolder createHolder(EffectHolder effectHolder, HashSet<ParticleDetails> particles) {
+	private static EffectHolder createHolder(EffectHolder effectHolder, HashSet<ParticleDetails> particles) {
 		HashSet<Effect> effects = new HashSet<Effect>();
 		for (ParticleDetails pd : particles) {
 			effects.add(createEffect(effectHolder, pd.getParticleType(), pd.getDetails()));
@@ -39,17 +41,15 @@ public class EffectCreator {
 		return createHolder(effectHolder, particles);
 	}
 
-	public static EffectHolder createPlayerHolder(HashSet<ParticleDetails> particles, EffectType effectType, Location location, String playerName, UUID uuid) {
+	public static EffectHolder createPlayerHolder(HashSet<ParticleDetails> particles, EffectType effectType, String playerName, UUID uuid) {
 		EffectHolder effectHolder = new EffectHolder(effectType);
-		effectHolder.updateLocation(location);
 		effectHolder.getDetails().playerName = playerName;
 		effectHolder.getDetails().mobUuid = uuid;
 		return createHolder(effectHolder, particles);
 	}
 
-	public static EffectHolder createMobHolder(HashSet<ParticleDetails> particles, EffectType effectType, Location location, UUID uuid) {
+	public static EffectHolder createMobHolder(HashSet<ParticleDetails> particles, EffectType effectType, UUID uuid) {
 		EffectHolder effectHolder = new EffectHolder(effectType);
-		effectHolder.updateLocation(location);
 		effectHolder.getDetails().mobUuid = uuid;
 		return createHolder(effectHolder, particles);
 	}

@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public class Swirl extends Effect {
 
-	private SwirlType swirlType;
-	private UUID uuid;
+	public SwirlType swirlType;
+	public UUID uuid;
 
 	public Swirl(EffectHolder effectHolder, ParticleType particleType, SwirlType swirlType, UUID entityUuid) {
 		super(effectHolder, particleType);

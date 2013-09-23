@@ -10,7 +10,7 @@ import com.github.dsh105.sparktrail.particle.ParticleType;
 
 public class Smoke extends PacketEffect {
 
-	private SmokeType smokeType;
+	public SmokeType smokeType;
 
 	public Smoke(EffectHolder effectHolder, ParticleType particleType, SmokeType smokeType) {
 		super(effectHolder, particleType);

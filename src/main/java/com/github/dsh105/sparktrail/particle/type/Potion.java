@@ -11,7 +11,7 @@ import org.bukkit.Location;
 
 public class Potion extends Effect {
 
-	private PotionType potionType;
+	public PotionType potionType;
 
 	public Potion(EffectHolder effectHolder, ParticleType particleType, PotionType potionType) {
 		super(effectHolder, particleType);
