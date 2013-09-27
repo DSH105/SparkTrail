@@ -26,16 +26,20 @@ public class Logger {
 		if (!log.exists()) {
 			try {
 				log.createNewFile();
-				logFile = log;
-				enabled = true;
+				ConsoleLogger.log("" + enabled);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		logFile = log;
+		enabled = true;
 	}
 
 	public static void log(LogLevel logLevel, String message, boolean logToConsole) {
 		if (enabled) {
+			if (logToConsole) {
+				ConsoleLogger.log(logLevel, message);
+			}
 			FileWriter fw = null;
 			try {
 				fw = new FileWriter(logFile, true);
@@ -44,18 +48,17 @@ public class Logger {
 			}
 			PrintWriter pw = new PrintWriter(fw);
 			String date = new SimpleDateFormat("[dd/MM/yyyy]---[HH:mm:ss]").format(new Date());
-			pw.println(date + logLevel.getPrefix() + " " + message);
+			pw.println("\n" + date + logLevel.getPrefix() + " " + message + "\n");
 			pw.flush();
 			pw.close();
-
-			if (logToConsole) {
-				ConsoleLogger.log(logLevel, message);
-			}
 		}
 	}
 
 	public static void log(LogLevel logLevel, String message, Exception e, boolean logToConsole) {
 		if (enabled) {
+			if (logToConsole) {
+				ConsoleLogger.stackTraceAlert(logLevel, message);
+			}
 			FileWriter fw = null;
 			try {
 				fw = new FileWriter(logFile, true);
@@ -64,18 +67,16 @@ public class Logger {
 			}
 			PrintWriter pw = new PrintWriter(fw);
 			String date = new SimpleDateFormat("[dd/MM/yyyy]---[HH:mm:ss]").format(new Date());
-			pw.println(date + logLevel.getPrefix() + " " + message);
+			pw.println("\n" + date + logLevel.getPrefix() + " " + message);
 
 			for (StackTraceElement stackTraceElement : e.getStackTrace()) {
 				pw.println(date + stackTraceElement.toString());
 			}
 
+			pw.println("\n");
+
 			pw.flush();
 			pw.close();
-
-			if (logToConsole) {
-				ConsoleLogger.stackTraceAlert(logLevel, message);
-			}
 		}
 	}
 

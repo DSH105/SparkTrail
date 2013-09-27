@@ -21,12 +21,14 @@ public enum Lang {
 	NO_ACTIVE_EFFECTS("no_active_effects", "&aYou do not have any Trail effects active."),
 
 	EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. Please see the console for errors."),
-	EFFECT_CREATION_CANCELLED("effect_creation_failed", "&e%effect% &aeffect creation cancelled."),
+	EFFECT_CREATION_CANCELLED("effect_creation_cancelled", "&e%effect% &aeffect creation cancelled."),
+	EFFECT_ADDED("effect_added", "&e%effect% &aeffect added."),
+	EFFECT_REMOVED("effect_removed", "&e%effect% &aeffect removed."),
 
 	MENU_ERROR("menu_error", "&aThere has been a problem with the Trail GUI Menu. Please see the console for details."),
 	OPEN_MENU("open_menu", "&aOpening Trail Effect GUI"),
-	ENTER_BLOCK("enter_block_break", "&aPlease enter effect parameters [&e%Block Break%&a]. Structure: &e<IdValue> <BlockMeta>"),
-	ENTER_FIREWORK("enter_firework", "&aPlease enter effect parameters [&e%Firework%&a]. Separate each parameter with a space."),
+	ENTER_BLOCK("enter_block_break", "&aPlease enter effect parameters [&eBlock Break&a]. Structure: &e<IdValue> <BlockMeta>"),
+	ENTER_FIREWORK("enter_firework", "&aPlease enter effect parameters [&eFirework&a]. Separate each parameter with a space."),
 	INCORRECT_EFFECT_ARGS("incorrect_blockbreak_args", "&aCould not create &e%effect% &aeffect from String [&e%string%&a]. Would you like to retry? &e[YES or NO]"),
 	YES_OR_NO("yes_or_no", "&aPlease enter &eYES &aor &eNO&a."),
 

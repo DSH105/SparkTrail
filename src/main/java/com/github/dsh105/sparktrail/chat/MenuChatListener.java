@@ -2,15 +2,13 @@ package com.github.dsh105.sparktrail.chat;
 
 import com.github.dsh105.sparktrail.data.EffectCreator;
 import com.github.dsh105.sparktrail.data.EffectHandler;
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleDemo;
 import com.github.dsh105.sparktrail.particle.ParticleDetails;
 import com.github.dsh105.sparktrail.particle.ParticleType;
-import com.github.dsh105.sparktrail.util.Colour;
-import com.github.dsh105.sparktrail.util.EnumUtil;
-import com.github.dsh105.sparktrail.util.Lang;
-import com.github.dsh105.sparktrail.util.StringUtil;
+import com.github.dsh105.sparktrail.util.*;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -41,7 +39,11 @@ public class MenuChatListener implements Listener{
 			WaitingData wd = AWAITING_DATA.get(player.getName());
 
 			ParticleType pt = wd.particleType;
-			if (pt == ParticleType.BLOCKBREAK) {
+			if (msg.equalsIgnoreCase("CANCEL")) {
+				Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
+				AWAITING_DATA.remove(player.getName());
+			}
+			else if (pt == ParticleType.BLOCKBREAK) {
 				BlockData bd = findBlockBreak(msg);
 				if (bd == null) {
 					Lang.sendTo(player, Lang.INCORRECT_EFFECT_ARGS.toString()
@@ -61,10 +63,13 @@ public class MenuChatListener implements Listener{
 					return;
 				}
 
-				ParticleDetails pd = new ParticleDetails(pt);
-				pd.blockId = bd.id;
-				pd.blockMeta = bd.data;
-				eh.addEffect(pd);
+				if (Permission.hasEffectPerm(player, true, pt, wd.effectType)) {
+					ParticleDetails pd = new ParticleDetails(pt);
+					pd.blockId = bd.id;
+					pd.blockMeta = bd.data;
+					eh.addEffect(pd);
+					Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Block Break"));
+				}
 
 				AWAITING_DATA.remove(player.getName());
 				return;
@@ -89,16 +94,15 @@ public class MenuChatListener implements Listener{
 					return;
 				}
 
-				ParticleDetails pd = new ParticleDetails(pt);
-				pd.fireworkEffect = fe;
-				eh.addEffect(pd);
+				if (Permission.hasEffectPerm(player, true, pt, wd.effectType)) {
+					ParticleDetails pd = new ParticleDetails(pt);
+					pd.fireworkEffect = fe;
+					eh.addEffect(pd);
+					Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Firework"));
+				}
 
 				AWAITING_DATA.remove(player.getName());
 				return;
-			}
-			else if (msg.equalsIgnoreCase("CANCEL")) {
-				Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
-				AWAITING_DATA.remove(player.getName());
 			}
 			event.setCancelled(true);
 		}
@@ -109,12 +113,14 @@ public class MenuChatListener implements Listener{
 				}
 				else if (AWAITING_RETRY.get(player.getName()).equals(ParticleType.FIREWORK)) {
 					Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
+					Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
 				}
 				AWAITING_DATA.put(player.getName(), AWAITING_RETRY.get(player.getName()));
 				AWAITING_RETRY.remove(player.getName());
 				event.setCancelled(true);
 			}
 			else if (msg.equalsIgnoreCase("NO")) {
+				Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_RETRY.get(player.getName()).particleType.toString())));
 				AWAITING_RETRY.remove(player.getName());
 				event.setCancelled(true);
 			}
@@ -141,14 +147,8 @@ public class MenuChatListener implements Listener{
 	}
 
 	private BlockData findBlockBreak(String msg) {
-		String[] split = msg.split(" ");
-		if (split[1] == null) {
-			if (!StringUtil.isInt(split[0])) {
-				return null;
-			}
-			return new BlockData(Integer.parseInt(split[0]), 0);
-		}
-		else {
+		if (msg.contains(" ")) {
+			String[] split = msg.split(" ");
 			if (!StringUtil.isInt(split[0])) {
 				return null;
 			}
@@ -156,7 +156,12 @@ public class MenuChatListener implements Listener{
 				return null;
 			}
 			return new BlockData(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-
+		}
+		else {
+			if (!StringUtil.isInt(msg)) {
+				return null;
+			}
+			return new BlockData(Integer.parseInt(msg), 0);
 		}
 	}
 

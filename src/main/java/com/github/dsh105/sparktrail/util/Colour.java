@@ -35,4 +35,13 @@ public enum Colour {
 	public Color getColor() {
 		return this.color;
 	}
+
+	public static Colour getByColor(Color c) {
+		for (Colour colour : Colour.values()) {
+			if (colour.getColor().equals(c)) {
+				return colour;
+			}
+		}
+		return null;
+ 	}
 }

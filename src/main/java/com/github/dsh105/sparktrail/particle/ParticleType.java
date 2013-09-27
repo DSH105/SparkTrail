@@ -115,6 +115,10 @@ public enum ParticleType {
 		return i;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
 	public Effect getEffectInstance(EffectHolder effectHolder) {
 		Effect effect = null;
 		try {
@@ -131,7 +135,7 @@ public enum ParticleType {
 	public BlockBreak getBlockBreakInstance(EffectHolder effectHolder, int id, int meta) {
 		BlockBreak effect = null;
 		try {
-			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, Integer.class, Integer.class).newInstance(effectHolder, this, id, meta);
+			Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class, int.class, int.class).newInstance(effectHolder, this, id, meta);
 			if (o instanceof BlockBreak) {
 				effect = (BlockBreak) o;
 			}

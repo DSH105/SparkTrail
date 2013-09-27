@@ -17,8 +17,8 @@ public class ParticleDetails {
 	private UUID uuid;
 	private String playerName;
 
-	public int blockId = 1;
-	public int blockMeta = 0;
+	public Integer blockId = 1;
+	public Integer blockMeta = 0;
 	public Critical.CriticalType criticalType = Critical.CriticalType.NORMAL;
 	public FireworkEffect fireworkEffect = FireworkEffect.builder().withColor(Color.WHITE).with(FireworkEffect.Type.BALL).withFade(Color.WHITE).build();
 	//public Note.NoteType noteType = Note.NoteType.GREEN;

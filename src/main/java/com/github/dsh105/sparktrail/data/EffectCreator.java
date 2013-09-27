@@ -25,7 +25,10 @@ public class EffectCreator {
 	private static EffectHolder createHolder(EffectHolder effectHolder, HashSet<ParticleDetails> particles) {
 		HashSet<Effect> effects = new HashSet<Effect>();
 		for (ParticleDetails pd : particles) {
-			effects.add(createEffect(effectHolder, pd.getParticleType(), pd.getDetails()));
+			Effect effect = createEffect(effectHolder, pd.getParticleType(), pd.getDetails());
+			if (effect != null) {
+				effects.add(effect);
+			}
 		}
 		effectHolder.setEffects(effects);
 		EffectHandler.getInstance().addHolder(effectHolder);

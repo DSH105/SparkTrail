@@ -1,5 +1,6 @@
 package com.github.dsh105.sparktrail.particle.type;
 
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.PacketEffect;

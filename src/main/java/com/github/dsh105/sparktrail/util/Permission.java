@@ -1,5 +1,7 @@
 package com.github.dsh105.sparktrail.util;
 
+import com.github.dsh105.sparktrail.particle.EffectHolder;
+import com.github.dsh105.sparktrail.particle.ParticleType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -58,5 +60,35 @@ public enum Permission {
 		else {
 			return true;
 		}
+	}
+
+	public static boolean hasEffectPerm(Player player, boolean sendMessage, String perm, EffectHolder.EffectType effectType) {
+		if (!(player.hasPermission(perm) && player.hasPermission("sparktrail.trail"))) {
+			for (String s : EFFECT.hierarchy) {
+				if (player.hasPermission(s)) {
+					return true;
+				}
+			}
+			if (player.hasPermission("sparktrail.trail." + effectType.toString().toLowerCase() + ".type.*") || player.hasPermission("sparktrail.trail.type.*")) {
+				return true;
+			}
+			if (sendMessage) {
+				Lang.sendTo(player, Lang.NO_PERMISSION.toString().replace("%perm%", perm));
+			}
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, EffectHolder.EffectType effectType) {
+		String perm = "sparktrail.trail." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
+		return hasEffectPerm(player, sendMessage, perm, effectType) || hasEffectPerm(player, sendMessage, perm + ".*", effectType);
+	}
+
+	public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, String data, EffectHolder.EffectType effectType) {
+		String perm = "sparktrail.trail." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
+		return hasEffectPerm(player, sendMessage, perm + "." + data, effectType) || hasEffectPerm(player, sendMessage, perm + ".*", effectType);
 	}
 }

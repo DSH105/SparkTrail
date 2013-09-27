@@ -88,15 +88,17 @@ public class ParticleMenu extends Menu {
 
 		int i = 0;
 		for (ParticleType pt : ParticleType.values()) {
-			if (pt.requiresDataMenu()) {
+			if (pt.requiresDataMenu() && pt != ParticleType.BLOCKBREAK && pt != ParticleType.FIREWORK) {
 				inv.setItem(i++, pt.getMenuItem());
 			}
 			else {
 				boolean hasEffect = false;
 				if (eh != null && !(eh.getEffects() == null || eh.getEffects().isEmpty())) {
 					for (Effect e : eh.getEffects()) {
-						if (e.getParticleType() == pt) {
-							hasEffect = true;
+						if (e != null) {
+							if (e.getParticleType() == pt) {
+								hasEffect = true;
+							}
 						}
 					}
 				}

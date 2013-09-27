@@ -25,9 +25,9 @@ public class Serialise {
 
 		String s = "";
 		for (Color c : colours) {
-			s = s + c.toString() + ",";
+			s = s + Colour.getByColor(c).toString() + ",";
 		}
-		s = s + type + (flicker ? ",flicker" : "") + (trail ? ",trail" : "");
+		s = s + type.toString() + (flicker ? ",flicker" : "") + (trail ? ",trail" : "");
 		return s;
 	}
 

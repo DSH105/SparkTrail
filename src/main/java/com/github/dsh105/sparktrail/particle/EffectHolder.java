@@ -44,7 +44,9 @@ public class EffectHolder extends BukkitRunnable {
 	}
 
 	public void setEffects(HashSet<Effect> effects) {
-		this.effects = effects;
+		for (Effect e : effects) {
+			this.effects.add(e);
+		}
 	}
 
 	public HashSet<Effect> getEffects() {
@@ -59,25 +61,37 @@ public class EffectHolder extends BukkitRunnable {
 		if (this.effectType == EffectType.PLAYER) {
 			ParticleDetails pd = new ParticleDetails(particleType);
 			pd.setPlayer(this.details.playerName, this.details.mobUuid);
-			this.effects.add(EffectCreator.createEffect(this, particleType, pd.getDetails()));
+			Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
+			if (effect != null) {
+				this.effects.add(effect);
+			}
 			return;
 		}
 		else if (this.effectType == EffectType.LOCATION) {
 			ParticleDetails pd = new ParticleDetails(particleType);
-			this.effects.add(EffectCreator.createEffect(this, particleType, pd.getDetails()));
+			Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
+			if (effect != null) {
+				this.effects.add(effect);
+			}
 			return;
 		}
 		else if (this.effectType == EffectType.MOB) {
 			ParticleDetails pd = new ParticleDetails(particleType);
 			pd.setMob(this.details.mobUuid);
-			this.effects.add(EffectCreator.createEffect(this, particleType, pd.getDetails()));
+			Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
+			if (effect != null) {
+				this.effects.add(effect);
+			}
 			return;
 		}
 		EffectHandler.getInstance().save(this);
 	}
 
 	public void addEffect(ParticleDetails particleDetails) {
-		this.effects.add(EffectCreator.createEffect(this, particleDetails.getParticleType(), particleDetails.getDetails()));
+		Effect effect = EffectCreator.createEffect(this, particleDetails.getParticleType(), particleDetails.getDetails());
+		if (effect != null) {
+			this.effects.add(effect);
+		}
 		EffectHandler.getInstance().save(this);
 	}
 
