@@ -1,23 +1,20 @@
 package com.github.dsh105.sparktrail.menu;
 
-import com.github.dsh105.sparktrail.api.chat.MenuChatListener;
-import com.github.dsh105.sparktrail.api.chat.WaitingData;
+import com.github.dsh105.sparktrail.SparkTrail;
+import com.github.dsh105.sparktrail.chat.MenuChatListener;
+import com.github.dsh105.sparktrail.chat.WaitingData;
 import com.github.dsh105.sparktrail.data.EffectCreator;
 import com.github.dsh105.sparktrail.data.EffectHandler;
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleDetails;
 import com.github.dsh105.sparktrail.particle.ParticleType;
-import com.github.dsh105.sparktrail.particle.type.Note;
-import com.github.dsh105.sparktrail.particle.type.Potion;
-import com.github.dsh105.sparktrail.particle.type.Smoke;
-import com.github.dsh105.sparktrail.particle.type.Swirl;
+import com.github.dsh105.sparktrail.particle.type.*;
 import com.github.dsh105.sparktrail.util.EnumUtil;
 import com.github.dsh105.sparktrail.util.Lang;
-import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,7 +43,7 @@ public class MenuListener implements Listener {
 			}
 		} catch (Exception e) {return;}
 
-		if (title.startsWith("Particle Selection")) {
+		if (title.startsWith("Trail GUI")) {
 			if (slot <= 44 && inv.getItem(slot) != null) {
 				ParticleMenu menu = ParticleMenu.openMenus.get(player.getName());
 				if (menu == null) {
@@ -61,53 +58,53 @@ public class MenuListener implements Listener {
 				}
 
 				for (ParticleType pt : ParticleType.values()) {
-					if (!pt.requiresDataMenu()) {
-						if (inv.getItem(slot).equals(pt.getMenuItem(false))) {
-							removeEffect(player, menu.effectType, pt, menu, s);
-							inv.setItem(slot, pt.getMenuItem(true));
-						}
-						else if (inv.getItem(slot).equals(pt.getMenuItem(true))) {
-							addEffect(player, menu.effectType, pt, menu, s);
-							inv.setItem(slot, pt.getMenuItem(false));
-						}
-					}
-					else {
-						if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.FIREWORK) {
-							WaitingData wd = new WaitingData(menu.effectType, pt);
-							wd.location = menu.location;
-							wd.mobUuid = menu.mobUuid;
-							wd.playerName = player.getName();
-							MenuChatListener.AWAITING_DATA.put(player.getName(), wd);
-							if (pt == ParticleType.BLOCKBREAK) {
-								Lang.sendTo(player, Lang.ENTER_BLOCK.toString());
+					if (inv.getItem(slot).equals(pt.getMenuItem()) || inv.getItem(slot).equals(pt.getMenuItem(false)) || inv.getItem(slot).equals(pt.getMenuItem(true))) {
+						if (!pt.requiresDataMenu()) {
+							if (inv.getItem(slot).equals(pt.getMenuItem(false))) {
+								removeEffect(player, menu.effectType, pt, menu, s);
+								inv.setItem(slot, pt.getMenuItem(true));
 							}
-							else if (pt == ParticleType.FIREWORK) {
-								Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
+							else if (inv.getItem(slot).equals(pt.getMenuItem(true))) {
+								addEffect(player, menu.effectType, pt, menu, s);
+								inv.setItem(slot, pt.getMenuItem(false));
 							}
 						}
 						else {
-							if (menu.effectType == EffectHolder.EffectType.PLAYER) {
-								DataMenu dm = new DataMenu(player, player.getName(), pt);
-								dm.open(false);
-								player.closeInventory();
-								event.setCancelled(true);
-								ParticleMenu.openMenus.remove(player.getName());
-								return;
+							if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.FIREWORK) {
+								WaitingData wd = new WaitingData(menu.effectType, pt);
+								wd.location = menu.location;
+								wd.mobUuid = menu.mobUuid;
+								wd.playerName = menu.playerName;
+								MenuChatListener.AWAITING_DATA.put(player.getName(), wd);
+								if (pt == ParticleType.BLOCKBREAK) {
+									Lang.sendTo(player, Lang.ENTER_BLOCK.toString());
+								}
+								else if (pt == ParticleType.FIREWORK) {
+									Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
+								}
 							}
-							else if (menu.effectType == EffectHolder.EffectType.LOCATION) {
-								DataMenu dm = new DataMenu(player, menu.location, pt);
-								dm.open(false);
+							else {
 								player.closeInventory();
 								event.setCancelled(true);
 								ParticleMenu.openMenus.remove(player.getName());
-								return;
-							}
-							else if (menu.effectType == EffectHolder.EffectType.MOB) {
-								DataMenu dm = new DataMenu(player, menu.mobUuid, pt);
-								dm.open(false);
-								player.closeInventory();
-								event.setCancelled(true);
-								ParticleMenu.openMenus.remove(player.getName());
+								DataMenu dm = null;
+								if (menu.effectType == EffectHolder.EffectType.PLAYER) {
+									dm = new DataMenu(player, menu.playerName, pt);
+								}
+								else if (menu.effectType == EffectHolder.EffectType.LOCATION) {
+									dm = new DataMenu(player, menu.location, pt);
+								}
+								else if (menu.effectType == EffectHolder.EffectType.MOB) {
+									dm = new DataMenu(player, menu.mobUuid, pt);
+								}
+								if (dm != null) {
+									if (dm.fail) {
+										Lang.sendTo(player, Lang.MENU_ERROR.toString());
+									}
+									else {
+										dm.open(false);
+									}
+								}
 								return;
 							}
 						}
@@ -117,7 +114,7 @@ public class MenuListener implements Listener {
 				return;
 			}
 		}
-		else if (title.contains(" - Particle Selection - ")) {
+		else if (title.contains(" - Trail GUI - ")) {
 			if (slot <= 26) {
 				DataMenu menu = DataMenu.openMenus.get(player.getName());
 				if (menu == null) {
@@ -127,10 +124,29 @@ public class MenuListener implements Listener {
 				String particle = split[0];
 				String data = split[2];
 
-				if (inv.getItem(slot).equals(DataMenu.BACK)) {
+				if (inv.getItem(slot) != null && inv.getItem(slot).equals(DataMenu.BACK)) {
 					player.closeInventory();
 					event.setCancelled(true);
 					DataMenu.openMenus.remove(player.getName());
+
+					ParticleMenu pm = null;
+					if (menu.effectType == EffectHolder.EffectType.PLAYER) {
+						pm = new ParticleMenu(player, menu.playerName);
+					}
+					else if (menu.effectType == EffectHolder.EffectType.LOCATION) {
+						pm = new ParticleMenu(player, menu.location);
+					}
+					else if (menu.effectType == EffectHolder.EffectType.MOB) {
+						pm = new ParticleMenu(player, menu.mobUuid);
+					}
+					if (pm != null) {
+						if (pm.fail) {
+							Lang.sendTo(player, Lang.MENU_ERROR.toString());
+						}
+						else {
+							pm.open(false);
+						}
+					}
 					return;
 				}
 
@@ -138,24 +154,57 @@ public class MenuListener implements Listener {
 					ParticleType pt = ParticleType.valueOf(particle.toUpperCase());
 					if (pt != null) {
 						for (ParticleDataItem pdi : ParticleDataItem.values()) {
-							boolean b = inv.getItem(slot).getItemMeta().getDisplayName().contains("[OFF]");
+							boolean b = inv.getItem(slot).getItemMeta().getDisplayName().contains("OFF");
 							if (inv.getItem(slot).equals(pdi.getMenuItem(false)) || inv.getItem(slot).equals(pdi.getMenuItem(true))) {
-								if (pt == ParticleType.NOTE) {
+								if (pt == ParticleType.CRITICAL) {
+									if (EnumUtil.isEnumType(Critical.CriticalType.class, pdi.toString().toUpperCase())) {
+										Critical.CriticalType criticalType = Critical.CriticalType.valueOf(pdi.toString().toUpperCase());
+										ParticleDetails pd = new ParticleDetails(pt);
+										pd.criticalType = criticalType;
+										if (b) {
+											if (removeEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
+										else {
+											if (addEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
+									}
+								}
+								/*else if (pt == ParticleType.NOTE) {
 									if (EnumUtil.isEnumType(Note.NoteType.class, pdi.toString().toUpperCase())) {
 										Note.NoteType noteType = Note.NoteType.valueOf(pdi.toString().toUpperCase());
 										ParticleDetails pd = new ParticleDetails(pt);
 										pd.noteType = noteType;
-										addEffect(player, pd, menu.effectType, pt, menu, data);
-										inv.setItem(slot, pt.getMenuItem(b));
+										if (b) {
+											if (removeEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
+										else {
+											if (addEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
 									}
-								}
+								}*/
 								else if (pt == ParticleType.POTION) {
 									if (EnumUtil.isEnumType(Potion.PotionType.class, pdi.toString().toUpperCase())) {
 										Potion.PotionType potionType = Potion.PotionType.valueOf(pdi.toString().toUpperCase());
 										ParticleDetails pd = new ParticleDetails(pt);
 										pd.potionType = potionType;
-										addEffect(player, pd, menu.effectType, pt, menu, data);
-										inv.setItem(slot, pt.getMenuItem(b));
+										if (b) {
+											if (removeEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
+										else {
+											if (addEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
 									}
 								}
 								else if (pt == ParticleType.SMOKE) {
@@ -163,8 +212,16 @@ public class MenuListener implements Listener {
 										Smoke.SmokeType smokeType = Smoke.SmokeType.valueOf(pdi.toString().toUpperCase());
 										ParticleDetails pd = new ParticleDetails(pt);
 										pd.smokeType = smokeType;
-										addEffect(player, pd, menu.effectType, pt, menu, data);
-										inv.setItem(slot, pt.getMenuItem(b));
+										if (b) {
+											if (removeEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
+										else {
+											if (addEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
 									}
 								}
 								else if (pt == ParticleType.SWIRL) {
@@ -172,8 +229,16 @@ public class MenuListener implements Listener {
 										Swirl.SwirlType swirlType = Swirl.SwirlType.valueOf(pdi.toString().toUpperCase());
 										ParticleDetails pd = new ParticleDetails(pt);
 										pd.swirlType = swirlType;
-										addEffect(player, pd, menu.effectType, pt, menu, data);
-										inv.setItem(slot, pt.getMenuItem(b));
+										if (b) {
+											if (removeEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
+										else {
+											if (addEffect(player, pd, menu.effectType, menu, data)) {
+												inv.setItem(slot, pdi.getMenuItem(b));
+											}
+										}
 									}
 								}
 							}
@@ -186,15 +251,28 @@ public class MenuListener implements Listener {
 		}
 	}
 
-	private boolean addEffect(Player player, ParticleDetails pd, EffectHolder.EffectType effectType, ParticleType particleType, Menu menu, String data) {
-		EffectHolder eh = getHolder(player, effectType, particleType, menu, data);
+	private boolean addEffect(Player player, ParticleDetails pd, EffectHolder.EffectType effectType, Menu menu, String data) {
+		EffectHolder eh = getHolder(player, effectType, pd.getParticleType(), menu, data);
 
 		if (eh == null) {
-			Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + particleType.toString() + ") [Reported from MenuListener].", true);
+			Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + pd.getParticleType().toString() + ") [Reported from MenuListener].", true);
 			return false;
 		}
 
 		eh.addEffect(pd);
+
+		return true;
+	}
+
+	private boolean removeEffect(Player player, ParticleDetails pd, EffectHolder.EffectType effectType, Menu menu, String data) {
+		EffectHolder eh = getHolder(player, effectType, pd.getParticleType(), menu, data);
+
+		if (eh == null) {
+			Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + pd.getParticleType().toString() + ") [Reported from MenuListener].", true);
+			return false;
+		}
+
+		eh.removeEffect(pd);
 
 		return true;
 	}
@@ -210,7 +288,12 @@ public class MenuListener implements Listener {
 		HashSet<ParticleDetails> hashSet = new HashSet<ParticleDetails>();
 		if (effectType == EffectHolder.EffectType.PLAYER) {
 			ParticleDetails pd = new ParticleDetails(particleType);
-			pd.setPlayer(player.getName(), player.getUniqueId());
+			Player p = Bukkit.getPlayerExact(menu.playerName);
+			if (p == null) {
+				Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + particleType.toString() + ") [Reported from MenuListener].", true);
+				return false;
+			}
+			pd.setPlayer(menu.playerName, p.getUniqueId());
 			hashSet.add(pd);
 		}
 		else if (effectType == EffectHolder.EffectType.LOCATION) {
@@ -250,7 +333,7 @@ public class MenuListener implements Listener {
 			}
 		}
 		else if (effectType == EffectHolder.EffectType.PLAYER) {
-			eh = EffectHandler.getInstance().getEffect(menu.viewer.getName());
+			eh = EffectHandler.getInstance().getEffect(menu.playerName);
 		}
 		else if (effectType == EffectHolder.EffectType.MOB) {
 			eh = EffectHandler.getInstance().getEffect(menu.mobUuid);
@@ -259,7 +342,12 @@ public class MenuListener implements Listener {
 		if (eh == null) {
 			HashSet<ParticleDetails> hashSet = new HashSet<ParticleDetails>();
 			if (effectType == EffectHolder.EffectType.PLAYER) {
-				eh = EffectCreator.createPlayerHolder(hashSet, effectType, player.getName(), player.getUniqueId());
+				Player p = Bukkit.getPlayerExact(menu.playerName);
+				if (p == null) {
+					Logger.log(Logger.LogLevel.SEVERE, "Failed to create Player Effect (" + data + ") while finding Effect Holder (" + particleType.toString() + ") [Reported from MenuListener].", true);
+					return null;
+				}
+				eh = EffectCreator.createPlayerHolder(hashSet, effectType, menu.playerName, player.getUniqueId());
 			}
 			else if (effectType == EffectHolder.EffectType.LOCATION) {
 				Location l;

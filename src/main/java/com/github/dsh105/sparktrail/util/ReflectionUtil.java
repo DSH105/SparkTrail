@@ -48,11 +48,15 @@ public class ReflectionUtil {
 		for (Entity e : getNearbyEntities(l, 20)) {
 			if (e instanceof Player) {
 				Player p = (Player) e;
-				Object nmsPlayer = getMethod(p.getClass(), "getHandle").invoke(p);
-				Object con = nmsPlayer.getClass().getField("playerConnection").get(nmsPlayer);
-				getMethod(con.getClass(), "sendPacket").invoke(con, packet);
+				sendPacket(p, packet);
 			}
 		}
+	}
+
+	public static void sendPacket(Player p, Object packet) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+		Object nmsPlayer = getMethod(p.getClass(), "getHandle").invoke(p);
+		Object con = nmsPlayer.getClass().getField("playerConnection").get(nmsPlayer);
+		getMethod(con.getClass(), "sendPacket").invoke(con, packet);
 	}
 	
 	public static List<Entity> getNearbyEntities(Location l, int range) {

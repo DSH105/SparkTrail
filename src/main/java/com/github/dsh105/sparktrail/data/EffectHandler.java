@@ -2,16 +2,23 @@ package com.github.dsh105.sparktrail.data;
 
 import com.github.dsh105.sparktrail.SparkTrail;
 import com.github.dsh105.sparktrail.config.YAMLConfig;
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
+import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.mysql.SQLEffectHandler;
 import com.github.dsh105.sparktrail.particle.Effect;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
+import com.github.dsh105.sparktrail.particle.ParticleDetails;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.particle.type.*;
+import com.github.dsh105.sparktrail.util.EnumUtil;
 import com.github.dsh105.sparktrail.util.GeometryUtil;
 import com.github.dsh105.sparktrail.util.Serialise;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,21 +49,24 @@ public class EffectHandler {
 		Iterator<EffectHolder> i = effects.iterator();
 		while (i.hasNext()) {
 			EffectHolder e = i.next();
-			save("autosave", e);
-			SQLEffectHandler.save(e);
+			save(e);
+			SQLEffectHandler.instance.save(e);
 			e.stop();
 			i.remove();
 		}
 	}
 
-	public HashSet<EffectHolder> getEffects() {
+	public HashSet<EffectHolder> getEffectHolders() {
 		return this.effects;
 	}
 
-	public void save(String type, EffectHolder e) {
-		clear(type, e);
-		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.MAIN);
-		String path = type + ".";
+	public void save(EffectHolder e) {
+		clear(e);
+		if (e.getEffects().isEmpty()) {
+			return;
+		}
+		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
+		String path = "effects.";
 		if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
 			path = path + "player." + e.getDetails().playerName + ".";
 		}
@@ -68,18 +78,24 @@ public class EffectHandler {
 		}
 
 		for (Effect effect : e.getEffects()) {
+			if (effect == null || effect.getParticleType() == null) {
+				continue;
+			}
 			if (effect.getParticleType().requiresDataMenu()) {
 				ParticleType pt = effect.getParticleType();
 				String value = null;
 				if (pt == ParticleType.BLOCKBREAK) {
 					value = ((BlockBreak) effect).idValue + "," + ((BlockBreak) effect).metaValue;
 				}
+				else if (pt == ParticleType.CRITICAL) {
+					value = ((Critical) effect).criticalType.toString();
+				}
 				else if (pt == ParticleType.FIREWORK) {
 					value = Serialise.serialiseFireworkEffect(((Firework) effect).fireworkEffect);
 				}
-				else if (pt == ParticleType.NOTE) {
+				/*else if (pt == ParticleType.NOTE) {
 					value = ((Note) effect).noteType.toString();
-				}
+				}*/
 				else if (pt == ParticleType.POTION) {
 					value = ((Potion) effect).potionType.toString();
 				}
@@ -90,37 +106,130 @@ public class EffectHandler {
 					value = ((Swirl) effect).swirlType.toString();
 				}
 				if (value != null) {
-					config.set(path + effect.getParticleType().toString(), value);
+					config.set(path + effect.getParticleType().toString().toLowerCase(), value);
 				}
 			}
 			else {
-				config.set(path + effect.getParticleType().toString(), "none");
+				config.set(path + effect.getParticleType().toString().toLowerCase(), "none");
 			}
 		}
 
 		config.saveConfig();
 	}
 
-	public void clear(String type, EffectHolder e) {
-		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.MAIN);
-		String path = type + ".";
+	public void clear(EffectHolder e) {
+		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
+		String path = "effects.";
 		if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
-			path = path + "player." + e.getDetails().playerName + ".";
+			path = path + "player." + e.getDetails().playerName;
 		}
 		else if (e.getEffectType() == EffectHolder.EffectType.LOCATION) {
-			path = path + "location." + Serialise.serialiseLocation(e.getLocation()) + ".";
+			path = path + "location." + Serialise.serialiseLocation(e.getLocation());
 		}
 		else if (e.getEffectType() == EffectHolder.EffectType.MOB) {
-			path = path + "mob." + e.getDetails().mobUuid + ".";
+			path = path + "mob." + e.getDetails().mobUuid;
 		}
 		config.set(path, null);
 		config.saveConfig();
 	}
 
+	public EffectHolder createFromFile(Location location) {
+		EffectHolder eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, location);
+		return createFromFile("effects.location." + Serialise.serialiseLocation(location), eh);
+	}
+
+	public EffectHolder createFromFile(UUID uuid) {
+		EffectHolder eh = EffectCreator.createMobHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, uuid);
+		return createFromFile("effects.mob." + uuid, eh);
+	}
+
+	public EffectHolder createFromFile(String playerName) {
+		Player p = Bukkit.getPlayerExact(playerName);
+		if (p == null) {
+			return null;
+		}
+		EffectHolder eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, playerName, p.getUniqueId());
+		return createFromFile("effects.player." + playerName, eh);
+	}
+
+	private EffectHolder createFromFile(String path, EffectHolder eh) {
+		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
+		ConfigurationSection cs = config.getConfigurationSection(path);
+		for (String key : cs.getKeys(false)) {
+			if (EnumUtil.isEnumType(ParticleType.class, key.toUpperCase())) {
+				ParticleType pt = ParticleType.valueOf(key.toUpperCase());
+				if (pt.requiresDataMenu()) {
+					ParticleDetails pd = new ParticleDetails(pt);
+					String value = config.getString(path + "." + key);
+					if (pt == ParticleType.BLOCKBREAK) {
+						try {
+							pd.blockId = Integer.parseInt(value.split(",")[0]);
+							pd.blockMeta = Integer.parseInt(value.split(",")[1]);
+						} catch (Exception e) {
+							Logger.log(Logger.LogLevel.WARNING, "Error creating Integer for Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
+							return null;
+						}
+					}
+					else if (pt == ParticleType.CRITICAL) {
+						try {
+							pd.criticalType = Critical.CriticalType.valueOf(value);
+						} catch (Exception e) {
+							Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
+							return null;
+						}
+					}
+					else if (pt == ParticleType.FIREWORK) {
+						pd.fireworkEffect = Serialise.deserialiseFireworkEffect(value);
+					}
+					/*else if (pt == ParticleType.NOTE) {
+						try {
+							pd.noteType = Note.NoteType.valueOf(value);
+						} catch (Exception e) {
+							Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
+							return null;
+						}
+					}*/
+					else if (pt == ParticleType.POTION) {
+						try {
+							pd.potionType = Potion.PotionType.valueOf(value);
+						} catch (Exception e) {
+							Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
+							return null;
+						}
+					}
+					else if (pt == ParticleType.SMOKE) {
+						try {
+							pd.smokeType = Smoke.SmokeType.valueOf(value);
+						} catch (Exception e) {
+							Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
+							return null;
+						}
+					}
+					else if (pt == ParticleType.SWIRL) {
+						try {
+							pd.swirlType = Swirl.SwirlType.valueOf(value);
+						} catch (Exception e) {
+							Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
+							return null;
+						}
+					}
+				}
+				else {
+					eh.addEffect(pt);
+				}
+			}
+			else {
+				Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
+				return null;
+			}
+		}
+		return eh;
+	}
+
 	public EffectHolder getEffect(Location l) {
 		return this.getEffect(l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ());
 	}
-	
+
 	public EffectHolder getEffect(World world, int x, int y, int z) {
 		for (EffectHolder e : effects) {
 			if (e.world.equals(world) && e.locX == x && e.locY == y && e.locZ == z) {
@@ -149,8 +258,8 @@ public class EffectHandler {
 	}
 
 	public void remove(EffectHolder e) {
-		save("autosave", e);
-		SQLEffectHandler.save(e);
+		save(e);
+		SQLEffectHandler.instance.save(e);
 		e.stop();
 		effects.remove(e);
 	}

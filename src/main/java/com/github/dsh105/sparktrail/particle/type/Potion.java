@@ -4,6 +4,7 @@ import com.github.dsh105.sparktrail.particle.Effect;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 /**
  * Project by DSH105
@@ -27,6 +28,10 @@ public class Potion extends Effect {
 			}
 		}
 		return shouldPlay;
+	}
+
+	public void playDemo(Player p) {
+		p.playEffect(p.getLocation(), org.bukkit.Effect.POTION_BREAK, (Integer) PotionType.AQUA.getValue());
 	}
 
 	public enum PotionType {

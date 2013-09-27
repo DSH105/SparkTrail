@@ -1,11 +1,7 @@
 package com.github.dsh105.sparktrail.particle;
 
 import com.github.dsh105.sparktrail.logger.Logger;
-import com.github.dsh105.sparktrail.particle.type.Note;
-import com.github.dsh105.sparktrail.particle.type.Potion;
-import com.github.dsh105.sparktrail.particle.type.Smoke;
-import com.github.dsh105.sparktrail.particle.type.Swirl;
-import org.apache.commons.lang.Validate;
+import com.github.dsh105.sparktrail.particle.type.*;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 
@@ -23,10 +19,11 @@ public class ParticleDetails {
 
 	public int blockId = 1;
 	public int blockMeta = 0;
+	public Critical.CriticalType criticalType = Critical.CriticalType.NORMAL;
 	public FireworkEffect fireworkEffect = FireworkEffect.builder().withColor(Color.WHITE).with(FireworkEffect.Type.BALL).withFade(Color.WHITE).build();
-	public Note.NoteType noteType = Note.NoteType.GREEN;
+	//public Note.NoteType noteType = Note.NoteType.GREEN;
 	public Potion.PotionType potionType = Potion.PotionType.AQUA;
-	public Smoke.SmokeType smokeType = Smoke.SmokeType.NORMAL;
+	public Smoke.SmokeType smokeType = Smoke.SmokeType.BLACK;
 	public Swirl.SwirlType swirlType = Swirl.SwirlType.WHITE;
 
 	public ParticleDetails(ParticleType particleType) {
@@ -51,12 +48,15 @@ public class ParticleDetails {
 		if (particleType == ParticleType.BLOCKBREAK) {
 			return new Object[] {this.blockId, this.blockMeta};
 		}
+		if (particleType == ParticleType.CRITICAL) {
+			return new Object[] {this.criticalType};
+		}
 		else if (particleType == ParticleType.FIREWORK) {
 			return new Object[] {this.fireworkEffect};
 		}
-		else if (particleType == ParticleType.NOTE) {
+		/*else if (particleType == ParticleType.NOTE) {
 			return new Object[] {this.noteType};
-		}
+		}*/
 		else if (particleType == ParticleType.POTION) {
 			return new Object[] {this.potionType};
 		}

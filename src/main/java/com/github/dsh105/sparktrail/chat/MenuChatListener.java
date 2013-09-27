@@ -1,9 +1,10 @@
-package com.github.dsh105.sparktrail.api.chat;
+package com.github.dsh105.sparktrail.chat;
 
 import com.github.dsh105.sparktrail.data.EffectCreator;
 import com.github.dsh105.sparktrail.data.EffectHandler;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
+import com.github.dsh105.sparktrail.particle.ParticleDemo;
 import com.github.dsh105.sparktrail.particle.ParticleDetails;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.util.Colour;
@@ -34,10 +35,10 @@ public class MenuChatListener implements Listener{
 		Player player = event.getPlayer();
 		String msg = event.getMessage();
 
-		if (this.AWAITING_DATA.containsKey(player.getName())) {
+		if (AWAITING_DATA.containsKey(player.getName())) {
 			event.setCancelled(true);
 
-			WaitingData wd = this.AWAITING_DATA.get(player.getName());
+			WaitingData wd = AWAITING_DATA.get(player.getName());
 
 			ParticleType pt = wd.particleType;
 			if (pt == ParticleType.BLOCKBREAK) {
@@ -46,8 +47,8 @@ public class MenuChatListener implements Listener{
 					Lang.sendTo(player, Lang.INCORRECT_EFFECT_ARGS.toString()
 							.replace("%effect%", "Block Break")
 							.replace("%string%", msg));
-					this.AWAITING_RETRY.put(player.getName(), wd);
-					this.AWAITING_DATA.remove(player.getName());
+					AWAITING_RETRY.put(player.getName(), wd);
+					AWAITING_DATA.remove(player.getName());
 					return;
 				}
 
@@ -56,7 +57,7 @@ public class MenuChatListener implements Listener{
 				if (eh == null) {
 					Lang.sendTo(player, Lang.EFFECT_CREATION_FAILED.toString());
 					Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed while adding Particle Type (" + wd.particleType.toString() + ", Player: " + player.getName() + ") [Reported from MenuChatListener].", true);
-					this.AWAITING_DATA.remove(player.getName());
+					AWAITING_DATA.remove(player.getName());
 					return;
 				}
 
@@ -65,7 +66,7 @@ public class MenuChatListener implements Listener{
 				pd.blockMeta = bd.data;
 				eh.addEffect(pd);
 
-				this.AWAITING_DATA.remove(player.getName());
+				AWAITING_DATA.remove(player.getName());
 				return;
 			}
 			else if (pt == ParticleType.FIREWORK) {
@@ -74,8 +75,8 @@ public class MenuChatListener implements Listener{
 					Lang.sendTo(player, Lang.INCORRECT_EFFECT_ARGS.toString()
 							.replace("%effect%", "Firework")
 							.replace("%string%", msg));
-					this.AWAITING_RETRY.put(player.getName(), wd);
-					this.AWAITING_DATA.remove(player.getName());
+					AWAITING_RETRY.put(player.getName(), wd);
+					AWAITING_DATA.remove(player.getName());
 					return;
 				}
 
@@ -84,7 +85,7 @@ public class MenuChatListener implements Listener{
 				if (eh == null) {
 					Lang.sendTo(player, Lang.EFFECT_CREATION_FAILED.toString());
 					Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed while adding Particle Type (" + wd.particleType.toString() + ", Player: " + player.getName() + ") [Reported from MenuChatListener].", true);
-					this.AWAITING_DATA.remove(player.getName());
+					AWAITING_DATA.remove(player.getName());
 					return;
 				}
 
@@ -92,26 +93,49 @@ public class MenuChatListener implements Listener{
 				pd.fireworkEffect = fe;
 				eh.addEffect(pd);
 
-				this.AWAITING_DATA.remove(player.getName());
+				AWAITING_DATA.remove(player.getName());
 				return;
 			}
+			else if (msg.equalsIgnoreCase("CANCEL")) {
+				Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
+				AWAITING_DATA.remove(player.getName());
+			}
+			event.setCancelled(true);
 		}
-		else if (this.AWAITING_RETRY.containsKey(player.getName())) {
+		else if (AWAITING_RETRY.containsKey(player.getName())) {
 			if (msg.equalsIgnoreCase("YES")) {
-				if (this.AWAITING_RETRY.get(player.getName()).particleType.equals(ParticleType.BLOCKBREAK)) {
+				if (AWAITING_RETRY.get(player.getName()).particleType.equals(ParticleType.BLOCKBREAK)) {
 					Lang.sendTo(player, Lang.ENTER_BLOCK.toString());
 				}
-				else if (this.AWAITING_RETRY.get(player.getName()).equals(ParticleType.FIREWORK)) {
+				else if (AWAITING_RETRY.get(player.getName()).equals(ParticleType.FIREWORK)) {
 					Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
 				}
-				this.AWAITING_DATA.put(player.getName(), this.AWAITING_RETRY.get(player.getName()));
-				this.AWAITING_RETRY.remove(player.getName());
+				AWAITING_DATA.put(player.getName(), AWAITING_RETRY.get(player.getName()));
+				AWAITING_RETRY.remove(player.getName());
+				event.setCancelled(true);
 			}
 			else if (msg.equalsIgnoreCase("NO")) {
-				this.AWAITING_RETRY.remove(player.getName());
+				AWAITING_RETRY.remove(player.getName());
+				event.setCancelled(true);
 			}
 			else {
 				Lang.sendTo(player, Lang.YES_OR_NO.toString());
+				event.setCancelled(true);
+			}
+		}
+		
+		
+		else if (ParticleDemo.ACTIVE.containsKey(player.getName())) {
+			if (msg.equalsIgnoreCase("NAME")) {
+				Lang.sendTo(player, Lang.DEMO_CURRENT_PARTICLE.toString().replace("%effect%", StringUtil.capitalise(ParticleDemo.ACTIVE.get(player.getName()).getCurrentParticle().toString())));
+				event.setCancelled(true);
+			}
+			else if (msg.equalsIgnoreCase("STOP")) {
+				ParticleDemo pd = ParticleDemo.ACTIVE.get(player.getName());
+				pd.cancel();
+				Lang.sendTo(player, Lang.DEMO_STOP.toString());
+				event.setCancelled(true);
+
 			}
 		}
 	}
@@ -141,7 +165,7 @@ public class MenuChatListener implements Listener{
 		ArrayList<Color> colours = new ArrayList<Color>();
 		FireworkEffect.Type type = FireworkEffect.Type.BALL;
 		boolean flicker = false;
-		boolean trail = true;
+		boolean trail = false;
 		if (msg.equalsIgnoreCase("random")) {
 			Random r = new Random();
 			int colourAmount = r.nextInt(17);

@@ -4,6 +4,7 @@ import com.github.dsh105.sparktrail.SparkTrail;
 import com.github.dsh105.sparktrail.config.options.ConfigOptions;
 import com.github.dsh105.sparktrail.data.EffectCreator;
 import com.github.dsh105.sparktrail.data.EffectHandler;
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.Effect;
 import com.github.dsh105.sparktrail.particle.type.*;
@@ -34,6 +35,8 @@ public class EffectHolder extends BukkitRunnable {
 	public int locX;
 	public int locY;
 	public int locZ;
+
+	private int tick;
 
 	public EffectHolder(EffectType effectType) {
 		this.effectType = effectType;
@@ -70,10 +73,12 @@ public class EffectHolder extends BukkitRunnable {
 			this.effects.add(EffectCreator.createEffect(this, particleType, pd.getDetails()));
 			return;
 		}
+		EffectHandler.getInstance().save(this);
 	}
 
 	public void addEffect(ParticleDetails particleDetails) {
 		this.effects.add(EffectCreator.createEffect(this, particleDetails.getParticleType(), particleDetails.getDetails()));
+		EffectHandler.getInstance().save(this);
 	}
 
 	public void removeEffect(ParticleType particleType) {
@@ -84,6 +89,7 @@ public class EffectHolder extends BukkitRunnable {
 				i.remove();
 			}
 		}
+		EffectHandler.getInstance().save(this);
 	}
 
 	public void removeEffect(ParticleDetails particleDetails) {
@@ -97,14 +103,19 @@ public class EffectHolder extends BukkitRunnable {
 						i.remove();
 					}
 				}
-				else if (pt == ParticleType.FIREWORK) {
-					i.remove();
-				}
-				else if (pt == ParticleType.NOTE) {
-					if (particleDetails.noteType.equals(((Note) e).noteType)) {
+				else if (pt == ParticleType.CRITICAL) {
+					if (particleDetails.criticalType.equals(((Critical) e).criticalType)) {
 						i.remove();
 					}
 				}
+				else if (pt == ParticleType.FIREWORK) {
+					i.remove();
+				}
+				/*else if (pt == ParticleType.NOTE) {
+					if (particleDetails.noteType.equals(((Note) e).noteType)) {
+						i.remove();
+					}
+				}*/
 				else if (pt == ParticleType.POTION) {
 					if (particleDetails.potionType.equals(((Potion) e).potionType)) {
 						i.remove();
@@ -125,6 +136,7 @@ public class EffectHolder extends BukkitRunnable {
 				}
 			}
 		}
+		EffectHandler.getInstance().save(this);
 	}
 
 	public Location getLocation() {
@@ -147,26 +159,35 @@ public class EffectHolder extends BukkitRunnable {
 	}
 
 	public void start() {
-		this.task = this.runTaskTimer(SparkTrail.getInstance(), 0L, ConfigOptions.instance.maxTick);
+		this.task = this.runTaskTimer(SparkTrail.getInstance(), 0L, 1L);
 	}
 
 	public void run() {
-		update();
-		Iterator<Effect> i = this.effects.iterator();
-		while (i.hasNext()) {
-			Effect e = i.next();
-			if (e.getParticleType().getIncompatibleTypes().contains(this.effectType)) {
-				i.remove();
-				continue;
-			}
-			if (ConfigOptions.instance.maxTick % e.getParticleType().getFrequency() == 0) {
-				e.play();
+		if (!this.effects.isEmpty()) {
+			update();
+			Iterator<Effect> i = this.effects.iterator();
+			while (i.hasNext()) {
+				Effect e = i.next();
+				if (e == null || e.getParticleType() == null) {
+					continue;
+				}
+				if (e.getParticleType().getIncompatibleTypes().contains(this.effectType)) {
+					i.remove();
+					continue;
+				}
+				if (this.tick % e.getParticleType().getFrequency() == 0) {
+					e.play();
+				}
 			}
 		}
+		tick++;
 	}
 
 	private void update() {
 		if (this.effectType == EffectType.PLAYER) {
+			if (this.details.playerName == null) {
+				return;
+			}
 			Player p = Bukkit.getPlayerExact(this.details.playerName);
 			if (p == null) {
 				Logger.log(Logger.LogLevel.WARNING, "Encountered missing player (Name: " + this.details.playerName + "). Removing particle effect.", true);
@@ -174,20 +195,23 @@ public class EffectHolder extends BukkitRunnable {
 				return;
 			}
 			Location l = p.getLocation();
-			if (!this.world.equals(l.getWorld())) {
+			if (this.world == null || !this.world.equals(l.getWorld())) {
 				this.world = l.getWorld();
 			}
-			if (!(this.locX == l.getBlockX())) {
+			if (((Integer) this.locX) == null || !(this.locX == l.getBlockX())) {
 				this.locX = l.getBlockX();
 			}
-			if (!(this.locY == l.getBlockY())) {
+			if (((Integer) this.locY) == null || !(this.locY == l.getBlockY())) {
 				this.locY = l.getBlockY();
 			}
-			if (!(this.locZ == l.getBlockZ())) {
+			if (((Integer) this.locZ) == null || !(this.locZ == l.getBlockZ())) {
 				this.locZ = l.getBlockZ();
 			}
 		}
 		else if (this.effectType == EffectType.MOB) {
+			if (this.details.mobUuid == null) {
+				return;
+			}
 			Entity e = null;
 			for (Entity entity : this.world.getEntities()) {
 				if (entity.getUniqueId().equals(this.details.mobUuid)) {
@@ -200,16 +224,16 @@ public class EffectHolder extends BukkitRunnable {
 				return;
 			}
 			Location l = e.getLocation();
-			if (!this.world.equals(l.getWorld())) {
+			if (this.world == null || !this.world.equals(l.getWorld())) {
 				this.world = l.getWorld();
 			}
-			if (!(this.locX == l.getBlockX())) {
+			if (((Integer) this.locX) == null || !(this.locX == l.getBlockX())) {
 				this.locX = l.getBlockX();
 			}
-			if (!(this.locY == l.getBlockY())) {
+			if (((Integer) this.locY) == null || !(this.locY == l.getBlockY())) {
 				this.locY = l.getBlockY();
 			}
-			if (!(this.locZ == l.getBlockZ())) {
+			if (((Integer) this.locZ) == null || !(this.locZ == l.getBlockZ())) {
 				this.locZ = l.getBlockZ();
 			}
 		}

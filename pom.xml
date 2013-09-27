@@ -8,15 +8,15 @@
     <artifactId>SparkTrail</artifactId>
     <properties>
         <project.version>3.0-SNAPSHOT</project.version>
-        <minecraft.version>1.6.2</minecraft.version>
-        <craftbukkit.version>R1.1</craftbukkit.version>
-        <cb_package>v1_6_R2</cb_package>
+        <minecraft.version>1.6.4</minecraft.version>
+        <craftbukkit.version>R0.1</craftbukkit.version>
+        <cb_package>v1_6_R3</cb_package>
         <main.class>com.github.dsh105.sparktrail.SparkTrail</main.class>
     </properties>
-    <version>${echopet.version}</version>
+    <version>${project.version}</version>
     <build>
         <defaultGoal>clean package install</defaultGoal>
-        <finalName>EchoPet</finalName>
+        <finalName>SparkTrail</finalName>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
@@ -36,23 +36,6 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptors>
-                        <descriptor>src/main/assembly/package.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>build</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -90,10 +73,6 @@
         <repository>
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>lilypad</id>
-            <url>http://ci.lilypadmc.org/plugin/repository/everything</url>
         </repository>
     </repositories>
 </project>

@@ -1,9 +1,12 @@
 package com.github.dsh105.sparktrail.particle.type;
 
+import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.Effect;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;
+import com.github.dsh105.sparktrail.util.ReflectionUtil;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 /**
  * Project by DSH105
@@ -24,5 +27,9 @@ public class Ender extends Effect {
 			}
 		}
 		return shouldPlay;
+	}
+
+	public void playDemo(Player p) {
+		p.playEffect(p.getLocation(), org.bukkit.Effect.ENDER_SIGNAL, (Integer) 0);
 	}
 }

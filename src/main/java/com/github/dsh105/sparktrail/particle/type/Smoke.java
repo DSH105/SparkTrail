@@ -33,7 +33,7 @@ public class Smoke extends PacketEffect {
 	}
 
 	public enum SmokeType {
-		NORMAL("largesmoke", 0.2F, 50),
+		BLACK("largesmoke", 0.2F, 50),
 		RED("reddust", 0F, 100),
 		RAINBOW("reddust", 1F, 100);
 

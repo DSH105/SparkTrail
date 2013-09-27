@@ -1,4 +1,4 @@
-package com.github.dsh105.sparktrail.api.chat;
+package com.github.dsh105.sparktrail.chat;
 
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;

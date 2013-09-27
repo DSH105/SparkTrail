@@ -1,10 +1,12 @@
 name: SparkTrail
 version: ${project.version}
 author: DSH105
-description: Mobs Under Your Control.
+description: The Next Generation Of Particle Effect Control
 website: http://dev.bukkit.org/server-mods/sparktrail/
 main: ${main.class}
 prefix: SparkTrail
 commands:
     stupdate:
         description: Update the plugin.
+    sparktrail:
+        description: View plugin information

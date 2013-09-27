@@ -14,9 +14,9 @@ public class AutoSave {
 		new BukkitRunnable() {
 			public void run() {
 				SparkTrail plugin = SparkTrail.getInstance();
-				for (EffectHolder e : plugin.EH.getEffects()) {
-					plugin.EH.save("autosave", e);
-					plugin.SQLH.save(e, false);
+				for (EffectHolder e : plugin.EH.getEffectHolders()) {
+					plugin.EH.save(e);
+					plugin.SQLH.save(e);
 				}
 			}
 		}.runTaskTimer(SparkTrail.getInstance(), (20*timer)/2, 20*timer);

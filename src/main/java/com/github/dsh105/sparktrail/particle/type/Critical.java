@@ -10,7 +10,7 @@ import com.github.dsh105.sparktrail.particle.ParticleType;
 
 public class Critical extends PacketEffect {
 
-	private CriticalType criticalType;
+	public CriticalType criticalType;
 
 	public Critical(EffectHolder effectHolder, ParticleType particleType, CriticalType criticalType) {
 		super(effectHolder, particleType);
@@ -19,7 +19,7 @@ public class Critical extends PacketEffect {
 
 	@Override
 	public String getNmsName() {
-		return this.criticalType == CriticalType.MAGIC ? "magicCrit" : "crit";
+		return this.criticalType.getNmsName();
 	}
 
 	@Override
@@ -33,6 +33,16 @@ public class Critical extends PacketEffect {
 	}
 
 	public enum CriticalType {
-		NORMAL, MAGIC;
+		NORMAL("crit"), MAGIC("magicCrit");
+
+		private String nmsName;
+
+		CriticalType(String nmsName) {
+			this.nmsName = nmsName;
+		}
+
+		public String getNmsName() {
+			return nmsName;
+		}
 	}
 }

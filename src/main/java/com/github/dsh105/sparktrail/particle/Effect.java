@@ -3,7 +3,11 @@ package com.github.dsh105.sparktrail.particle;
 import com.github.dsh105.sparktrail.SparkTrail;
 import com.github.dsh105.sparktrail.api.event.EffectPlayEvent;
 import com.github.dsh105.sparktrail.config.options.ConfigOptions;
+import com.github.dsh105.sparktrail.particle.type.*;
+import com.github.dsh105.sparktrail.util.Serialise;
+import com.github.dsh105.sparktrail.util.StringUtil;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -55,11 +59,40 @@ public abstract class Effect {
 		return !effectPlayEvent.isCancelled();
 	}
 
+	public abstract void playDemo(Player p);
+
 	public void stop() {
 		this.task.cancel();
 	}
 
 	public ParticleType getParticleType() {
 		return particleType;
+	}
+
+	public String getParticleData() {
+		if (this.particleType == ParticleType.BLOCKBREAK) {
+			return "ID: " + ((BlockBreak) this).idValue + ", Meta:" + ((BlockBreak) this).metaValue;
+		}
+		else if (this.particleType == ParticleType.CRITICAL) {
+			return StringUtil.capitalise(((Critical) this).criticalType.toString());
+		}
+		else if (this.particleType == ParticleType.FIREWORK) {
+			return Serialise.serialiseFireworkEffect(((Firework) this).fireworkEffect);
+		}
+		/*else if (this.particleType == ParticleType.NOTE) {
+			return StringUtil.capitalise(((Note) this).noteType.toString());
+		}*/
+		else if (this.particleType == ParticleType.POTION) {
+			return StringUtil.capitalise(((Potion) this).potionType.toString());
+		}
+		else if (this.particleType == ParticleType.SMOKE) {
+			return StringUtil.capitalise(((Smoke) this).smokeType.toString());
+		}
+		else if (this.particleType == ParticleType.SWIRL) {
+			return StringUtil.capitalise(((Swirl) this).swirlType.toString());
+		}
+		else {
+			return "";
+		}
 	}
 }

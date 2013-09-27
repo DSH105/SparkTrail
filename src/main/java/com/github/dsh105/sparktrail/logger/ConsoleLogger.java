@@ -19,7 +19,12 @@ public class ConsoleLogger {
 		console.sendMessage(logLevel.getPrefix() + " " + message);
 	}
 
+	public static void log(String message) {
+		log(Logger.LogLevel.NORMAL, message);
+	}
+
 	public static void stackTraceAlert(Logger.LogLevel logLevel, String message) {
-		console.sendMessage(logLevel.getPrefix() + " " + message + " Please report any important information (found in the Log File [SparkTrail.log) in the SparkTrail Issue Tracker.");
+		console.sendMessage(logLevel.getPrefix() + " " + message);
+		console.sendMessage(logLevel.getPrefix() + "See the Log File for details [SparkTrail.log].");
 	}
 }

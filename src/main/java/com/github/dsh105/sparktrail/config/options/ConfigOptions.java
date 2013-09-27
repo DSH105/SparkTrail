@@ -1,6 +1,7 @@
 package com.github.dsh105.sparktrail.config.options;
 
 import com.github.dsh105.sparktrail.config.YAMLConfig;
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.particle.DisplayType;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.util.EnumUtil;
@@ -17,6 +18,7 @@ public class ConfigOptions extends Options{
 	public ConfigOptions(YAMLConfig config) {
 		super(config);
 		instance = this;
+		this.setDefaults();
 		this.setMaxTick();
 	}
 
@@ -61,10 +63,11 @@ public class ConfigOptions extends Options{
 		set("autosaveTimer", 180, "AutoSave interval (in seconds)");
 
 		for (ParticleType pt : ParticleType.values()) {
-			String name = StringUtil.capitalise(pt.toString());
+			String name = pt.toString().toLowerCase();
 			set("effects." + name + ".enable", true);
 			set("effects." + name + ".frequency", 20);
 			set("effects." + name + ".playType", "normal");
 		}
+		this.config.saveConfig();
 	}
 }

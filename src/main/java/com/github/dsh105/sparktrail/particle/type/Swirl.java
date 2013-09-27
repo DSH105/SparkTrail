@@ -6,6 +6,7 @@ import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.util.ReflectionUtil;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class Swirl extends Effect {
 					Object dw = ReflectionUtil.getMethod(nmsEntity.getClass(), "getDataWatcher")
 							.invoke(nmsEntity);
 					ReflectionUtil.getMethod(dw.getClass(), "watch")
-							.invoke(dw, new Object[] {8, Integer.valueOf(this.swirlType.getValue())});
+							.invoke(dw, new Object[] {7, Integer.valueOf(this.swirlType.getValue())});
 				} catch (Exception e) {
 					Logger.log(Logger.LogLevel.SEVERE, "Failed to access Entity Datawatcher (Swirl Effect).", e, true);
 				}
@@ -51,6 +52,19 @@ public class Swirl extends Effect {
 			}
 		}
 		return shouldPlay;
+	}
+
+	public void playDemo(Player p) {
+		try {
+			Object nmsEntity = p.getClass().getMethod("getHandle")
+					.invoke(p);
+			Object dw = ReflectionUtil.getMethod(nmsEntity.getClass(), "getDataWatcher")
+					.invoke(nmsEntity);
+			ReflectionUtil.getMethod(dw.getClass(), "watch")
+					.invoke(dw, new Object[] {7, Integer.valueOf(this.swirlType.getValue())});
+		} catch (Exception e) {
+			Logger.log(Logger.LogLevel.SEVERE, "Failed to access Entity Datawatcher (Swirl Effect).", e, true);
+		}
 	}
 
 	@Override

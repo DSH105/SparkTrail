@@ -1,6 +1,7 @@
 package com.github.dsh105.sparktrail.api.event;
 
 import com.github.dsh105.sparktrail.particle.Effect;
+import com.github.dsh105.sparktrail.particle.EffectHolder;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -24,7 +25,7 @@ public class EffectPlayEvent extends Event implements Cancellable {
 		return this.effect;
 	}
 
-	public EffectType getEffectType() {
+	public EffectHolder.EffectType getEffectType() {
 		return this.effect.getEffectType();
 	}
 

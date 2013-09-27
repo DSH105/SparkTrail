@@ -11,9 +11,11 @@ import java.util.ArrayList;
 
 public enum Permission {
 
-	TRAIL("sparktrail.trail", "", "sparktrail.trail.*"),
-	TRAIL_ADMIN("sparktrail.trailadmin", "", "sparktrail.trailadmin.*"),
-	EFFECT("sparktrail.trail.%effect%", "sparktrail.trail.*")
+	UPDATE("sparktrail.update", ""),
+	TRAIL("sparktrail.trail", "", "sparktrail.trail.*", "sparktrail.*"),
+	EFFECT("sparktrail.trail.%effect%", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
+	DEMO("sparktrail.trail.demo", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
+	INFO("sparktrail.trail.info", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
 	;
 
 	String perm;

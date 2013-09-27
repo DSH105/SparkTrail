@@ -1,15 +1,13 @@
 package com.github.dsh105.sparktrail.data;
 
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.Effect;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import com.github.dsh105.sparktrail.particle.ParticleDetails;
 import com.github.dsh105.sparktrail.particle.ParticleType;
-import com.github.dsh105.sparktrail.particle.type.Note;
-import com.github.dsh105.sparktrail.particle.type.Potion;
-import com.github.dsh105.sparktrail.particle.type.Smoke;
-import com.github.dsh105.sparktrail.particle.type.Swirl;
+import com.github.dsh105.sparktrail.particle.type.*;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -64,6 +62,13 @@ public class EffectCreator {
 			}
 			e = particleType.getBlockBreakInstance(effectHolder, (Integer) o[0], (Integer) o[1]);
 		}
+		else if (particleType == ParticleType.CRITICAL) {
+			if (!checkArray(o, new Class[] {Critical.CriticalType.class})) {
+				Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+				return null;
+			}
+			e = particleType.getCriticalInstance(effectHolder, (Critical.CriticalType) o[0]);
+		}
 		else if (particleType == ParticleType.FIREWORK) {
 			if (!checkArray(o, new Class[] {FireworkEffect.class})) {
 				Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
@@ -71,13 +76,13 @@ public class EffectCreator {
 			}
 			e = particleType.getFireworkInstance(effectHolder, (FireworkEffect) o[0]);
 		}
-		else if (particleType == ParticleType.NOTE) {
+		/*else if (particleType == ParticleType.NOTE) {
 			if (!checkArray(o, new Class[] {Note.NoteType.class})) {
 				Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
 				return null;
 			}
 			e = particleType.getNoteInstance(effectHolder, (Note.NoteType) o[0]);
-		}
+		}*/
 		else if (particleType == ParticleType.POTION) {
 			if (!checkArray(o, new Class[] {Potion.PotionType.class})) {
 				Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);

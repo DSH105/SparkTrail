@@ -1,8 +1,7 @@
 package com.github.dsh105.sparktrail;
 
 import com.github.dsh105.sparktrail.api.SparkTrailAPI;
-import com.github.dsh105.sparktrail.api.chat.MenuChatListener;
-import com.github.dsh105.sparktrail.command.AdminCommand;
+import com.github.dsh105.sparktrail.chat.MenuChatListener;
 import com.github.dsh105.sparktrail.command.CommandComplete;
 import com.github.dsh105.sparktrail.command.CustomCommand;
 import com.github.dsh105.sparktrail.command.TrailCommand;
@@ -11,23 +10,22 @@ import com.github.dsh105.sparktrail.config.YAMLConfigManager;
 import com.github.dsh105.sparktrail.config.options.ConfigOptions;
 import com.github.dsh105.sparktrail.data.AutoSave;
 import com.github.dsh105.sparktrail.data.EffectHandler;
-import com.github.dsh105.sparktrail.listeners.PlayerListener;
 import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.menu.MenuListener;
 import com.github.dsh105.sparktrail.mysql.RefreshConnection;
 import com.github.dsh105.sparktrail.mysql.SQLConnection;
 import com.github.dsh105.sparktrail.mysql.SQLEffectHandler;
-import com.github.dsh105.sparktrail.util.EnumUtil;
 import com.github.dsh105.sparktrail.util.Lang;
+import com.github.dsh105.sparktrail.util.Permission;
 import com.github.dsh105.sparktrail.util.ReflectionUtil;
-import com.github.dsh105.sparktrail.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_6_R3.CraftServer;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -65,9 +63,8 @@ public class SparkTrail extends JavaPlugin {
 
 	public ChatColor primaryColour = ChatColor.GREEN;
 	public ChatColor secondaryColour = ChatColor.YELLOW;
-	public String prefix = "" + secondaryColour + "[" + primaryColour + "SparkTrail" + secondaryColour + "] " + ChatColor.RESET;
+	public String prefix = "" + ChatColor.GOLD + "[" + ChatColor.DARK_GREEN + "SparkTrail" + ChatColor.GOLD + "] " + ChatColor.RESET;
 	public String cmdString = "trail";
-	public String adminCmdString = "trailadmin";
 
 	public void onEnable() {
 		this.plugin = this;
@@ -77,7 +74,7 @@ public class SparkTrail extends JavaPlugin {
 		Logger.initiate();
 
 		if (!(Version.getNMSPackage()).equalsIgnoreCase(ReflectionUtil.getVersionString())) {
-			ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "EchoPet " + ChatColor.YELLOW
+			ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "SparkTrail " + ChatColor.YELLOW
 					+ this.getDescription().getVersion() + ChatColor.GREEN
 					+ " is only compatible with:");
 			ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.YELLOW + "    " + Version.getMinecraftVersion() + "-" + Version.getCraftBukkitVersion() + ".");
@@ -94,7 +91,7 @@ public class SparkTrail extends JavaPlugin {
 				"See the SparkTrail Wiki before editing this file" };
 		try {
 			config = configManager.getNewConfig("config.yml", header);
-			new ConfigOptions(this.getConfig(ConfigType.MAIN)).setDefaults();
+			new ConfigOptions(config);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to generate Configuration File (config.yml).", e, true);
 		}
@@ -206,11 +203,6 @@ public class SparkTrail extends JavaPlugin {
 		petCmd.setTabCompleter(new CommandComplete());
 		this.cmdString = cmdString;
 
-		CustomCommand petAdminCmd = new CustomCommand(adminCmdString);
-		CM.register("st", petAdminCmd);
-		petAdminCmd.setExecutor(new AdminCommand(adminCmdString));
-		this.adminCmdString = adminCmdString;
-
 		manager.registerEvents(new MenuListener(), this);
 		manager.registerEvents(new MenuChatListener(), this);
 
@@ -276,7 +268,7 @@ public class SparkTrail extends JavaPlugin {
 
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (commandLabel.equalsIgnoreCase("stupdate")) {
-			if (sender.hasPermission("sparktrail.update")) {
+			if (Permission.UPDATE.hasPerm(sender, true, true)) {
 				if (updateCheck == true) {
 					@SuppressWarnings("unused")
 					Updater updater = new Updater(this, "sparktrail", this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
@@ -287,10 +279,18 @@ public class SparkTrail extends JavaPlugin {
 					return true;
 				}
 			}
-			else {
-				sender.sendMessage(this.prefix + ChatColor.YELLOW + "sparktrail.update " + ChatColor.DARK_GREEN + "permission needed.");
+			else return true;
+		}
+		else if (commandLabel.equalsIgnoreCase("sparktrail")) {
+			if (Permission.TRAIL.hasPerm(sender, true, true)) {
+				PluginDescriptionFile pdFile = this.getDescription();
+				sender.sendMessage(secondaryColour + "-------- SparkTrail --------");
+				sender.sendMessage(primaryColour + "Author: " + ChatColor.YELLOW + "DSH105");
+				sender.sendMessage(primaryColour + "Description: " + secondaryColour + pdFile.getDescription());
+				sender.sendMessage(primaryColour + "Version: " + secondaryColour + pdFile.getVersion());
+				sender.sendMessage(primaryColour + "Website: " + secondaryColour + pdFile.getWebsite());
 				return true;
-			}
+			} else return true;
 		}
 		return false;
 	}

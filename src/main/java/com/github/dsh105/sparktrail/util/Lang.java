@@ -12,17 +12,29 @@ import org.bukkit.entity.Player;
 public enum Lang {
 
 	NO_PERMISSION("no_permission", "&e%perm% &apermission needed to do that."),
-	ADMIN_COMMAND_ERROR("admin_cmd_error", "&aError for input string: &e%cmd%&a. Use /" + SparkTrail.getInstance().adminCmdString + " for help"),
-	COMMAND_ERROR("cmd_error", "&aError for input string: &e%cmd%&a. Use /" + SparkTrail.getInstance().cmdString + " for help."),
+	COMMAND_ERROR("cmd_error", "&aError for input string: &e%cmd%&a. Use &e/" + SparkTrail.getInstance().cmdString + " help &afor help."),
+	HELP_INDEX_TOO_BIG("help_index_too_big", "&aPage &e%index% &adoes not exist."),
 	IN_GAME_ONLY("in_game_only", "&ePlease log in to do that."),
 	STRING_ERROR("string_error", "&aError parsing String: [&e%string%&a]. Please revise command arguments."),
-	EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. Please see the console for errors."),
-	OPEN_MENU("open_menu", "", ""),
+	NULL_PLAYER("null_player", "&e%player% &ais not online. Please try a different Player."),
 
-	ENTER_BLOCK("enter_block_break", "Please enter effect parameters [&e%Block Break%&a]. Structure: &e<IdValue> <BlockMeta>"),
-	ENTER_FIREWORK("enter_firework", "Please enter effect parameters [&e%Firework%&a]. Separate each parameter with a space."),
+	NO_ACTIVE_EFFECTS("no_active_effects", "&aYou do not have any Trail effects active."),
+
+	EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. Please see the console for errors."),
+	EFFECT_CREATION_CANCELLED("effect_creation_failed", "&e%effect% &aeffect creation cancelled."),
+
+	MENU_ERROR("menu_error", "&aThere has been a problem with the Trail GUI Menu. Please see the console for details."),
+	OPEN_MENU("open_menu", "&aOpening Trail Effect GUI"),
+	ENTER_BLOCK("enter_block_break", "&aPlease enter effect parameters [&e%Block Break%&a]. Structure: &e<IdValue> <BlockMeta>"),
+	ENTER_FIREWORK("enter_firework", "&aPlease enter effect parameters [&e%Firework%&a]. Separate each parameter with a space."),
 	INCORRECT_EFFECT_ARGS("incorrect_blockbreak_args", "&aCould not create &e%effect% &aeffect from String [&e%string%&a]. Would you like to retry? &e[YES or NO]"),
 	YES_OR_NO("yes_or_no", "&aPlease enter &eYES &aor &eNO&a."),
+
+	DEMO_BEGIN("demo_begin", "&aStarting Trail Demo. You may enter the following commands during the presentation: &eNAME&a, &eSTOP&a."),
+	DEMO_STOP("demo_stop", "&aTrail Demo has been stopped."),
+	DEMO_CURRENT_PARTICLE("demo_current_particle", "&aCurrent Trail effect: &e%effect%&a."),
+
+	ADMIN_OPEN_MENU("open_player_menu", "&aOpening Trail Effect GUI for &e%player%&a."),
 
 	;
 

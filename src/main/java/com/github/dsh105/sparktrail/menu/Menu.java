@@ -11,7 +11,10 @@ import java.util.UUID;
 
 public abstract class Menu {
 
+	public boolean fail = false;
+
 	public Player viewer;
+	public String playerName;
 	public Location location = null;
 	public UUID mobUuid = null;
 

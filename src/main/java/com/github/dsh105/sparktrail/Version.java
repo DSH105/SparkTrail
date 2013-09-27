@@ -1,5 +1,7 @@
 package com.github.dsh105.sparktrail;
 
+import com.github.dsh105.sparktrail.logger.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.jar.Attributes;
@@ -36,7 +38,7 @@ public class Version {
 				NMS_PACKAGE = a.getValue("NMS-Package");
 			}
 		} catch (Exception e) {
-			DebugLogger.severe(e, "Failed to obtain EchoPet and Minecraft Server version.");
+			Logger.log(Logger.LogLevel.SEVERE, "Failed to obtain SparkTrail and Minecraft Server versions.", e, true);
 		}
 	}
 	
