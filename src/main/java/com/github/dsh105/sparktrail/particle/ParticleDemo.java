@@ -66,6 +66,7 @@ public class ParticleDemo extends BukkitRunnable {
 			else if (pt == ParticleType.SWIRL) {
 				Swirl s = pt.getSwirlInstance(null, Swirl.SwirlType.WHITE, this.viewer.getUniqueId());
 				s.playDemo(this.viewer);
+				s.stopDemo(this.viewer);
 			}
 			else {
 				Effect e = pt.getEffectInstance(null);

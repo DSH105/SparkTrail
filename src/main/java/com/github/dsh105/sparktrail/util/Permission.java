@@ -15,9 +15,15 @@ public enum Permission {
 
 	UPDATE("sparktrail.update", ""),
 	TRAIL("sparktrail.trail", "", "sparktrail.trail.*", "sparktrail.*"),
+	TRAIL_LOC("sparktrail.trail.location", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
 	EFFECT("sparktrail.trail.%effect%", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
+	CLEAR("sparktrail.trail.clear", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
+	STOP("sparktrail.trail.stop", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
+	START("sparktrail.trail.start", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
 	DEMO("sparktrail.trail.demo", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
 	INFO("sparktrail.trail.info", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
+	LOC_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
+	LOC_STOP("sparktrail.trail.location.stop", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
 	;
 
 	String perm;
@@ -69,7 +75,7 @@ public enum Permission {
 					return true;
 				}
 			}
-			if (player.hasPermission("sparktrail.trail." + effectType.toString().toLowerCase() + ".type.*") || player.hasPermission("sparktrail.trail.type.*")) {
+			if (player.hasPermission("sparktrail.trail." + effectType.toString().toLowerCase() + ".type.*") || player.hasPermission("sparktrail.trail.type.*") || player.hasPermission("sparktrail.trail." + effectType.toString())) {
 				return true;
 			}
 			if (sendMessage) {

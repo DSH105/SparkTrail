@@ -44,6 +44,10 @@ public class MenuListener implements Listener {
 			}
 		} catch (Exception e) {return;}
 
+		if (inv.getItem(slot) == null) {
+			return;
+		}
+
 		if (title.startsWith("Trail GUI")) {
 			if (slot <= 44 && inv.getItem(slot) != null) {
 				ParticleMenu menu = ParticleMenu.openMenus.get(player.getName());
@@ -98,6 +102,8 @@ public class MenuListener implements Listener {
 									Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
 								}
 								player.closeInventory();
+								event.setCancelled(true);
+								ParticleMenu.openMenus.remove(player.getName());
 								event.setCancelled(true);
 								return;
 							}
@@ -259,6 +265,7 @@ public class MenuListener implements Listener {
 										Swirl.SwirlType swirlType = Swirl.SwirlType.valueOf(pdi.toString().toUpperCase());
 										ParticleDetails pd = new ParticleDetails(pt);
 										pd.swirlType = swirlType;
+										pd.setPlayer(player.getName(), player.getUniqueId());
 										if (Permission.hasEffectPerm(player, true, pt, swirlType.toString().toLowerCase(), menu.effectType)) {
 											if (b) {
 												if (removeEffect(player, pd, menu.effectType, menu, data)) {
@@ -381,7 +388,7 @@ public class MenuListener implements Listener {
 					Logger.log(Logger.LogLevel.SEVERE, "Failed to create Player Effect (" + data + ") while finding Effect Holder (" + particleType.toString() + ") [Reported from MenuListener].", true);
 					return null;
 				}
-				eh = EffectCreator.createPlayerHolder(hashSet, effectType, menu.playerName, player.getUniqueId());
+				eh = EffectCreator.createPlayerHolder(hashSet, effectType, menu.playerName);
 			}
 			else if (effectType == EffectHolder.EffectType.LOCATION) {
 				Location l;

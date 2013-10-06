@@ -11,7 +11,7 @@ import java.util.TreeMap;
 
 public class HelpPage {
 
-	public static String[] getPage(int pageNumber, boolean sendMessage) {
+	public static String[] getPage(int pageNumber) {
 		int perPage = 5;
 		HelpEntry[] raw = HelpEntry.values();
 		int index = perPage * (Math.abs(pageNumber) - 1);
@@ -24,9 +24,6 @@ public class HelpPage {
 			}
 		}
 		else {
-			if (sendMessage) {
-
-			}
 			return null;
 		}
 		return list.toArray(new String[list.size()]);

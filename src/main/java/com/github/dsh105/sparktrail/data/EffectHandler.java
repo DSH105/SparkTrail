@@ -61,7 +61,7 @@ public class EffectHandler {
 	}
 
 	public void save(EffectHolder e) {
-		clear(e);
+		clearFromFile(e);
 		if (e.getEffects().isEmpty()) {
 			return;
 		}
@@ -117,7 +117,7 @@ public class EffectHandler {
 		config.saveConfig();
 	}
 
-	public void clear(EffectHolder e) {
+	public void clearFromFile(EffectHolder e) {
 		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
 		String path = "effects.";
 		if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
@@ -133,27 +133,51 @@ public class EffectHandler {
 		config.saveConfig();
 	}
 
+	public void clear(EffectHolder e) {
+		clearFromFile(e);
+		e.stop();
+		effects.remove(e);
+	}
+
 	public EffectHolder createFromFile(Location location) {
+		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
+		String path = "effects.location." + Serialise.serialiseLocation(location);
+		if (config.get(path) == null) {
+			return null;
+		}
 		EffectHolder eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, location);
-		return createFromFile("effects.location." + Serialise.serialiseLocation(location), eh);
+		return createFromFile(path, eh);
 	}
 
 	public EffectHolder createFromFile(UUID uuid) {
-		EffectHolder eh = EffectCreator.createMobHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, uuid);
-		return createFromFile("effects.mob." + uuid, eh);
+		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
+		String path = "effects.mob." + uuid;
+		if (config.get(path) == null) {
+			return null;
+		}
+		EffectHolder eh = EffectCreator.createMobHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.MOB, uuid);
+		return createFromFile(path, eh);
 	}
 
 	public EffectHolder createFromFile(String playerName) {
-		Player p = Bukkit.getPlayerExact(playerName);
-		if (p == null) {
+		//Player p = Bukkit.getPlayerExact(playerName);
+		/*if (p == null) {
+			return null;
+		}*/
+		String path = "effects.player." + playerName;
+		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
+		if (config.get(path) == null) {
 			return null;
 		}
-		EffectHolder eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, playerName, p.getUniqueId());
-		return createFromFile("effects.player." + playerName, eh);
+		EffectHolder eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, playerName);
+		return createFromFile(path, eh);
 	}
 
 	private EffectHolder createFromFile(String path, EffectHolder eh) {
 		YAMLConfig config = SparkTrail.getInstance().getConfig(SparkTrail.ConfigType.DATA);
+		if (config.get(path) == null) {
+			return null;
+		}
 		ConfigurationSection cs = config.getConfigurationSection(path);
 		for (String key : cs.getKeys(false)) {
 			if (EnumUtil.isEnumType(ParticleType.class, key.toUpperCase())) {
@@ -207,12 +231,28 @@ public class EffectHandler {
 					}
 					else if (pt == ParticleType.SWIRL) {
 						try {
+							UUID uuid = null;
+							if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+								uuid = UUID.fromString(key);
+							}
+							else if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
+								Player p = Bukkit.getPlayerExact(key);
+								if (p == null) {
+									continue;
+								}
+								uuid = p.getUniqueId();
+							}
+							if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION) || uuid == null) {
+								continue;
+							}
 							pd.swirlType = Swirl.SwirlType.valueOf(value);
+							pd.setMob(uuid);
 						} catch (Exception e) {
 							Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);
 							return null;
 						}
 					}
+					eh.addEffect(pd);
 				}
 				else {
 					eh.addEffect(pt);
@@ -227,7 +267,7 @@ public class EffectHandler {
 	}
 
 	public EffectHolder getEffect(Location l) {
-		return this.getEffect(l.getWorld(), l.getBlockX(), l.getBlockY(), l.getBlockZ());
+		return this.getEffect(l.getWorld(), (int) l.getX(), (int) l.getY(), (int) l.getZ());
 	}
 
 	public EffectHolder getEffect(World world, int x, int y, int z) {
@@ -241,7 +281,7 @@ public class EffectHandler {
 
 	public EffectHolder getEffect(String playerName) {
 		for (EffectHolder e : effects) {
-			if (e.getDetails().playerName.equals(playerName)) {
+			if (e.getDetails().playerName != null && e.getDetails().playerName.equals(playerName)) {
 				return e;
 			}
 		}
@@ -250,7 +290,7 @@ public class EffectHandler {
 
 	public EffectHolder getEffect(UUID mobUuid) {
 		for (EffectHolder e : effects) {
-			if (e.getDetails().mobUuid == mobUuid) {
+			if (e.getDetails().mobUuid != null && e.getDetails().mobUuid == mobUuid) {
 				return e;
 			}
 		}

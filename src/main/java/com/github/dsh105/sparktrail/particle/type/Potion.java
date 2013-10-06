@@ -31,7 +31,7 @@ public class Potion extends Effect {
 	}
 
 	public void playDemo(Player p) {
-		p.playEffect(p.getLocation(), org.bukkit.Effect.POTION_BREAK, (Integer) PotionType.AQUA.getValue());
+		p.playEffect(p.getLocation(), org.bukkit.Effect.POTION_BREAK, PotionType.AQUA.getValue());
 	}
 
 	public enum PotionType {

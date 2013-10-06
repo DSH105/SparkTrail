@@ -6,6 +6,7 @@ import com.github.dsh105.sparktrail.config.options.ConfigOptions;
 import com.github.dsh105.sparktrail.particle.type.*;
 import com.github.dsh105.sparktrail.util.Serialise;
 import com.github.dsh105.sparktrail.util.StringUtil;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,6 +32,10 @@ public abstract class Effect {
 		if (this.displayType == null) {
 			this.displayType = DisplayType.NORMAL;
 		}
+	}
+
+	public EffectHolder getHolder() {
+		return this.holder;
 	}
 
 	public EffectHolder.EffectType getEffectType() {

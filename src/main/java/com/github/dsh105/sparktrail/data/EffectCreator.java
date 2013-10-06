@@ -42,10 +42,9 @@ public class EffectCreator {
 		return createHolder(effectHolder, particles);
 	}
 
-	public static EffectHolder createPlayerHolder(HashSet<ParticleDetails> particles, EffectType effectType, String playerName, UUID uuid) {
+	public static EffectHolder createPlayerHolder(HashSet<ParticleDetails> particles, EffectType effectType, String playerName) {
 		EffectHolder effectHolder = new EffectHolder(effectType);
 		effectHolder.getDetails().playerName = playerName;
-		effectHolder.getDetails().mobUuid = uuid;
 		return createHolder(effectHolder, particles);
 	}
 

@@ -2,14 +2,14 @@ package com.github.dsh105.sparktrail.chat;
 
 import com.github.dsh105.sparktrail.data.EffectCreator;
 import com.github.dsh105.sparktrail.data.EffectHandler;
-import com.github.dsh105.sparktrail.logger.ConsoleLogger;
+import com.github.dsh105.sparktrail.listeners.InteractDetails;
+import com.github.dsh105.sparktrail.listeners.InteractListener;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.ParticleDemo;
 import com.github.dsh105.sparktrail.particle.ParticleDetails;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.util.*;
-import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -28,6 +28,8 @@ public class MenuChatListener implements Listener{
 	public static HashMap<String, WaitingData> AWAITING_DATA = new HashMap<String, WaitingData>();
 	public static  HashMap<String, WaitingData> AWAITING_RETRY = new HashMap<String, WaitingData>();
 
+	public static  HashMap<String, InteractDetails> RETRY_INTERACT = new HashMap<String, InteractDetails>();
+
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
@@ -42,9 +44,10 @@ public class MenuChatListener implements Listener{
 			if (msg.equalsIgnoreCase("CANCEL")) {
 				Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
 				AWAITING_DATA.remove(player.getName());
+				return;
 			}
 			else if (pt == ParticleType.BLOCKBREAK) {
-				BlockData bd = findBlockBreak(msg);
+				BlockData bd = Serialise.findBlockBreak(msg);
 				if (bd == null) {
 					Lang.sendTo(player, Lang.INCORRECT_EFFECT_ARGS.toString()
 							.replace("%effect%", "Block Break")
@@ -75,7 +78,7 @@ public class MenuChatListener implements Listener{
 				return;
 			}
 			else if (pt == ParticleType.FIREWORK) {
-				FireworkEffect fe = findFirework(msg);
+				FireworkEffect fe = Serialise.findFirework(msg);
 				if (fe == null) {
 					Lang.sendTo(player, Lang.INCORRECT_EFFECT_ARGS.toString()
 							.replace("%effect%", "Firework")
@@ -113,7 +116,6 @@ public class MenuChatListener implements Listener{
 				}
 				else if (AWAITING_RETRY.get(player.getName()).equals(ParticleType.FIREWORK)) {
 					Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
-					Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
 				}
 				AWAITING_DATA.put(player.getName(), AWAITING_RETRY.get(player.getName()));
 				AWAITING_RETRY.remove(player.getName());
@@ -122,6 +124,31 @@ public class MenuChatListener implements Listener{
 			else if (msg.equalsIgnoreCase("NO")) {
 				Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_RETRY.get(player.getName()).particleType.toString())));
 				AWAITING_RETRY.remove(player.getName());
+				event.setCancelled(true);
+			}
+			else {
+				Lang.sendTo(player, Lang.YES_OR_NO.toString());
+				event.setCancelled(true);
+			}
+		}
+
+
+		else if (RETRY_INTERACT.containsKey(player.getName())) {
+			InteractDetails.InteractType it = RETRY_INTERACT.get(player.getName()).interactType;
+			if (msg.equalsIgnoreCase("YES")) {
+				if (it.equals(InteractDetails.InteractType.BLOCK)) {
+					Lang.sendTo(player, Lang.INTERACT_BLOCK.toString());
+				}
+				else {
+					Lang.sendTo(player, Lang.INTERACT_MOB.toString());
+				}
+				InteractListener.INTERACTION.put(player.getName(), RETRY_INTERACT.get(player.getName()));
+				RETRY_INTERACT.remove(player.getName());
+				event.setCancelled(true);
+			}
+			else if (msg.equalsIgnoreCase("NO")) {
+				Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_RETRY.get(player.getName()).particleType.toString())));
+				RETRY_INTERACT.remove(player.getName());
 				event.setCancelled(true);
 			}
 			else {
@@ -146,81 +173,6 @@ public class MenuChatListener implements Listener{
 		}
 	}
 
-	private BlockData findBlockBreak(String msg) {
-		if (msg.contains(" ")) {
-			String[] split = msg.split(" ");
-			if (!StringUtil.isInt(split[0])) {
-				return null;
-			}
-			if (!StringUtil.isInt(split[1])) {
-				return null;
-			}
-			return new BlockData(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-		}
-		else {
-			if (!StringUtil.isInt(msg)) {
-				return null;
-			}
-			return new BlockData(Integer.parseInt(msg), 0);
-		}
-	}
-
-	private FireworkEffect findFirework(String msg) {
-		FireworkEffect fe = null;
-		ArrayList<Color> colours = new ArrayList<Color>();
-		FireworkEffect.Type type = FireworkEffect.Type.BALL;
-		boolean flicker = false;
-		boolean trail = false;
-		if (msg.equalsIgnoreCase("random")) {
-			Random r = new Random();
-			int colourAmount = r.nextInt(17);
-			for (int i = 0; i < colourAmount; i++) {
-				Colour colour = Colour.values()[i];
-				if (colours.contains(colour.getColor())) {
-					i--;
-				}
-				else {
-					colours.add(colour.getColor());
-				}
-			}
-			type = FireworkEffect.Type.values()[r.nextInt(4)];
-			flicker = r.nextBoolean();
-			trail = r.nextBoolean();
-		}
-		else {
-			String[] split = msg.split(" ");
-
-			for (String s : split) {
-				if (s.equalsIgnoreCase("flicker")) {
-					flicker = true;
-				}
-				if (s.equalsIgnoreCase("trail")) {
-					trail = true;
-				}
-
-				if (EnumUtil.isEnumType(Colour.class, s.toUpperCase())) {
-					colours.add(Colour.valueOf(s.toUpperCase()).getColor());
-				}
-
-				if (EnumUtil.isEnumType(FireworkEffect.Type.class, s.toUpperCase())) {
-					type = FireworkEffect.Type.valueOf(s.toUpperCase());
-				}
-			}
-
-		}
-
-		if (colours.isEmpty()) {
-			colours.add(Color.WHITE);
-		}
-
-		fe = FireworkEffect.builder().withColor(colours).withFade(colours).with(type).flicker(flicker).trail(trail).build();
-
-		if (fe == null) {
-			fe = FireworkEffect.builder().withColor(Color.WHITE).withFade(Color.WHITE).build();
-		}
-		return fe;
-	}
-
 	private EffectHolder getHolder(WaitingData data) {
 		EffectHolder eh = null;
 		if (data.effectType == EffectHolder.EffectType.LOCATION) {
@@ -241,7 +193,7 @@ public class MenuChatListener implements Listener{
 		if (eh == null) {
 			HashSet<ParticleDetails> hashSet = new HashSet<ParticleDetails>();
 			if (data.effectType == EffectHolder.EffectType.PLAYER) {
-				eh = EffectCreator.createPlayerHolder(hashSet, data.effectType, data.playerName, data.mobUuid);
+				eh = EffectCreator.createPlayerHolder(hashSet, data.effectType, data.playerName);
 			}
 			else if (data.effectType == EffectHolder.EffectType.LOCATION) {
 				Location l = data.location;

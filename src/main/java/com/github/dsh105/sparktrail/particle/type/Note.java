@@ -8,9 +8,9 @@ import com.github.dsh105.sparktrail.particle.ParticleType;
  * Project by DSH105
  */
 
-public class RainbowNote extends PacketEffect {
+public class Note extends PacketEffect {
 
-	public RainbowNote(EffectHolder effectHolder, ParticleType particleType) {
+	public Note(EffectHolder effectHolder, ParticleType particleType) {
 		super(effectHolder, particleType);
 	}
 

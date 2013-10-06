@@ -6,8 +6,8 @@ package com.github.dsh105.sparktrail.chat;
 
 public class BlockData {
 
-	protected int id;
-	protected int data;
+	public int id;
+	public int data;
 
 	public BlockData(int id, int data) {
 		this.id = id;

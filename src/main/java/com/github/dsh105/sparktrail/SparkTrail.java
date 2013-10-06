@@ -10,12 +10,16 @@ import com.github.dsh105.sparktrail.config.YAMLConfigManager;
 import com.github.dsh105.sparktrail.config.options.ConfigOptions;
 import com.github.dsh105.sparktrail.data.AutoSave;
 import com.github.dsh105.sparktrail.data.EffectHandler;
+import com.github.dsh105.sparktrail.entity.EntityOrb;
+import com.github.dsh105.sparktrail.listeners.InteractListener;
+import com.github.dsh105.sparktrail.listeners.PlayerListener;
 import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.menu.MenuListener;
 import com.github.dsh105.sparktrail.mysql.RefreshConnection;
 import com.github.dsh105.sparktrail.mysql.SQLConnection;
 import com.github.dsh105.sparktrail.mysql.SQLEffectHandler;
+import com.github.dsh105.sparktrail.util.EntityUtil;
 import com.github.dsh105.sparktrail.util.Lang;
 import com.github.dsh105.sparktrail.util.Permission;
 import com.github.dsh105.sparktrail.util.ReflectionUtil;
@@ -79,7 +83,6 @@ public class SparkTrail extends JavaPlugin {
 					+ " is only compatible with:");
 			ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.YELLOW + "    " + Version.getMinecraftVersion() + "-" + Version.getCraftBukkitVersion() + ".");
 			ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "Initialisation failed. Please update the plugin.");
-			this.checkForUpdates();
 			return;
 		}
 
@@ -133,6 +136,8 @@ public class SparkTrail extends JavaPlugin {
 
 		} catch (Exception e) {}
 		langConfig.reloadConfig();
+
+		EntityUtil.registerEntity(EntityOrb.class, "Orb", 2);
 
 		this.EH = new EffectHandler();
 		this.SQLH = new SQLEffectHandler();
@@ -192,25 +197,23 @@ public class SparkTrail extends JavaPlugin {
 		if (CM.getCommand(cmdString) != null) {
 			Logger.log(Logger.LogLevel.WARNING, "A command under the name " + ChatColor.RED + "/" + cmdString + ChatColor.YELLOW + " already exists. Trail Command temporarily registered under " + ChatColor.RED + "/st:" + cmdString, true);
 		}
-		String adminCmdString = this.config.getString("adminCommand", "trailadmin");
-		if (CM.getCommand(adminCmdString) != null) {
-			Logger.log(Logger.LogLevel.WARNING, "A command under the name " + ChatColor.RED + "/" + adminCmdString + ChatColor.YELLOW + " already exists. Trail Command temporarily registered under " + ChatColor.RED + "/st:" + adminCmdString, true);
-		}
 
-		CustomCommand petCmd = new CustomCommand(cmdString);
-		CM.register("st", petCmd);
-		petCmd.setExecutor(new TrailCommand(cmdString));
-		petCmd.setTabCompleter(new CommandComplete());
+		CustomCommand cmd = new CustomCommand(cmdString);
+		CM.register("st", cmd);
+		cmd.setExecutor(new TrailCommand(cmdString));
+		cmd.setTabCompleter(new CommandComplete());
 		this.cmdString = cmdString;
 
 		manager.registerEvents(new MenuListener(), this);
 		manager.registerEvents(new MenuChatListener(), this);
+		manager.registerEvents(new PlayerListener(), this);
+		manager.registerEvents(new InteractListener(), this);
 
 		try {
 			Metrics metrics = new Metrics(this);
 			metrics.start();
 		} catch (IOException e) {
-			Logger.log(Logger.LogLevel.WARNING, "PluginMetrics (MCStats) has failed to start.", e, false);
+			Logger.log(Logger.LogLevel.WARNING, "Plugin Metrics (MCStats) has failed to start.", e, false);
 		}
 
 		this.checkForUpdates();
@@ -246,11 +249,11 @@ public class SparkTrail extends JavaPlugin {
 	}
 
 	public void checkForUpdates() {
-		if (this.getConfig(ConfigType.MAIN).getBoolean("autoUpdate", false) == true) {
+		if (this.getConfig(ConfigType.MAIN).getBoolean("autoUpdate", false)) {
 			@SuppressWarnings("unused")
 			Updater updater = new Updater(this, "sparktrail", this.getFile(), Updater.UpdateType.DEFAULT, true);
 		} else {
-			if (this.getConfig(ConfigType.MAIN).getBoolean("checkForUpdates", true) == true) {
+			if (this.getConfig(ConfigType.MAIN).getBoolean("checkForUpdates", true)) {
 				Updater updater = new Updater(this, "sparktrail", this.getFile(), Updater.UpdateType.NO_DOWNLOAD, false);
 				update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE;
 				if (this.update) {
@@ -258,7 +261,7 @@ public class SparkTrail extends JavaPlugin {
 					size = updater.getFileSize();
 					ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "An update is available: " + this.name + " (" + this.size + " bytes).");
 					ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "Type /stupdate to update.");
-					if (updateCheck == false) {
+					if (!updateCheck) {
 						updateCheck = true;
 					}
 				}
@@ -269,7 +272,7 @@ public class SparkTrail extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		if (commandLabel.equalsIgnoreCase("stupdate")) {
 			if (Permission.UPDATE.hasPerm(sender, true, true)) {
-				if (updateCheck == true) {
+				if (updateCheck) {
 					@SuppressWarnings("unused")
 					Updater updater = new Updater(this, "sparktrail", this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
 					return true;

@@ -67,7 +67,7 @@ public abstract class PacketEffect extends Effect {
 			ReflectionUtil.setValue(packet, "g", 0.5f);
 			ReflectionUtil.setValue(packet, "h", this.getSpeed());
 			ReflectionUtil.setValue(packet, "i", this.getParticleAmount());
-			ReflectionUtil.sendPacket(p, createPacket());
+			ReflectionUtil.sendPacket(p, packet);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (Packet63WorldParticles) to player [" + p.getName() + "].", e, true);
 		}

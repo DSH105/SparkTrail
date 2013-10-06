@@ -6,6 +6,7 @@ import com.github.dsh105.sparktrail.particle.EffectHolder;
 import com.github.dsh105.sparktrail.particle.PacketEffect;
 import com.github.dsh105.sparktrail.particle.ParticleType;
 import com.github.dsh105.sparktrail.util.ReflectionUtil;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -43,6 +44,7 @@ public class BlockBreak extends PacketEffect {
 		return null;
 	}
 
+	@Override
 	public void playDemo(Player p) {
 		try {
 			Object packet = Class.forName("net.minecraft.server." + ReflectionUtil.getVersionString() + ".Packet63WorldParticles").getConstructor().newInstance();
@@ -55,7 +57,7 @@ public class BlockBreak extends PacketEffect {
 			ReflectionUtil.setValue(packet, "g", 0.5f);
 			ReflectionUtil.setValue(packet, "h", this.getSpeed());
 			ReflectionUtil.setValue(packet, "i", this.getParticleAmount());
-			ReflectionUtil.sendPacket(p, createPacket());
+			ReflectionUtil.sendPacket(p, packet);
 		} catch (Exception e) {
 			Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (Packet63WorldParticles) to player [" + p.getName() + "].", e, true);
 		}

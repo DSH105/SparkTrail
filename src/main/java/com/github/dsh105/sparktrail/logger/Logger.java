@@ -26,7 +26,6 @@ public class Logger {
 		if (!log.exists()) {
 			try {
 				log.createNewFile();
-				ConsoleLogger.log("" + enabled);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -69,9 +68,7 @@ public class Logger {
 			String date = new SimpleDateFormat("[dd/MM/yyyy]---[HH:mm:ss]").format(new Date());
 			pw.println("\n" + date + logLevel.getPrefix() + " " + message);
 
-			for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-				pw.println(date + stackTraceElement.toString());
-			}
+			e.printStackTrace(pw);
 
 			pw.println("\n");
 

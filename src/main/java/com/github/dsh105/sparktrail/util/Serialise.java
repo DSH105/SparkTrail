@@ -1,17 +1,155 @@
 package com.github.dsh105.sparktrail.util;
 
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Location;
+import com.github.dsh105.sparktrail.chat.BlockData;
+import com.github.dsh105.sparktrail.logger.ConsoleLogger;
+import com.github.dsh105.sparktrail.particle.*;
+import org.bukkit.*;
+import org.bukkit.Effect;
+import org.bukkit.command.BlockCommandSender;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Project by DSH105
  */
 
 public class Serialise {
+
+	public static BlockData findBlockBreak(String msg) {
+		if (msg.contains(" ")) {
+			String[] split = msg.split(" ");
+			if (!StringUtil.isInt(split[0])) {
+				return null;
+			}
+			if (!StringUtil.isInt(split[1])) {
+				return null;
+			}
+			return new BlockData(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+		}
+		else {
+			if (!StringUtil.isInt(msg)) {
+				return null;
+			}
+			return new BlockData(Integer.parseInt(msg), 0);
+		}
+	}
+
+	public static FireworkEffect findFirework(String msg) {
+		FireworkEffect fe = null;
+		ArrayList<Color> colours = new ArrayList<Color>();
+		FireworkEffect.Type type = FireworkEffect.Type.BALL;
+		boolean flicker = false;
+		boolean trail = false;
+		if (msg.equalsIgnoreCase("random")) {
+			Random r = new Random();
+			int colourAmount = r.nextInt(17);
+			for (int i = 0; i < colourAmount; i++) {
+				Colour colour = Colour.values()[i];
+				if (colours.contains(colour.getColor())) {
+					i--;
+				}
+				else {
+					colours.add(colour.getColor());
+				}
+			}
+			type = FireworkEffect.Type.values()[r.nextInt(4)];
+			flicker = r.nextBoolean();
+			trail = r.nextBoolean();
+		}
+		else {
+			String[] split = msg.split(" ");
+
+			for (String s : split) {
+				if (s.equalsIgnoreCase("flicker")) {
+					flicker = true;
+				}
+				if (s.equalsIgnoreCase("trail")) {
+					trail = true;
+				}
+
+				if (EnumUtil.isEnumType(Colour.class, s.toUpperCase())) {
+					colours.add(Colour.valueOf(s.toUpperCase()).getColor());
+				}
+
+				if (EnumUtil.isEnumType(FireworkEffect.Type.class, s.toUpperCase())) {
+					type = FireworkEffect.Type.valueOf(s.toUpperCase());
+				}
+			}
+
+		}
+
+		if (colours.isEmpty()) {
+			colours.add(Color.WHITE);
+		}
+
+		fe = FireworkEffect.builder().withColor(colours).withFade(colours).with(type).flicker(flicker).trail(trail).build();
+
+		if (fe == null) {
+			fe = FireworkEffect.builder().withColor(Color.WHITE).withFade(Color.WHITE).build();
+		}
+		return fe;
+	}
+
+	public static Location getLocation(CommandSender sender, String[] args, int start) {
+		World world = (sender instanceof Player) ? ((Player) sender).getWorld() : (sender instanceof BlockCommandSender) ? ((BlockCommandSender) sender).getBlock().getWorld() : Bukkit.getWorlds().get(0);
+		int x;
+		int y;
+		int z;
+
+		if (args[start].equalsIgnoreCase("~") && sender instanceof BlockCommandSender) {
+			x = (int) ((BlockCommandSender) sender).getBlock().getLocation().getX();
+		}
+		else if (args[start].equalsIgnoreCase("~") && sender instanceof Player) {
+			x = (int) ((Player) sender).getLocation().getX();
+		}
+		else if (StringUtil.isInt(args[start])) {
+			x = Integer.parseInt(args[start]);
+		}
+		else {
+			ConsoleLogger.log("" + start + " " + args[start]);
+			Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
+			return null;
+		}
+
+		start++;
+
+		if (args[start].equalsIgnoreCase("~") && sender instanceof BlockCommandSender) {
+			y = (int) ((BlockCommandSender) sender).getBlock().getLocation().getY();
+		}
+		else if (args[start].equalsIgnoreCase("~") && sender instanceof Player) {
+			y = (int) ((Player) sender).getLocation().getY();
+		}
+		else if (StringUtil.isInt(args[start])) {
+			y = Integer.parseInt(args[start]);
+		}
+		else {
+			Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
+			return null;
+		}
+
+		start++;
+
+		if (args[start].equalsIgnoreCase("~") && sender instanceof BlockCommandSender) {
+			z = (int) ((BlockCommandSender) sender).getBlock().getLocation().getZ();
+		}
+		else if (args[start].equalsIgnoreCase("~") && sender instanceof Player) {
+			z = (int) ((Player) sender).getLocation().getZ();
+		}
+		else if (StringUtil.isInt(args[start])) {
+			z = Integer.parseInt(args[start]);
+		}
+		else {
+			Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
+			return null;
+		}
+
+		return new Location(world, x, y, z);
+	}
 
 	public static String serialiseLocation(Location l) {
 		return l.getWorld().getName() + "," + l.getBlockX() + "," + l.getBlockY() + "," + l.getBlockZ();
@@ -58,6 +196,19 @@ public class Serialise {
 
 		fe = FireworkEffect.builder().withColor(colours).withFade(colours).with(type).flicker(flicker).trail(trail).build();
 		return fe;
+	}
+
+	public static String serialiseEffects(HashSet<com.github.dsh105.sparktrail.particle.Effect> effects) {
+		if (effects.isEmpty()) {
+			return "";
+		}
+		StringBuilder builder = new StringBuilder();
+		for (com.github.dsh105.sparktrail.particle.Effect e : effects) {
+			builder.append(StringUtil.capitalise(e.getParticleType().toString()));
+			builder.append(", ");
+		}
+		builder.deleteCharAt(builder.length() - 2);
+		return builder.toString();
 	}
 
 }

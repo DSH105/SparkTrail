@@ -44,7 +44,7 @@ public class Firework extends Effect {
 			ReflectionUtil.setValue(packet, "f", 1f);
 			ReflectionUtil.setValue(packet, "g", 0.5f);
 			ReflectionUtil.setValue(packet, "h", 50);
-			ReflectionUtil.setValue(packet, "i", 0f);
+			ReflectionUtil.setValue(packet, "i", 0);
 
 			ReflectionUtil.sendPacket(p, packet);
 		} catch (Exception e) {

@@ -45,10 +45,12 @@ public class ReflectionUtil {
 			throws SecurityException, NoSuchMethodException,
 			IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException, NoSuchFieldException {
-		for (Entity e : getNearbyEntities(l, 20)) {
-			if (e instanceof Player) {
-				Player p = (Player) e;
-				sendPacket(p, packet);
+		if (!getNearbyEntities(l, 20).isEmpty()) {
+			for (Entity e : getNearbyEntities(l, 20)) {
+				if (e!= null && e instanceof Player) {
+					Player p = (Player) e;
+					sendPacket(p, packet);
+				}
 			}
 		}
 	}

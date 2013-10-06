@@ -1,8 +1,6 @@
 package com.github.dsh105.sparktrail.particle;
 
 import com.github.dsh105.sparktrail.SparkTrail;
-import com.github.dsh105.sparktrail.config.options.ConfigOptions;
-import com.github.dsh105.sparktrail.logger.ConsoleLogger;
 import com.github.dsh105.sparktrail.logger.Logger;
 import com.github.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import com.github.dsh105.sparktrail.particle.type.*;
@@ -25,7 +23,7 @@ import java.util.UUID;
 
 public enum ParticleType {
 	BLOCKBREAK(BlockBreak.class, 20, Material.IRON_PICKAXE, (short) 0, "Block Break", true),
-	BLOCKCRACK(BlockCrack.class, 10, Material.getMaterial(20), (short) 0, "Block Crack", false),
+	//BLOCKCRACK(BlockCrack.class, 10, Material.getMaterial(20), (short) 0, "Block Crack", false),
 	CLOUD(Cloud.class, 20, Material.getMaterial(351), (short) 15, "Cloud", false),
 	COOKIE(Cookie.class, 20, Material.COOKIE, (short) 0, "Cookie", false),
 	CRITICAL(Critical.class, 20, Material.IRON_SWORD, (short) 0, "Critical", true),
@@ -33,13 +31,14 @@ public enum ParticleType {
 	EXPLOSION(Explosion.class, 20, Material.TNT, (short) 0, "Explosion", false),
 	FIRE(Fire.class, 20, Material.FIRE, (short) 0, "Fire", false),
 	FIREWORK(Firework.class, 20, Material.FIREWORK, (short) 0, "Firework", true),
+	FLAME(Flame.class, 20, Material.FLINT_AND_STEEL, (short) 0, "Flame", false),
 	HEART(Heart.class, 20, Material.NAME_TAG, (short) 0, "Heart", false),
 	LAVADRIP(LavaDrip.class, 20, Material.LAVA, (short) 0, "Lava Drip", false),
 	MAGIC(Magic.class, 20, Material.ENCHANTED_BOOK, (short) 0, "Magic", false),
-	//NOTE(Note.class, 20, Material.NOTE_BLOCK, (short) 0, "Note", true),
+	NOTE(Note.class, 20, Material.getMaterial(2259), (short) 0, "Rainbow Note", false),
+	ORB(Orb.class, 20, Material.EXP_BOTTLE, (short) 0, "Orb", false),
 	PORTAL(Portal.class, 20, Material.PORTAL, (short) 0, "Portal", false),
 	POTION(Potion.class, 20, Material.getMaterial(373), (short) 8193, "Potion", true),
-	NOTE(RainbowNote.class, 20, Material.getMaterial(2259), (short) 0, "Rainbow Note", false),
 	RAINBOWSWIRL(RainbowSwirl.class, 20, Material.getMaterial(373), (short) 16385, "Rainbow Swirl", false),
 	RUNES(Runes.class, 20, Material.ENCHANTMENT_TABLE, (short) 0, "Runes", false),
 	SLIME(Slime.class, 20, Material.SLIME_BALL, (short) 0, "Slime", false),

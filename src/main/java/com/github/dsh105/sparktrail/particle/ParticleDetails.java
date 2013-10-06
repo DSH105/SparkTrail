@@ -66,12 +66,6 @@ public class ParticleDetails {
 		else if (particleType == ParticleType.SWIRL) {
 			return new Object[] {this.swirlType, this.uuid};
 		}
-		for (Object object : o) {
-			if (o == null) {
-				Logger.log(Logger.LogLevel.WARNING, "Encountered error while initiating Particle Effect (" + this.particleType.toString() + ").", false);
-				return null;
-			}
-		}
 		return o;
 	}
 }
