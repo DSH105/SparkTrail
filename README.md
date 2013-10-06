@@ -23,7 +23,7 @@ The integration of Player, Location and Entity particle effects, along with aa l
 
 ![Auto-Updater](http://dev.bukkit.org/media/images/63/595/Auto-Update_PNG.png)
 
-SparkTrail comes with a DBO compliant [[http://forums.bukkit.org/threads/updater-easy-safe-and-policy-compliant-auto-updating-for-your-plugins.96681/|auto-updater]] to save you, as a server owner, from continually checking this page for new files. It simply connects to dev.bukkit.org and compares the versions of available files. If you **do not** wish for SparkTrail to perform this check, navigate to the Configuration File (config.yml) in the SparkTrail directory of your plugins folder and change "checkForUpdates" and "autoUpdate" to "false". The first value disables the version comparison altogether and the second updates the plugin automatically if new files are detected.
+SparkTrail comes with a DBO compliant [auto-updater](http://forums.bukkit.org/threads/updater-easy-safe-and-policy-compliant-auto-updating-for-your-plugins.96681/) to save you, as a server owner, from continually checking this page for new files. It simply connects to dev.bukkit.org and compares the versions of available files. If you **do not** wish for SparkTrail to perform this check, navigate to the Configuration File (config.yml) in the SparkTrail directory of your plugins folder and change "checkForUpdates" and "autoUpdate" to "false". The first value disables the version comparison altogether and the second updates the plugin automatically if new files are detected.
 
 ![Line Break](http://dev.bukkit.org/media/images/63/594/SparkTrail_Line_Break_PNG.png)
 
