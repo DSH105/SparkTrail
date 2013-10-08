@@ -39,4 +39,4 @@ SparkTrail also send small amounts of usage information to MCStats to track plug
 
 ![Line Break](http://dev.bukkit.org/media/images/63/594/SparkTrail_Line_Break_PNG.png)
 
-[![GitHub](http://dev.bukkit.org/media/images/63/599/github.png)](https://github.com/DSH105/EchoPet/)
+[![GitHub](http://dev.bukkit.org/media/images/63/599/github.png)](https://github.com/DSH105/SparkTrail/)
