@@ -39,7 +39,7 @@ public class PlayerListener implements Listener {
 				public void run() {
 					if (p != null) {
 						EffectHolder eh = EffectHandler.getInstance().createFromFile(p.getName());
-						if (eh != null) {
+						if (eh != null && !eh.getEffects().isEmpty()) {
 							Lang.sendTo(p, Lang.EFFECTS_LOADED.toString());
 						}
 					}
