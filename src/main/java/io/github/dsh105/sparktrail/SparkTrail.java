@@ -10,7 +10,6 @@ import com.github.dsh105.sparktrail.config.YAMLConfigManager;
 import com.github.dsh105.sparktrail.config.options.ConfigOptions;
 import com.github.dsh105.sparktrail.data.AutoSave;
 import com.github.dsh105.sparktrail.data.EffectHandler;
-import com.github.dsh105.sparktrail.entity.EntityOrb;
 import com.github.dsh105.sparktrail.listeners.InteractListener;
 import com.github.dsh105.sparktrail.listeners.PlayerListener;
 import com.github.dsh105.sparktrail.logger.ConsoleLogger;
@@ -19,7 +18,6 @@ import com.github.dsh105.sparktrail.menu.MenuListener;
 import com.github.dsh105.sparktrail.mysql.RefreshConnection;
 import com.github.dsh105.sparktrail.mysql.SQLConnection;
 import com.github.dsh105.sparktrail.mysql.SQLEffectHandler;
-import com.github.dsh105.sparktrail.util.EntityUtil;
 import com.github.dsh105.sparktrail.util.Lang;
 import com.github.dsh105.sparktrail.util.Permission;
 import com.github.dsh105.sparktrail.util.ReflectionUtil;
@@ -136,8 +134,6 @@ public class SparkTrail extends JavaPlugin {
 
 		} catch (Exception e) {}
 		langConfig.reloadConfig();
-
-		EntityUtil.registerEntity(EntityOrb.class, "Orb", 2);
 
 		this.EH = new EffectHandler();
 		this.SQLH = new SQLEffectHandler();

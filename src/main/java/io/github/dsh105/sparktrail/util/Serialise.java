@@ -2,9 +2,9 @@ package com.github.dsh105.sparktrail.util;
 
 import com.github.dsh105.sparktrail.chat.BlockData;
 import com.github.dsh105.sparktrail.logger.ConsoleLogger;
-import com.github.dsh105.sparktrail.particle.*;
+import com.github.dsh105.sparktrail.util.firework.Colour;
+import com.github.dsh105.sparktrail.util.firework.FireworkType;
 import org.bukkit.*;
-import org.bukkit.Effect;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -76,8 +76,8 @@ public class Serialise {
 					colours.add(Colour.valueOf(s.toUpperCase()).getColor());
 				}
 
-				if (EnumUtil.isEnumType(FireworkEffect.Type.class, s.toUpperCase())) {
-					type = FireworkEffect.Type.valueOf(s.toUpperCase());
+				if (EnumUtil.isEnumType(FireworkType.class, s.toUpperCase())) {
+					type = FireworkType.valueOf(s.toUpperCase()).getFireworkType();
 				}
 			}
 
@@ -165,12 +165,12 @@ public class Serialise {
 		for (Color c : colours) {
 			s = s + Colour.getByColor(c).toString() + ",";
 		}
-		s = s + type.toString() + (flicker ? ",flicker" : "") + (trail ? ",trail" : "");
+		s = s + FireworkType.getByType(type).toString().toLowerCase() + (flicker ? ",flicker" : "") + (trail ? ",trail" : "");
 		return s;
 	}
 
 	public static FireworkEffect deserialiseFireworkEffect(String s) {
-		FireworkEffect fe = null;
+		FireworkEffect fe;
 		ArrayList<Color> colours = new ArrayList<Color>();
 		FireworkEffect.Type type = FireworkEffect.Type.BALL;
 		boolean flicker = false;
@@ -189,8 +189,8 @@ public class Serialise {
 				colours.add(Colour.valueOf(s.toUpperCase()).getColor());
 			}
 
-			if (EnumUtil.isEnumType(FireworkEffect.Type.class, s.toUpperCase())) {
-				type = FireworkEffect.Type.valueOf(s.toUpperCase());
+			if (EnumUtil.isEnumType(FireworkType.class, s.toUpperCase())) {
+				type = FireworkType.valueOf(s.toUpperCase()).getFireworkType();
 			}
 		}
 

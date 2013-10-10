@@ -1,4 +1,4 @@
-package com.github.dsh105.sparktrail.util;
+package com.github.dsh105.sparktrail.util.firework;
 
 import org.bukkit.Color;
 
