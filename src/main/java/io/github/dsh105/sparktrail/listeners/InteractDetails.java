@@ -1,4 +1,4 @@
-package com.github.dsh105.sparktrail.listeners;
+package io.github.dsh105.sparktrail.listeners;
 
 /**
  * Project by DSH105
@@ -6,19 +6,19 @@ package com.github.dsh105.sparktrail.listeners;
 
 public class InteractDetails {
 
-	public InteractType interactType;
-	public ModifyType modifyType;
+    public InteractType interactType;
+    public ModifyType modifyType;
 
-	public InteractDetails(InteractType interactType, ModifyType modifyType) {
-		this.interactType = interactType;
-		this.modifyType = modifyType;
-	}
+    public InteractDetails(InteractType interactType, ModifyType modifyType) {
+        this.interactType = interactType;
+        this.modifyType = modifyType;
+    }
 
-	public enum InteractType {
-		BLOCK, MOB;
-	}
+    public enum InteractType {
+        BLOCK, MOB;
+    }
 
-	public enum ModifyType {
-		ADD, REMOVE;
-	}
+    public enum ModifyType {
+        ADD, REMOVE;
+    }
 }

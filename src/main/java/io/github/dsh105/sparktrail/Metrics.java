@@ -25,7 +25,7 @@
  * authors and contributors and should not be interpreted as representing official policies,
  * either expressed or implied, of anybody else.
  */
-package com.github.dsh105.sparktrail;
+package io.github.dsh105.sparktrail;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -519,6 +519,7 @@ public class Metrics {
      * @param key
      * @param value
      * @throws java.io.UnsupportedEncodingException
+     *
      */
     private static void appendJSONPair(StringBuilder json, String key, String value) throws UnsupportedEncodingException {
         boolean isValueNumeric = false;

@@ -1,6 +1,5 @@
-package com.github.dsh105.sparktrail.listeners;
+package io.github.dsh105.sparktrail.listeners;
 
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 /**

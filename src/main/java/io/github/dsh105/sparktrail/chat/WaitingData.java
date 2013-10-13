@@ -1,7 +1,7 @@
-package com.github.dsh105.sparktrail.chat;
+package io.github.dsh105.sparktrail.chat;
 
-import com.github.dsh105.sparktrail.particle.EffectHolder;
-import com.github.dsh105.sparktrail.particle.ParticleType;
+import io.github.dsh105.sparktrail.particle.EffectHolder;
+import io.github.dsh105.sparktrail.particle.ParticleType;
 import org.bukkit.Location;
 
 import java.util.UUID;
@@ -12,14 +12,14 @@ import java.util.UUID;
 
 public class WaitingData {
 
-	public EffectHolder.EffectType effectType;
-	public ParticleType particleType;
-	public Location location;
-	public String playerName;
-	public UUID mobUuid;
+    public EffectHolder.EffectType effectType;
+    public ParticleType particleType;
+    public Location location;
+    public String playerName;
+    public UUID mobUuid;
 
-	public WaitingData(EffectHolder.EffectType effectType, ParticleType particleType) {
-		this.effectType = effectType;
-		this.particleType = particleType;
-	}
+    public WaitingData(EffectHolder.EffectType effectType, ParticleType particleType) {
+        this.effectType = effectType;
+        this.particleType = particleType;
+    }
 }
