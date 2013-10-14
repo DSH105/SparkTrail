@@ -250,12 +250,12 @@ public class SparkTrail extends JavaPlugin {
             getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
                 @Override
                 public void run() {
-                    Updater updater = new Updater(plugin, 67135, file, updateType, false);
+                    Updater updater = new Updater(plugin, 47704, file, updateType, false);
                     update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE;
                     if (update) {
                         name = updater.getLatestName();
                         ConsoleLogger.log(ChatColor.GOLD + "An update is available: " + name);
-                        ConsoleLogger.log(ChatColor.GOLD + "Type /ecupdate to update.");
+                        ConsoleLogger.log(ChatColor.GOLD + "Type /stupdate to update.");
                     }
                 }
             });
