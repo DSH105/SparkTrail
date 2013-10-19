@@ -267,7 +267,7 @@ public class SparkTrail extends JavaPlugin {
             if (Permission.UPDATE.hasPerm(sender, true, true)) {
                 if (updateCheck) {
                     @SuppressWarnings("unused")
-                    Updater updater = new Updater(this, 67135, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
+                    Updater updater = new Updater(this, 47704, this.getFile(), Updater.UpdateType.NO_VERSION_CHECK, true);
                     return true;
                 } else {
                     sender.sendMessage(this.prefix + ChatColor.GREEN + " An update is not available.");
