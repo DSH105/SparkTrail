@@ -9,7 +9,7 @@
     <properties>
         <project.version>3.0-SNAPSHOT</project.version>
         <minecraft.version>1.6.4</minecraft.version>
-        <craftbukkit.version>R0.1</craftbukkit.version>
+        <craftbukkit.version>R1.1</craftbukkit.version>
         <cb_package>v1_6_R3</cb_package>
         <main.class>io.github.dsh105.sparktrail.SparkTrail</main.class>
     </properties>
