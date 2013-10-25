@@ -41,7 +41,6 @@ public class TrailCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-        boolean error = true;
 
         if (args.length == 0) {
             if (Permission.TRAIL.hasPerm(sender, true, false)) {
@@ -53,16 +52,18 @@ public class TrailCommand implements CommandExecutor {
                 }
                 pm.open(true);
                 return true;
-            } else error = false;
+            } else return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("location")) {
-            if (Permission.TRAIL_LOC.hasPerm(sender, true, false)) {
+            if (Permission.LOC_TRAIL.hasPerm(sender, true, false)) {
                 Player p = (Player) sender;
                 InteractListener.INTERACTION.put(p.getName(), new InteractDetails(InteractDetails.InteractType.BLOCK, InteractDetails.ModifyType.ADD));
                 Lang.sendTo(sender, Lang.INTERACT_BLOCK.toString());
                 return true;
-            } else error = false;
+            } else return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("mob")) {
-
+            if (Permission.MOB_TRAIL.hasPerm(sender, true, false)) {
+                
+            } else return true;
         } else if (args.length == 1 || (args.length >= 2 && (args[0].equalsIgnoreCase("blockbreak") || args[0].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("help")) {
                 if (Permission.TRAIL.hasPerm(sender, true, true)) {
@@ -72,7 +73,7 @@ public class TrailCommand implements CommandExecutor {
                         sender.sendMessage(s);
                     }
                     return true;
-                } else error = false;
+                } else return true;
             } else if (args[0].equalsIgnoreCase("random")) {
                 if (!(sender instanceof Player)) {
                     Lang.sendTo(sender, Lang.IN_GAME_ONLY.toString());
@@ -99,9 +100,14 @@ public class TrailCommand implements CommandExecutor {
                     return true;
                 }
                 ParticleType pt = list.get(new Random().nextInt(list.size()));
-                eh.addEffect(pt);
-                Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
-                return true;
+                if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
+                    eh.addEffect(pt);
+                    Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                    return true;
+                } else {
+                    EffectHandler.getInstance().clear(eh);
+                    return true;
+                }
             } else if (args[0].equalsIgnoreCase("demo")) {
                 if (Permission.DEMO.hasPerm(sender, true, false)) {
                     Player p = (Player) sender;
@@ -113,7 +119,7 @@ public class TrailCommand implements CommandExecutor {
                     Lang.sendTo(sender, Lang.DEMO_BEGIN.toString());
                     ParticleDemo pd = new ParticleDemo((Player) sender);
                     return true;
-                } else error = false;
+                } else return true;
             } else if (args[0].equalsIgnoreCase("info")) {
                 if (Permission.INFO.hasPerm(sender, true, false)) {
                     EffectHolder eh = EffectHandler.getInstance().getEffect(((Player) sender).getName());
@@ -130,7 +136,7 @@ public class TrailCommand implements CommandExecutor {
                         }
                     }
                     return true;
-                } else error = false;
+                } else return true;
             } else if (args[0].equalsIgnoreCase("start")) {
                 if (Permission.START.hasPerm(sender, true, false)) {
                     EffectHolder eh = EffectHandler.getInstance().createFromFile(sender.getName());
@@ -152,7 +158,7 @@ public class TrailCommand implements CommandExecutor {
                     EffectHandler.getInstance().remove(eh);
                     Lang.sendTo(sender, Lang.EFFECTS_STOPPED.toString());
                     return true;
-                } else error = false;
+                } else return true;
             } else if (args[0].equalsIgnoreCase("clear")) {
                 if (Permission.CLEAR.hasPerm(sender, true, false)) {
                     EffectHolder eh = EffectHandler.getInstance().getEffect(sender.getName());
@@ -163,7 +169,7 @@ public class TrailCommand implements CommandExecutor {
                     EffectHandler.getInstance().clear(eh);
                     Lang.sendTo(sender, Lang.EFFECTS_CLEARED.toString());
                     return true;
-                } else error = false;
+                } else return true;
             } else {
                 if (EnumUtil.isEnumType(ParticleType.class, args[0].toUpperCase())) {
                     ParticleType pt = ParticleType.valueOf(args[0].toUpperCase());
@@ -236,7 +242,7 @@ public class TrailCommand implements CommandExecutor {
                             Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
                         }
                         return true;
-                    } else error = false;
+                    } else return true;
                 }
             }
         } else if (args.length == 2) {
@@ -255,21 +261,23 @@ public class TrailCommand implements CommandExecutor {
                         }
                     }
                     return true;
-                } else error = false;
+                } else return true;
             } else if (args[0].equalsIgnoreCase("player")) {
-                Player target = Bukkit.getPlayer(args[1]);
-                if (target == null) {
-                    Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
+                if (Permission.TRAIL.hasPerm(sender, true, false)) {
+                    Player target = Bukkit.getPlayer(args[1]);
+                    if (target == null) {
+                        Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
+                        return true;
+                    }
+                    ParticleMenu pm = new ParticleMenu(((Player) sender), target.getName());
+                    if (pm.fail) {
+                        Lang.sendTo(sender, Lang.MENU_ERROR.toString());
+                        return true;
+                    }
+                    pm.open(false);
+                    Lang.sendTo(sender, Lang.ADMIN_OPEN_MENU.toString().replace("%player%", target.getName()));
                     return true;
-                }
-                ParticleMenu pm = new ParticleMenu(((Player) sender), target.getName());
-                if (pm.fail) {
-                    Lang.sendTo(sender, Lang.MENU_ERROR.toString());
-                    return true;
-                }
-                pm.open(false);
-                Lang.sendTo(sender, Lang.ADMIN_OPEN_MENU.toString().replace("%player%", target.getName()));
-                return true;
+                } else return true;
             } else if (args[0].equalsIgnoreCase("location")) {
                 if (args[1].equalsIgnoreCase("list")) {
                     if (Permission.LOC_LIST.hasPerm(sender, true, true)) {
@@ -289,13 +297,13 @@ public class TrailCommand implements CommandExecutor {
                             sender.sendMessage(SparkTrail.getInstance().primaryColour + " ---> " + SparkTrail.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
                         }
                         return true;
-                    } else error = false;
+                    } else return true;
                 } else if (args[1].equalsIgnoreCase("stop")) {
                     if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
                         InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.BLOCK, InteractDetails.ModifyType.REMOVE));
                         Lang.sendTo(sender, Lang.INTERACT_BLOCK.toString());
                         return true;
-                    } else error = false;
+                    } else return true;
                 }
             } else {
                 if (EnumUtil.isEnumType(ParticleType.class, args[0].toUpperCase())) {
@@ -308,7 +316,7 @@ public class TrailCommand implements CommandExecutor {
                             if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.PLAYER)) {
                                 pd = new ParticleDetails(pt);
                                 pd.criticalType = type;
-                            } else error = false;
+                            } else return true;
                         } else {
                             Lang.sendTo(sender, Lang.CRITICAL_HELP.toString());
                             return true;
@@ -319,7 +327,7 @@ public class TrailCommand implements CommandExecutor {
                             if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.PLAYER)) {
                                 pd = new ParticleDetails(pt);
                                 pd.potionType = type;
-                            } else error = false;
+                            } else return true;
                         } else {
                             Lang.sendTo(sender, Lang.POTION_HELP.toString());
                             return true;
@@ -330,7 +338,7 @@ public class TrailCommand implements CommandExecutor {
                             if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.PLAYER)) {
                                 pd = new ParticleDetails(pt);
                                 pd.smokeType = type;
-                            } else error = false;
+                            } else return true;
                         } else {
                             Lang.sendTo(sender, Lang.SMOKE_HELP.toString());
                             return true;
@@ -342,7 +350,7 @@ public class TrailCommand implements CommandExecutor {
                                 pd = new ParticleDetails(pt);
                                 pd.swirlType = type;
                                 pd.setPlayer(p.getName(), p.getUniqueId());
-                            } else error = false;
+                            } else return true;
                         } else {
                             Lang.sendTo(sender, Lang.SWIRL_HELP.toString());
                             return true;
@@ -377,20 +385,22 @@ public class TrailCommand implements CommandExecutor {
                 }
             }
         } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("stop")) {
-            Location l = Serialise.getLocation(sender, args, 2);
-            if (l == null) {
-                return true;
-            }
+            if (Permission.LOC_STOP.hasPerm(sender, true, true)) {
+                Location l = Serialise.getLocation(sender, args, 2);
+                if (l == null) {
+                    return true;
+                }
 
-            EffectHolder eh = EffectHandler.getInstance().getEffect(l);
-            if (eh == null) {
-                Lang.sendTo(sender, Lang.LOC_NO_ACTIVE_EFFECTS.toString());
-                return true;
-            }
+                EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+                if (eh == null) {
+                    Lang.sendTo(sender, Lang.LOC_NO_ACTIVE_EFFECTS.toString());
+                    return true;
+                }
 
-            EffectHandler.getInstance().remove(eh);
-            Lang.sendTo(sender, Lang.LOC_EFFECTS_STOPPED.toString());
-            return true;
+                EffectHandler.getInstance().remove(eh);
+                Lang.sendTo(sender, Lang.LOC_EFFECTS_STOPPED.toString());
+                return true;
+            } else return true;
         } else if (args.length == 5 || (args.length >= 6 && (args[4].equalsIgnoreCase("blockbreak") || args[4].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("location")) {
                 Location l = Serialise.getLocation(sender, args, 1);
@@ -442,7 +452,7 @@ public class TrailCommand implements CommandExecutor {
                             Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
                         }
                         return true;
-                    } else error = false;
+                    } else return true;
                 }
             }
         } else if (args.length == 6) {
@@ -462,7 +472,7 @@ public class TrailCommand implements CommandExecutor {
                             if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.LOCATION)) {
                                 pd = new ParticleDetails(pt);
                                 pd.criticalType = type;
-                            } else error = false;
+                            } else return true;
                         } else {
                             Lang.sendTo(sender, Lang.CRITICAL_HELP.toString());
                             return true;
@@ -473,7 +483,7 @@ public class TrailCommand implements CommandExecutor {
                             if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.LOCATION)) {
                                 pd = new ParticleDetails(pt);
                                 pd.potionType = type;
-                            } else error = false;
+                            } else return true;
                         } else {
                             Lang.sendTo(sender, Lang.POTION_HELP.toString());
                             return true;
@@ -484,7 +494,7 @@ public class TrailCommand implements CommandExecutor {
                             if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.LOCATION)) {
                                 pd = new ParticleDetails(pt);
                                 pd.smokeType = type;
-                            } else error = false;
+                            } else return true;
                         } else {
                             Lang.sendTo(sender, Lang.SMOKE_HELP.toString());
                             return true;
@@ -511,10 +521,8 @@ public class TrailCommand implements CommandExecutor {
             }
         }
 
-        if (error) {
-            Lang.sendTo(sender, Lang.COMMAND_ERROR.toString()
-                    .replace("%cmd%", "/" + cmd.getLabel() + " " + (args.length == 0 ? "" : StringUtil.combineSplit(0, args, " "))));
-        }
+        Lang.sendTo(sender, Lang.COMMAND_ERROR.toString()
+                .replace("%cmd%", "/" + cmd.getLabel() + " " + (args.length == 0 ? "" : StringUtil.combineSplit(0, args, " "))));
         return true;
     }
 

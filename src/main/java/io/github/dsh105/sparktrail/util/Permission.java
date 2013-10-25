@@ -15,7 +15,10 @@ public enum Permission {
 
     UPDATE("sparktrail.update", ""),
     TRAIL("sparktrail.trail", "", "sparktrail.trail.*", "sparktrail.*"),
-    TRAIL_LOC("sparktrail.trail.location", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    ADMIN_TRAIL("sparktrail.trail.player", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    ADMIN_TRAIL_EFFECT("sparktrail.trail.player.%effect%", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    LOC_TRAIL("sparktrail.trail.location", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    MOB_TRAIL("sparktrail.trail.mob", "", "sparktrail.trail.*", "sparktrail.trail.mob.*", "sparktrail.*"),
     EFFECT("sparktrail.trail.%effect%", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     CLEAR("sparktrail.trail.clear", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     STOP("sparktrail.trail.stop", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
