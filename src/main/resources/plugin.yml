@@ -1,10 +1,9 @@
-name: SparkTrail
+name: ${project.name}
 version: ${project.version}
 author: DSH105
 description: The Next Generation Of Particle Effect Control
-website: http://dev.bukkit.org/server-mods/sparktrail/
+website: ${project.url}
 main: ${main.class}
-prefix: SparkTrail
 commands:
     stupdate:
         description: Update the plugin.
