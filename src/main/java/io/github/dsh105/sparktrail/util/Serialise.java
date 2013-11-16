@@ -2,6 +2,7 @@ package io.github.dsh105.sparktrail.util;
 
 import io.github.dsh105.sparktrail.chat.BlockData;
 import io.github.dsh105.sparktrail.logger.ConsoleLogger;
+import io.github.dsh105.sparktrail.logger.Logger;
 import io.github.dsh105.sparktrail.util.firework.Colour;
 import io.github.dsh105.sparktrail.util.firework.FireworkType;
 import org.bukkit.*;

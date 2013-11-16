@@ -27,7 +27,7 @@ public enum FireworkType {
 
     public static FireworkType getByType(FireworkEffect.Type type) {
         for (FireworkType t : FireworkType.values()) {
-            if (t.equals(type)) {
+            if (t.getFireworkType().equals(type)) {
                 return t;
             }
         }

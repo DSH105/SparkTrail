@@ -77,6 +77,7 @@ public class InteractListener implements Listener {
                     INTERACTION.remove(p.getName());
                     Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
                 }
+                event.setCancelled(true);
             } else if (INTERACTION.get(p.getName()).equals(InteractDetails.InteractType.MOB)) {
                 MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                 INTERACTION.remove(p.getName());

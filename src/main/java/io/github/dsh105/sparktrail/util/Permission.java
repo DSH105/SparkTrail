@@ -26,6 +26,7 @@ public enum Permission {
     DEMO("sparktrail.trail.demo", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     INFO("sparktrail.trail.info", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     LOC_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
+    PLAYER_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
     LOC_STOP("sparktrail.trail.location.stop", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),;
 
     String perm;

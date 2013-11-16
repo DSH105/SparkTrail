@@ -8,12 +8,20 @@ import java.util.ArrayList;
 
 public class HelpPage {
 
+    public static int getIndex() {
+        return (int) (Math.ceil(HelpEntry.values().length / 5));
+    }
+
+    public static double getDoubleIndex() {
+        return (int) (Math.ceil(HelpEntry.values().length / 5));
+    }
+
     public static String[] getPage(int pageNumber) {
         int perPage = 5;
         HelpEntry[] raw = HelpEntry.values();
         int index = perPage * (Math.abs(pageNumber) - 1);
         ArrayList<String> list = new ArrayList<String>();
-        if (pageNumber <= Math.ceil(raw.length / perPage)) {
+        if (pageNumber <= getDoubleIndex()) {
             for (int i = index; i < (index + perPage); i++) {
                 if (raw.length > i) {
                     list.add(raw[i].getLine());

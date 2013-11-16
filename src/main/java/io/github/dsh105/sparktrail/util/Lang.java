@@ -20,6 +20,7 @@ public enum Lang {
     INT_ONLY("int_only", "&e%string% &a[Arg &e%argNum%&a] needs to be an integer."),
 
     NO_ACTIVE_EFFECTS("no_active_effects", "&aYou do not have any Trail effects active."),
+    PLAYER_NO_ACTIVE_EFFECTS("player_no_active_effects", "&aThere are no Player Trail effects active."),
     LOC_NO_ACTIVE_EFFECTS("loc_no_active_effects", "&aThere are no Location Trail effects active."),
 
     EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. Please see the console for errors."),
@@ -36,6 +37,7 @@ public enum Lang {
     LOC_EFFECTS_STOPPED("loc_effects_stopped", "&aLocation Trail effect stopped."),
     LOC_STOP_ALL("loc_stop_all", "&aAll Location Trail effects have been stopped."),
 
+    INVALID_EFFECT_ARGS("invalid_effect_args", "&aInvalid &e%effect% &aeffect arguments entered. %extra_info%"),
     CRITICAL_HELP("critical_help", "&eCritical &aeffects: &eNormal&a, &eMagic&a."),
     POTION_HELP("potion_help", "&ePotion &aeffects: &eAqua&a, &eBlack&a, &eBlue&a, &eCrimson&a, &eDarkBlue&a, &eDarkGreen&a, &eDarkRed&a, &eGold&a, &eGray&a, &eGreen&a, &ePink&a, &eRed&a."),
     SMOKE_HELP("smoke_help", "&eSmoke &aeffects: &eRed&a, &eBlack&a, &eRainbow&a."),

@@ -6,6 +6,8 @@ import io.github.dsh105.sparktrail.data.EffectCreator;
 import io.github.dsh105.sparktrail.data.EffectHandler;
 import io.github.dsh105.sparktrail.listeners.InteractDetails;
 import io.github.dsh105.sparktrail.listeners.InteractListener;
+import io.github.dsh105.sparktrail.logger.ConsoleLogger;
+import io.github.dsh105.sparktrail.logger.Logger;
 import io.github.dsh105.sparktrail.menu.ParticleMenu;
 import io.github.dsh105.sparktrail.particle.*;
 import io.github.dsh105.sparktrail.particle.type.Critical;
@@ -67,7 +69,7 @@ public class TrailCommand implements CommandExecutor {
         } else if (args.length == 1 || (args.length >= 2 && (args[0].equalsIgnoreCase("blockbreak") || args[0].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("help")) {
                 if (Permission.TRAIL.hasPerm(sender, true, true)) {
-                    sender.sendMessage(c2 + "------------ SparkTrail Help 1/4 ------------");
+                    sender.sendMessage(c2 + "------------ SparkTrail Help 1/" + HelpPage.getIndex() + " ------------");
                     sender.sendMessage(c2 + "Parameters: <> = Required      [] = Optional");
                     for (String s : HelpPage.getPage(1)) {
                         sender.sendMessage(s);
@@ -181,6 +183,11 @@ public class TrailCommand implements CommandExecutor {
                     if (pt.requiresDataMenu()) {
                         if (pt == ParticleType.BLOCKBREAK) {
                             if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
+                                if (args.length == 1) {
+                                    Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Block Break").replace("%extra_info%", "Structure: &e<IdValue> <BlockMeta>"));
+                                    return true;
+                                }
+
                                 BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.blockId = bd.id;
@@ -200,6 +207,11 @@ public class TrailCommand implements CommandExecutor {
                             return true;
                         } else if (pt == ParticleType.FIREWORK) {
                             if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
+                                if (args.length == 1) {
+                                    Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Firework").replace("%extra_info%", "Separate each parameter with a space."));
+                                    return true;
+                                }
+
                                 FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.fireworkEffect = fe;
@@ -254,7 +266,7 @@ public class TrailCommand implements CommandExecutor {
                             Lang.sendTo(sender, Lang.HELP_INDEX_TOO_BIG.toString().replace("%index%", args[1]));
                             return true;
                         }
-                        sender.sendMessage(c2 + "------------ SparkTrail Help " + args[1] + "/4 ------------");
+                        sender.sendMessage(c2 + "------------ SparkTrail Help " + args[1] + "/" + HelpPage.getIndex() + " ------------");
                         sender.sendMessage(c2 + "Parameters: <> = Required      [] = Optional");
                         for (String s : help) {
                             sender.sendMessage(s);
@@ -263,6 +275,26 @@ public class TrailCommand implements CommandExecutor {
                     return true;
                 } else return true;
             } else if (args[0].equalsIgnoreCase("player")) {
+                if (args[1].equalsIgnoreCase("list")) {
+                    if (Permission.PLAYER_LIST.hasPerm(sender, true, true)) {
+                        ArrayList<EffectHolder> list = new ArrayList<EffectHolder>();
+                        for (EffectHolder eh : EffectHandler.getInstance().getEffectHolders()) {
+                            if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
+                                list.add(eh);
+                            }
+                        }
+                        if (list.isEmpty()) {
+                            Lang.sendTo(sender, Lang.PLAYER_NO_ACTIVE_EFFECTS.toString());
+                            return true;
+                        }
+                        sender.sendMessage(SparkTrail.getInstance().secondaryColour + "------------ " + SparkTrail.getInstance().primaryColour + "Player" + " Trail Effects ------------");
+                        for (EffectHolder eh : list) {
+                            sender.sendMessage(SparkTrail.getInstance().primaryColour + eh.getDetails().playerName);
+                            sender.sendMessage(SparkTrail.getInstance().primaryColour + " ---> " + SparkTrail.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
+                        }
+                        return true;
+                    } else return true;
+                }
                 if (Permission.TRAIL.hasPerm(sender, true, false)) {
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target == null) {
@@ -291,7 +323,7 @@ public class TrailCommand implements CommandExecutor {
                             Lang.sendTo(sender, Lang.LOC_NO_ACTIVE_EFFECTS.toString());
                             return true;
                         }
-                        sender.sendMessage(SparkTrail.getInstance().secondaryColour + "------------ Trail Effects ------------");
+                        sender.sendMessage(SparkTrail.getInstance().secondaryColour + "------------ " + SparkTrail.getInstance().primaryColour + "Location" + " Trail Effects ------------");
                         for (EffectHolder eh : list) {
                             sender.sendMessage(SparkTrail.getInstance().primaryColour + Serialise.serialiseLocation(eh.getLocation()));
                             sender.sendMessage(SparkTrail.getInstance().primaryColour + " ---> " + SparkTrail.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
@@ -304,9 +336,23 @@ public class TrailCommand implements CommandExecutor {
                         Lang.sendTo(sender, Lang.INTERACT_BLOCK.toString());
                         return true;
                     } else return true;
+                } else if (args[1].equalsIgnoreCase("start")) {
+                    if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
+                        //TODO
+                        return true;
+                    } else return true;
+                } else if (args[1].equalsIgnoreCase("clear")) {
+                    if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
+                        //TODO
+                        return true;
+                    } else return true;
                 }
             } else {
                 if (EnumUtil.isEnumType(ParticleType.class, args[0].toUpperCase())) {
+                    if (!(sender instanceof Player)) {
+                        Lang.sendTo(sender, Lang.IN_GAME_ONLY.toString());
+                        return true;
+                    }
                     ParticleType pt = ParticleType.valueOf(args[0].toUpperCase());
                     Player p = (Player) sender;
                     ParticleDetails pd = null;
@@ -384,6 +430,18 @@ public class TrailCommand implements CommandExecutor {
 
                 }
             }
+        } else if (args.length == 4 && args[0].equalsIgnoreCase("location")) {
+            if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
+                Location l = Serialise.getLocation(sender, args, 1);
+                if (l == null) {
+                    return true;
+                }
+
+                ParticleMenu pm = new ParticleMenu((Player) sender, l);
+                pm.open(true);
+                Lang.sendTo(sender, Lang.OPEN_MENU.toString());
+                return true;
+            } else return true;
         } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("stop")) {
             if (Permission.LOC_STOP.hasPerm(sender, true, true)) {
                 Location l = Serialise.getLocation(sender, args, 2);
@@ -401,6 +459,26 @@ public class TrailCommand implements CommandExecutor {
                 Lang.sendTo(sender, Lang.LOC_EFFECTS_STOPPED.toString());
                 return true;
             } else return true;
+        } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("start")) {
+            if (Permission.LOC_STOP.hasPerm(sender, true, true)) {
+                Location l = Serialise.getLocation(sender, args, 2);
+                if (l == null) {
+                    return true;
+                }
+
+                //TODO
+                return true;
+            } else return true;
+        } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("clear")) {
+            if (Permission.LOC_STOP.hasPerm(sender, true, true)) {
+                Location l = Serialise.getLocation(sender, args, 2);
+                if (l == null) {
+                    return true;
+                }
+
+                //TODO
+                return true;
+            } else return true;
         } else if (args.length == 5 || (args.length >= 6 && (args[4].equalsIgnoreCase("blockbreak") || args[4].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("location")) {
                 Location l = Serialise.getLocation(sender, args, 1);
@@ -412,6 +490,11 @@ public class TrailCommand implements CommandExecutor {
                     ParticleType pt = ParticleType.valueOf(args[4].toUpperCase());
                     if (pt == ParticleType.BLOCKBREAK) {
                         if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
+                            if (args.length == 5) {
+                                Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Block Break").replace("%extra_info%", "Separate each parameter with a space."));
+                                return true;
+                            }
+
                             BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.blockId = bd.id;
@@ -421,6 +504,10 @@ public class TrailCommand implements CommandExecutor {
                         return true;
                     } else if (pt == ParticleType.FIREWORK) {
                         if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
+                            if (args.length == 5) {
+                                Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Firework").replace("%extra_info%", "Separate each parameter with a space."));
+                                return true;
+                            }
                             FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.fireworkEffect = fe;
@@ -464,8 +551,8 @@ public class TrailCommand implements CommandExecutor {
 
                 ParticleDetails pd = null;
 
-                if (EnumUtil.isEnumType(ParticleType.class, args[5].toUpperCase())) {
-                    ParticleType pt = ParticleType.valueOf(args[5].toUpperCase());
+                if (EnumUtil.isEnumType(ParticleType.class, args[4].toUpperCase())) {
+                    ParticleType pt = ParticleType.valueOf(args[4].toUpperCase());
                     if (pt == ParticleType.CRITICAL) {
                         if (EnumUtil.isEnumType(Critical.CriticalType.class, args[5].toUpperCase())) {
                             Critical.CriticalType type = Critical.CriticalType.valueOf(args[5].toUpperCase());
