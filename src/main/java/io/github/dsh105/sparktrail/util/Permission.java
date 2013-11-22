@@ -15,19 +15,26 @@ public enum Permission {
 
     UPDATE("sparktrail.update", ""),
     TRAIL("sparktrail.trail", "", "sparktrail.trail.*", "sparktrail.*"),
-    ADMIN_TRAIL("sparktrail.trail.player", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
-    ADMIN_TRAIL_EFFECT("sparktrail.trail.player.%effect%", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+
+    PLAYER_TRAIL("sparktrail.trail.player", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    PLAYER_EFFECT("sparktrail.trail.player.%effect%", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+
+    LOC_START("sparktrail.trail.location.start", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    LOC_STOP("sparktrail.trail.location.stop", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    LOC_CLEAR("sparktrail.trail.location.clear", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
     LOC_TRAIL("sparktrail.trail.location", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    LOC_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
+
     MOB_TRAIL("sparktrail.trail.mob", "", "sparktrail.trail.*", "sparktrail.trail.mob.*", "sparktrail.*"),
+
     EFFECT("sparktrail.trail.%effect%", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     CLEAR("sparktrail.trail.clear", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     STOP("sparktrail.trail.stop", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     START("sparktrail.trail.start", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     DEMO("sparktrail.trail.demo", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     INFO("sparktrail.trail.info", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    LOC_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
-    PLAYER_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
-    LOC_STOP("sparktrail.trail.location.stop", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),;
+    PLAYER_LIST("sparktrail.trail.player.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
+    ;
 
     String perm;
     String requiredPerm;

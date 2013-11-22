@@ -332,18 +332,20 @@ public class TrailCommand implements CommandExecutor {
                     } else return true;
                 } else if (args[1].equalsIgnoreCase("stop")) {
                     if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
-                        InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.BLOCK, InteractDetails.ModifyType.REMOVE));
+                        InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.BLOCK, InteractDetails.ModifyType.STOP));
                         Lang.sendTo(sender, Lang.INTERACT_BLOCK.toString());
                         return true;
                     } else return true;
                 } else if (args[1].equalsIgnoreCase("start")) {
-                    if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
-                        //TODO
+                    if (Permission.LOC_START.hasPerm(sender, true, false)) {
+                        InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.BLOCK, InteractDetails.ModifyType.START));
+                        Lang.sendTo(sender, Lang.INTERACT_BLOCK.toString());
                         return true;
                     } else return true;
                 } else if (args[1].equalsIgnoreCase("clear")) {
-                    if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
-                        //TODO
+                    if (Permission.LOC_CLEAR.hasPerm(sender, true, false)) {
+                        InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.BLOCK, InteractDetails.ModifyType.CLEAR));
+                        Lang.sendTo(sender, Lang.INTERACT_BLOCK.toString());
                         return true;
                     } else return true;
                 }

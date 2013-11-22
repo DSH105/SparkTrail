@@ -23,7 +23,8 @@ public enum HelpEntry {
     TRAIL_LOCATION_INFO("/trail location <id> info ", "View active particle effects for a location"),
     TRAIL_LOC_LIST("/trail location list", "List all active Location Trail effects"),
     TRAIL_LOC_START("/trail start", "Start all Trail effects previously stopped"),
-    TRAIL_LOC_STOP("/trail stop", "Pause all active particle effects"),
+    TRAIL_LOC_STOP("/trail stop", "Pause all active Trail effects"),
+    TRAIL_LOC_CLEAR("/trail clear", "Clear all Trail effect information"),
 
     TRAIL_MOB("/trail mob", "Select Entity Trail effects"),
     TRAIL_MOB_INFO("/trail mob <uuid> info ", "View active particle effects for an Entity [by UUID]"),

@@ -21,7 +21,6 @@ public enum Lang {
 
     NO_ACTIVE_EFFECTS("no_active_effects", "&aYou do not have any Trail effects active."),
     PLAYER_NO_ACTIVE_EFFECTS("player_no_active_effects", "&aThere are no Player Trail effects active."),
-    LOC_NO_ACTIVE_EFFECTS("loc_no_active_effects", "&aThere are no Location Trail effects active."),
 
     EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. Please see the console for errors."),
     EFFECT_CREATION_CANCELLED("effect_creation_cancelled", "&e%effect% &aeffect creation cancelled."),
@@ -34,7 +33,12 @@ public enum Lang {
     RANDOM_SELECT_FAILED("random_select_failed", "&aRandom Trail selection has failed."),
     SWIRL_NOT_ALLOWED("swirl_not_allowed", "&eSwirl &aTrail effect cannot be added to blocks."),
 
+    LOC_NO_EFFECTS_RETRY_BLOCK_INTERACT("loc_no_effects_retry_block_interact", "&aLocation Trail effects do no exist for that block. Would you like to retry? [&eYES &aor &eNO&a]"),
     LOC_EFFECTS_STOPPED("loc_effects_stopped", "&aLocation Trail effect stopped."),
+    LOC_EFFECTS_STARTED("loc_effects_started", "&aLocation Trail effect started."),
+    LOC_EFFECTS_CLEARED("loc_effects_cleared", "&aLocation Trail effect cleared."),
+    LOC_NO_ACTIVE_EFFECTS("loc_no_active_effects", "&aThere are no Location Trail effects active."),
+    LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT("loc_no_active_effects_retry_block_interact", "&aThere are no Location Trail effects active. Would you like to retry? [&eYES &aor &eNO&a]"),
     LOC_STOP_ALL("loc_stop_all", "&aAll Location Trail effects have been stopped."),
 
     INVALID_EFFECT_ARGS("invalid_effect_args", "&aInvalid &e%effect% &aeffect arguments entered. %extra_info%"),
@@ -47,12 +51,12 @@ public enum Lang {
     OPEN_MENU("open_menu", "&aOpening Trail Effect GUI"),
     ENTER_BLOCK("enter_block_break", "&aPlease enter effect parameters [&eBlock Break&a]. Structure: &e<IdValue> <BlockMeta>"),
     ENTER_FIREWORK("enter_firework", "&aPlease enter effect parameters [&eFirework&a]. Separate each parameter with a space."),
-    INCORRECT_EFFECT_ARGS("incorrect_blockbreak_args", "&aCould not create &e%effect% &aeffect from String [&e%string%&a]. Would you like to retry? &e[YES or NO]"),
+    INCORRECT_EFFECT_ARGS("incorrect_blockbreak_args", "&aCould not create &e%effect% &aeffect from String [&e%string%&a]. Would you like to retry? [&eYES &aor &eNO&a]"),
     YES_OR_NO("yes_or_no", "&aPlease enter &eYES &aor &eNO&a."),
     INTERACT_BLOCK("interact_block", "&aPlease interact with a target block to modify its Trail effects."),
     INTERACT_MOB("interact_mob", "&aPlease interact with a target entity to modify its Trail effects."),
     RETRY_BLOCK_INTERACT("retry_block_interact", "&aUse the Trail command to create Air Trail effects. Would you like to retry creating a block effect? &e[YES or NO]"),
-    RETRY_MOB_INTERACT("retry_mob_interact", "&aInteract with an Entity (other than a Player) to modify its Trail effects. Would you like to retry? &e[YES or NO]"),
+    RETRY_MOB_INTERACT("retry_mob_interact", "&aInteract with an Entity (other than a Player) to modify its Trail effects. Would you like to retry? [&eYES &aor &eNO&a]"),
     EXECUTE_LOC_LIST("execute_loc_list", "&aExecute &e/" + SparkTrail.getInstance().cmdString + " list &ato view the list of Location Trail effects. Use the IDs to run &e/" + SparkTrail.getInstance().cmdString + " stop <id>&a."),
 
     DEMO_BEGIN("demo_begin", "&aStarting Trail Demo. You may enter the following commands during the presentation: &eNAME&a, &eSTOP&a."),

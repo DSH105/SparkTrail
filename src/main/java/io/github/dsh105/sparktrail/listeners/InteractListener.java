@@ -48,6 +48,8 @@ public class InteractListener implements Listener {
                 INTERACTION.remove(p.getName());
                 Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
             }
+
+            //TODO: This isn't quite finished yet...
             event.setCancelled(true);
         }
     }
@@ -69,13 +71,35 @@ public class InteractListener implements Listener {
                     pm.open(true);
                     INTERACTION.remove(p.getName());
                     Lang.sendTo(p, Lang.OPEN_MENU.toString());
-                } else {
+                } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.STOP)) {
                     EffectHolder eh = EffectHandler.getInstance().getEffect(l);
-                    if (eh != null) {
+                    if (eh == null) {
+                        MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
+                        Lang.sendTo(p, Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString());
+                    } else {
                         EffectHandler.getInstance().remove(eh);
+                        Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
                     }
                     INTERACTION.remove(p.getName());
-                    Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
+                } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.START)) {
+                    EffectHolder eh = EffectHandler.getInstance().createFromFile(l);
+                    if (eh == null) {
+                        MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
+                        Lang.sendTo(p, Lang.LOC_NO_EFFECTS_RETRY_BLOCK_INTERACT.toString());
+                    } else {
+                        Lang.sendTo(p, Lang.LOC_EFFECTS_STARTED.toString());
+                    }
+                    INTERACTION.remove(p.getName());
+                } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.CLEAR)) {
+                    EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+                    if (eh == null) {
+                        MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
+                        Lang.sendTo(p, Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString());
+                    } else {
+                        EffectHandler.getInstance().clear(eh);
+                        Lang.sendTo(p, Lang.LOC_EFFECTS_CLEARED.toString());
+                    }
+                    INTERACTION.remove(p.getName());
                 }
                 event.setCancelled(true);
             } else if (INTERACTION.get(p.getName()).equals(InteractDetails.InteractType.MOB)) {

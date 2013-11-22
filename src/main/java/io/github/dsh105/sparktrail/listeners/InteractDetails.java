@@ -19,6 +19,6 @@ public class InteractDetails {
     }
 
     public enum ModifyType {
-        ADD, REMOVE;
+        ADD, STOP, CLEAR, START;
     }
 }
