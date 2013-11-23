@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -64,7 +65,10 @@ public class TrailCommand implements CommandExecutor {
             } else return true;
         } else if (args.length == 1 && args[0].equalsIgnoreCase("mob")) {
             if (Permission.MOB_TRAIL.hasPerm(sender, true, false)) {
-                
+                Player p = (Player) sender;
+                InteractListener.INTERACTION.put(p.getName(), new InteractDetails(InteractDetails.InteractType.MOB, InteractDetails.ModifyType.ADD));
+                Lang.sendTo(sender, Lang.INTERACT_MOB.toString());
+                return true;
             } else return true;
         } else if (args.length == 1 || (args.length >= 2 && (args[0].equalsIgnoreCase("blockbreak") || args[0].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("help")) {
@@ -346,6 +350,48 @@ public class TrailCommand implements CommandExecutor {
                     if (Permission.LOC_CLEAR.hasPerm(sender, true, false)) {
                         InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.BLOCK, InteractDetails.ModifyType.CLEAR));
                         Lang.sendTo(sender, Lang.INTERACT_BLOCK.toString());
+                        return true;
+                    } else return true;
+                }
+            } else if (args[0].equalsIgnoreCase("mob")) {
+                if (args[1].equalsIgnoreCase("list")) {
+                    if (Permission.MOB_LIST.hasPerm(sender, true, true)) {
+                        ArrayList<EffectHolder> list = new ArrayList<EffectHolder>();
+                        for (EffectHolder eh : EffectHandler.getInstance().getEffectHolders()) {
+                            if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+                                list.add(eh);
+                            }
+                        }
+                        if (list.isEmpty()) {
+                            Lang.sendTo(sender, Lang.MOB_NO_ACTIVE_EFFECTS.toString());
+                            return true;
+                        }
+                        sender.sendMessage(SparkTrail.getInstance().secondaryColour + "------------ " + SparkTrail.getInstance().primaryColour + "Mob" + " Trail Effects ------------");
+                        for (EffectHolder eh : list) {
+                            Entity e = Serialise.getMob(eh.getDetails().mobUuid);
+                            if (e != null) {
+                                sender.sendMessage(SparkTrail.getInstance().primaryColour + StringUtil.capitalise(e.getType().toString()));
+                                sender.sendMessage(SparkTrail.getInstance().primaryColour + " ---> " + SparkTrail.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
+                            }
+                        }
+                        return true;
+                    } else return true;
+                } else if (args[1].equalsIgnoreCase("stop")) {
+                    if (Permission.MOB_STOP.hasPerm(sender, true, false)) {
+                        InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.MOB, InteractDetails.ModifyType.STOP));
+                        Lang.sendTo(sender, Lang.INTERACT_MOB.toString());
+                        return true;
+                    } else return true;
+                } else if (args[1].equalsIgnoreCase("start")) {
+                    if (Permission.MOB_START.hasPerm(sender, true, false)) {
+                        InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.MOB, InteractDetails.ModifyType.START));
+                        Lang.sendTo(sender, Lang.INTERACT_MOB.toString());
+                        return true;
+                    } else return true;
+                } else if (args[1].equalsIgnoreCase("clear")) {
+                    if (Permission.MOB_CLEAR.hasPerm(sender, true, false)) {
+                        InteractListener.INTERACTION.put(sender.getName(), new InteractDetails(InteractDetails.InteractType.MOB, InteractDetails.ModifyType.CLEAR));
+                        Lang.sendTo(sender, Lang.INTERACT_MOB.toString());
                         return true;
                     } else return true;
                 }

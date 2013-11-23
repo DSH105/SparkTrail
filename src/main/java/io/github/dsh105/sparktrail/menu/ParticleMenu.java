@@ -7,6 +7,7 @@ import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.sparktrail.util.Lang;
+import io.github.dsh105.sparktrail.util.Serialise;
 import io.github.dsh105.sparktrail.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -42,7 +43,7 @@ public class ParticleMenu extends Menu {
     public EffectHolder.EffectType effectType;
 
     public ParticleMenu(Player viewer, UUID mobUuid) {
-        this(viewer, EffectHolder.EffectType.MOB, "Trail GUI - " + mobUuid);
+        this(viewer, EffectHolder.EffectType.MOB, "Trail GUI - " + StringUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
         this.mobUuid = mobUuid;
         setItems();
     }

@@ -1,5 +1,6 @@
 package io.github.dsh105.sparktrail.util;
 
+import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.chat.BlockData;
 import io.github.dsh105.sparktrail.logger.ConsoleLogger;
 import io.github.dsh105.sparktrail.logger.Logger;
@@ -8,12 +9,10 @@ import io.github.dsh105.sparktrail.util.firework.FireworkType;
 import org.bukkit.*;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Project by DSH105
@@ -91,6 +90,19 @@ public class Serialise {
             fe = FireworkEffect.builder().withColor(Color.WHITE).withFade(Color.WHITE).build();
         }
         return fe;
+    }
+
+    public static Entity getMob(UUID uuid) {
+        for (World w : SparkTrail.getInstance().getServer().getWorlds()) {
+            Iterator<Entity> i = w.getEntities().listIterator();
+            while (i.hasNext()) {
+                Entity entity = i.next();
+                if (entity.getUniqueId().equals(uuid)) {
+                    return entity;
+                }
+            }
+        }
+        return null;
     }
 
     public static Location getLocation(CommandSender sender, String[] args, int start) {

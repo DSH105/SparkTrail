@@ -41,6 +41,13 @@ public enum Lang {
     LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT("loc_no_active_effects_retry_block_interact", "&aThere are no Location Trail effects active. Would you like to retry? [&eYES &aor &eNO&a]"),
     LOC_STOP_ALL("loc_stop_all", "&aAll Location Trail effects have been stopped."),
 
+    MOB_NO_EFFECTS_RETRY_INTERACT("mob_no_effects_retry_interact", "&aMob Trail effects do no exist for that block. Would you like to retry? [&eYES &aor &eNO&a]"),
+    MOB_EFFECTS_STOPPED("mob_effects_stopped", "&aMob Trail effect stopped."),
+    MOB_EFFECTS_STARTED("mob_effects_started", "&aMob Trail effect started."),
+    MOB_EFFECTS_CLEARED("mob_effects_cleared", "&aMob Trail effect cleared."),
+    MOB_NO_ACTIVE_EFFECTS("mob_no_active_effects", "&aThere are no Mob Trail effects active."),
+    MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT("mob_no_active_effects_retry_interact", "&aThere are no Mob Trail effects active. Would you like to retry? [&eYES &aor &eNO&a]"),
+
     INVALID_EFFECT_ARGS("invalid_effect_args", "&aInvalid &e%effect% &aeffect arguments entered. %extra_info%"),
     CRITICAL_HELP("critical_help", "&eCritical &aeffects: &eNormal&a, &eMagic&a."),
     POTION_HELP("potion_help", "&ePotion &aeffects: &eAqua&a, &eBlack&a, &eBlue&a, &eCrimson&a, &eDarkBlue&a, &eDarkGreen&a, &eDarkRed&a, &eGold&a, &eGray&a, &eGreen&a, &ePink&a, &eRed&a."),

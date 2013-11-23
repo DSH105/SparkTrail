@@ -4,6 +4,8 @@ import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.config.options.ConfigOptions;
 import io.github.dsh105.sparktrail.data.EffectCreator;
 import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.logger.ConsoleLogger;
+import io.github.dsh105.sparktrail.logger.Logger;
 import io.github.dsh105.sparktrail.particle.type.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -277,9 +279,16 @@ public class EffectHolder extends BukkitRunnable {
                 return false;
             }
             Entity e = null;
-            for (Entity entity : this.world.getEntities()) {
-                if (entity.getUniqueId().equals(this.details.mobUuid)) {
-                    e = entity;
+            for (World w : SparkTrail.getInstance().getServer().getWorlds()) {
+                Iterator<Entity> i = w.getEntities().listIterator();
+                while (i.hasNext()) {
+                    Entity entity = i.next();
+                    if (entity.getUniqueId().equals(this.details.mobUuid)) {
+                        if (this.world == null || this.world != w) {
+                            this.world = w;
+                        }
+                        e = entity;
+                    }
                 }
             }
             if (e == null) {

@@ -15,6 +15,7 @@ import io.github.dsh105.sparktrail.particle.type.Swirl;
 import io.github.dsh105.sparktrail.util.EnumUtil;
 import io.github.dsh105.sparktrail.util.Lang;
 import io.github.dsh105.sparktrail.util.Permission;
+import io.github.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -279,7 +280,7 @@ public class MenuListener implements Listener {
     }
 
     private boolean addEffect(Player player, ParticleDetails pd, EffectHolder.EffectType effectType, Menu menu, String data) {
-        EffectHolder eh = getHolder(player, effectType, pd.getParticleType(), menu, data);
+        EffectHolder eh = getHolder(player, effectType, pd.getParticleType(), menu);
 
         if (eh == null) {
             Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + pd.getParticleType().toString() + ") [Reported from MenuListener].", true);
@@ -292,7 +293,7 @@ public class MenuListener implements Listener {
     }
 
     private boolean removeEffect(Player player, ParticleDetails pd, EffectHolder.EffectType effectType, Menu menu, String data) {
-        EffectHolder eh = getHolder(player, effectType, pd.getParticleType(), menu, data);
+        EffectHolder eh = getHolder(player, effectType, pd.getParticleType(), menu);
 
         if (eh == null) {
             Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + pd.getParticleType().toString() + ") [Reported from MenuListener].", true);
@@ -305,7 +306,7 @@ public class MenuListener implements Listener {
     }
 
     private boolean addEffect(Player player, EffectHolder.EffectType effectType, ParticleType particleType, Menu menu, String data) {
-        EffectHolder eh = getHolder(player, effectType, particleType, menu, data);
+        EffectHolder eh = getHolder(player, effectType, particleType, menu);
 
         if (eh == null) {
             Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + particleType.toString() + ") [Reported from MenuListener].", true);
@@ -317,7 +318,7 @@ public class MenuListener implements Listener {
             ParticleDetails pd = new ParticleDetails(particleType);
             Player p = Bukkit.getPlayerExact(menu.playerName);
             if (p == null) {
-                Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + data + ") while adding Particle Type (" + particleType.toString() + ") [Reported from MenuListener].", true);
+                Logger.log(Logger.LogLevel.SEVERE, "Effect creation failed (" + menu.playerName + ") while adding Particle Type (" + particleType.toString() + ") [Reported from MenuListener].", true);
                 return false;
             }
             pd.setPlayer(menu.playerName, p.getUniqueId());
@@ -337,8 +338,9 @@ public class MenuListener implements Listener {
     }
 
     private boolean removeEffect(Player player, EffectHolder.EffectType effectType, ParticleType particleType, Menu menu, String data) {
-        EffectHolder eh = getHolder(player, effectType, particleType, menu, data);
+        EffectHolder eh = getHolder(player, effectType, particleType, menu);
         if (eh == null) {
+            Logger.log(Logger.LogLevel.SEVERE, "Effect modification failed (" + data + ") while removing Particle Type (" + particleType.toString() + ") [Reported from MenuListener].", true);
             return false;
         }
 
@@ -347,13 +349,13 @@ public class MenuListener implements Listener {
         return true;
     }
 
-    private EffectHolder getHolder(Player player, EffectHolder.EffectType effectType, ParticleType particleType, Menu menu, String data) {
+    private EffectHolder getHolder(Player player, EffectHolder.EffectType effectType, ParticleType particleType, Menu menu) {
         EffectHolder eh = null;
         if (effectType == EffectHolder.EffectType.LOCATION) {
             try {
                 eh = EffectHandler.getInstance().getEffect(menu.location);
             } catch (Exception e) {
-                Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + data + ") whilst finding EffectHolder (" + particleType.toString() + ")", e, true);
+                Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + Serialise.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ")", e, true);
                 return null;
             }
         } else if (effectType == EffectHolder.EffectType.PLAYER) {
@@ -367,26 +369,26 @@ public class MenuListener implements Listener {
             if (effectType == EffectHolder.EffectType.PLAYER) {
                 Player p = Bukkit.getPlayerExact(menu.playerName);
                 if (p == null) {
-                    Logger.log(Logger.LogLevel.SEVERE, "Failed to create Player Effect (" + data + ") while finding Effect Holder (" + particleType.toString() + ") [Reported from MenuListener].", true);
+                    Logger.log(Logger.LogLevel.SEVERE, "Failed to create Player Effect (" + menu.playerName + ") while finding Effect Holder (" + particleType.toString() + ") [Reported from MenuListener].", true);
                     return null;
                 }
                 eh = EffectCreator.createPlayerHolder(hashSet, effectType, menu.playerName);
             } else if (effectType == EffectHolder.EffectType.LOCATION) {
                 Location l;
                 try {
-                    String[] s = data.split(", ");
-                    l = new Location(Bukkit.getWorld(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]));
+                    l = menu.location;
+                    /*String[] s = data.split(", ");
+                    l = new Location(Bukkit.getWorld(s[0]), Integer.parseInt(s[1]), Integer.parseInt(s[2]), Integer.parseInt(s[3]));*/
                 } catch (Exception e) {
                     l = null;
                 }
                 if (l == null) {
-                    Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + data + ") whilst finding EffectHolder (" + particleType.toString() + ") [Reported from MenuListener].", true);
+                    Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + Serialise.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ") [Reported from MenuListener].", true);
                     return null;
                 }
                 eh = EffectCreator.createLocHolder(hashSet, effectType, l);
             } else if (effectType == EffectHolder.EffectType.MOB) {
-                UUID uuid = UUID.fromString(data);
-                eh = EffectCreator.createMobHolder(hashSet, effectType, uuid);
+                eh = EffectCreator.createMobHolder(hashSet, effectType, menu.mobUuid);
             }
         }
 

@@ -12,6 +12,7 @@ import io.github.dsh105.sparktrail.particle.type.Potion;
 import io.github.dsh105.sparktrail.particle.type.Smoke;
 import io.github.dsh105.sparktrail.particle.type.Swirl;
 import io.github.dsh105.sparktrail.util.Lang;
+import io.github.dsh105.sparktrail.util.Serialise;
 import io.github.dsh105.sparktrail.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,7 +49,7 @@ public class DataMenu extends Menu {
     public ParticleType particleType;
 
     public DataMenu(Player viewer, UUID mobUuid, ParticleType particleType) {
-        this(viewer, EffectHolder.EffectType.MOB, StringUtil.capitalise(particleType.toString()) + " - Trail GUI - " + mobUuid);
+        this(viewer, EffectHolder.EffectType.MOB, StringUtil.capitalise(particleType.toString()) + " - Trail GUI - " + StringUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
         this.particleType = particleType;
         this.mobUuid = mobUuid;
         setItems();

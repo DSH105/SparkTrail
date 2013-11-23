@@ -25,7 +25,11 @@ public enum Permission {
     LOC_TRAIL("sparktrail.trail.location", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
     LOC_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
 
-    MOB_TRAIL("sparktrail.trail.mob", "", "sparktrail.trail.*", "sparktrail.trail.mob.*", "sparktrail.*"),
+    MOB_START("sparktrail.trail.mob.start", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    MOB_STOP("sparktrail.trail.mob.stop", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    MOB_CLEAR("sparktrail.trail.mob.clear", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    MOB_TRAIL("sparktrail.trail.mob", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    MOB_LIST("sparktrail.trail.mob.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
 
     EFFECT("sparktrail.trail.%effect%", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     CLEAR("sparktrail.trail.clear", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
