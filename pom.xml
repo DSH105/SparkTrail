@@ -10,8 +10,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vault.version>1.2.27</vault.version>
         <vnp.version>3.18.4-SNAPSHOT</vnp.version>
-        <minecraft.version>1.6.4</minecraft.version>
-        <craftbukkit.version>R1.1</craftbukkit.version>
+        <minecraft.version>1.7.2</minecraft.version>
+        <craftbukkit.version>R0.1</craftbukkit.version>
         <cb_package>v1_6_R3</cb_package>
         <main.class>io.github.dsh105.sparktrail.SparkTrail</main.class>
     </properties>

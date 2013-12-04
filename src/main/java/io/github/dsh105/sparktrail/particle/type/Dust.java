@@ -1,21 +1,29 @@
-package io.github.dsh105.sparktrail.particle;
+package io.github.dsh105.sparktrail.particle.type;
 
 import io.github.dsh105.sparktrail.logger.Logger;
+import io.github.dsh105.sparktrail.particle.EffectHolder;
+import io.github.dsh105.sparktrail.particle.PacketEffect;
+import io.github.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.sparktrail.util.ReflectionUtil;
 import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 
-public abstract class PacketEffect extends Effect {
+public class Dust extends PacketEffect {
 
-    public PacketEffect(EffectHolder effectHolder, ParticleType particleType) {
+    public int idValue;
+    public int metaValue;
+
+    public Dust(EffectHolder effectHolder, ParticleType particleType, int idValue, int metaValue) {
         super(effectHolder, particleType);
+        this.idValue = idValue;
+        this.metaValue = metaValue;
     }
 
+    @Override
     public Object createPacket() {
         return new PacketPlayOutWorldParticles(
-                this.getNmsName(),
+                this.getNmsName() + "_" + idValue + "_" + metaValue,
                 (float) this.getX(),
                 (float) this.getY(),
                 (float) this.getZ(),
@@ -23,31 +31,11 @@ public abstract class PacketEffect extends Effect {
                 this.getSpeed(), this.getParticleAmount());
     }
 
-    public abstract String getNmsName();
-
-    public abstract float getSpeed();
-
-    public abstract int getParticleAmount();
-
     @Override
-    public boolean play() {
-        boolean shouldPlay = super.play();
-        if (shouldPlay) {
-            for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
-                try {
-                    ReflectionUtil.sendPacket(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.createPacket());
-                } catch (Exception e) {
-                    Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to players within a radius of 20 [" + this.getWorld() + "," + this.getX() + "," + this.getY() + "," + this.getZ() + "].", e, true);
-                }
-            }
-        }
-        return shouldPlay;
-    }
-
     public void playDemo(Player p) {
         try {
             PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                    this.getNmsName(),
+                    this.getNmsName() + "_" + idValue + "_" + metaValue,
                     (float) p.getLocation().getX(),
                     (float) p.getLocation().getY(),
                     (float) p.getLocation().getZ(),
@@ -57,5 +45,20 @@ public abstract class PacketEffect extends Effect {
         } catch (Exception e) {
             Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to player [" + p.getName() + "].", e, true);
         }
+    }
+
+    @Override
+    public String getNmsName() {
+        return "blockdust";
+    }
+
+    @Override
+    public float getSpeed() {
+        return 0F;
+    }
+
+    @Override
+    public int getParticleAmount() {
+        return 100;
     }
 }

@@ -5,6 +5,7 @@ import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.sparktrail.util.ReflectionUtil;
+import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -32,20 +33,16 @@ public class Firework extends Effect {
 
     public void playDemo(Player p) {
         try {
-            Object packet = Class.forName("net.minecraft.server." + ReflectionUtil.getVersionString() + ".Packet63WorldParticles").getConstructor().newInstance();
-            ReflectionUtil.setValue(packet, "a", "fireworksSpark");
-            ReflectionUtil.setValue(packet, "b", (float) p.getLocation().getX());
-            ReflectionUtil.setValue(packet, "c", (float) p.getLocation().getY());
-            ReflectionUtil.setValue(packet, "d", (float) p.getLocation().getZ());
-            ReflectionUtil.setValue(packet, "e", 0.5f);
-            ReflectionUtil.setValue(packet, "f", 1f);
-            ReflectionUtil.setValue(packet, "g", 0.5f);
-            ReflectionUtil.setValue(packet, "h", 50);
-            ReflectionUtil.setValue(packet, "i", 0);
-
+            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                    "fireworksSpark",
+                    (float) p.getLocation().getX(),
+                    (float) p.getLocation().getY(),
+                    (float) p.getLocation().getZ(),
+                    0.5F, 1F, 0.5F,
+                    50F, 30);
             ReflectionUtil.sendPacket(p, packet);
         } catch (Exception e) {
-            Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (Packet63WorldParticles) to player [" + p.getName() + "].", e, true);
+            Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to player [" + p.getName() + "].", e, true);
         }
     }
 }

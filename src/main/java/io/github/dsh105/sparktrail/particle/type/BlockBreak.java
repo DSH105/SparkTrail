@@ -5,6 +5,7 @@ import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.PacketEffect;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.sparktrail.util.ReflectionUtil;
+import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 import org.bukkit.entity.Player;
 
 
@@ -21,46 +22,34 @@ public class BlockBreak extends PacketEffect {
 
     @Override
     public Object createPacket() {
-        try {
-            Object packet = Class.forName("net.minecraft.server." + ReflectionUtil.getVersionString() + ".Packet63WorldParticles").getConstructor().newInstance();
-            ReflectionUtil.setValue(packet, "a", this.getNmsName() + "_" + idValue + "_" + metaValue);
-            ReflectionUtil.setValue(packet, "b", (float) this.getX());
-            ReflectionUtil.setValue(packet, "c", (float) this.getY());
-            ReflectionUtil.setValue(packet, "d", (float) this.getZ());
-            ReflectionUtil.setValue(packet, "e", 0.5f);
-            ReflectionUtil.setValue(packet, "f", 1f);
-            ReflectionUtil.setValue(packet, "g", 0.5f);
-            ReflectionUtil.setValue(packet, "h", this.getSpeed());
-            ReflectionUtil.setValue(packet, "i", this.getParticleAmount());
-            return packet;
-        } catch (Exception e) {
-            Logger.log(Logger.LogLevel.SEVERE, "Failed to create Packet Object (Packet63WorldParticles).", e, true);
-        }
-        return null;
+        return new PacketPlayOutWorldParticles(
+                this.getNmsName() + "_" + idValue + "_" + metaValue,
+                (float) this.getX(),
+                (float) this.getY(),
+                (float) this.getZ(),
+                0.5F, 1F, 0.5F,
+                this.getSpeed(), this.getParticleAmount());
     }
 
     @Override
     public void playDemo(Player p) {
         try {
-            Object packet = Class.forName("net.minecraft.server." + ReflectionUtil.getVersionString() + ".Packet63WorldParticles").getConstructor().newInstance();
-            ReflectionUtil.setValue(packet, "a", this.getNmsName() + "_" + idValue + "_" + metaValue);
-            ReflectionUtil.setValue(packet, "b", (float) p.getLocation().getX());
-            ReflectionUtil.setValue(packet, "c", (float) p.getLocation().getY());
-            ReflectionUtil.setValue(packet, "d", (float) p.getLocation().getZ());
-            ReflectionUtil.setValue(packet, "e", 0.5f);
-            ReflectionUtil.setValue(packet, "f", 1f);
-            ReflectionUtil.setValue(packet, "g", 0.5f);
-            ReflectionUtil.setValue(packet, "h", this.getSpeed());
-            ReflectionUtil.setValue(packet, "i", this.getParticleAmount());
+            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                    this.getNmsName() + "_" + idValue + "_" + metaValue,
+                    (float) p.getLocation().getX(),
+                    (float) p.getLocation().getY(),
+                    (float) p.getLocation().getZ(),
+                    0.5F, 1F, 0.5F,
+                    this.getSpeed(), this.getParticleAmount());
             ReflectionUtil.sendPacket(p, packet);
         } catch (Exception e) {
-            Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (Packet63WorldParticles) to player [" + p.getName() + "].", e, true);
+            Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to player [" + p.getName() + "].", e, true);
         }
     }
 
     @Override
     public String getNmsName() {
-        return "tilecrack";
+        return "blockcrack";
     }
 
     @Override
