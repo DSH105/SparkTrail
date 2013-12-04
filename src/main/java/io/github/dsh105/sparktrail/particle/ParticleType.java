@@ -24,6 +24,7 @@ public enum ParticleType {
     CLOUD(Cloud.class, 20, Material.getMaterial(351), (short) 15, "Cloud", false),
     COOKIE(Cookie.class, 20, Material.COOKIE, (short) 0, "Cookie", false),
     CRITICAL(Critical.class, 20, Material.IRON_SWORD, (short) 0, "Critical", true),
+    DUST(Dust.class, 20, Material.SULPHUR, (short) 0, "Dust", true),
     ENDER(Ender.class, 20, Material.EYE_OF_ENDER, (short) 0, "Ender", false),
     EXPLOSION(Explosion.class, 20, Material.TNT, (short) 0, "Explosion", false),
     FIRE(Fire.class, 20, Material.FIRE, (short) 0, "Fire", false),
