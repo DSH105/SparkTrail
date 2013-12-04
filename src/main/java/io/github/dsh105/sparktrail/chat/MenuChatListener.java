@@ -23,9 +23,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 
-/**
- * Project by DSH105
- */
 
 public class MenuChatListener implements Listener {
 

@@ -7,9 +7,6 @@ import io.github.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.sparktrail.util.ReflectionUtil;
 import org.bukkit.entity.Player;
 
-/**
- * Project by DSH105
- */
 
 public class BlockBreak extends PacketEffect {
 

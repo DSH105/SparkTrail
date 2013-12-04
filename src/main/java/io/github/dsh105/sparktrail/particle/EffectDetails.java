@@ -2,9 +2,6 @@ package io.github.dsh105.sparktrail.particle;
 
 import java.util.UUID;
 
-/**
- * Project by DSH105
- */
 
 public class EffectDetails {
 

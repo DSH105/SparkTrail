@@ -1,8 +1,5 @@
 package io.github.dsh105.sparktrail.chat;
 
-/**
- * Project by DSH105
- */
 
 public class BlockData {
 

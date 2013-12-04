@@ -2,9 +2,6 @@ package io.github.dsh105.sparktrail.util.firework;
 
 import org.bukkit.Color;
 
-/**
- * Project by DSH105
- */
 
 public enum Colour {
 

@@ -3,9 +3,6 @@ package io.github.dsh105.sparktrail.logger;
 import io.github.dsh105.sparktrail.SparkTrail;
 import org.bukkit.command.ConsoleCommandSender;
 
-/**
- * Project by DSH105
- */
 
 public class ConsoleLogger {
 

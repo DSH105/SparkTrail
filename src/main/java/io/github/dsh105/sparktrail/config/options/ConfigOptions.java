@@ -3,9 +3,6 @@ package io.github.dsh105.sparktrail.config.options;
 import io.github.dsh105.sparktrail.config.YAMLConfig;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 
-/**
- * Project by DSH105
- */
 
 public class ConfigOptions extends Options {
 

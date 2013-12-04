@@ -9,9 +9,6 @@ import org.bukkit.FireworkEffect;
 
 import java.util.UUID;
 
-/**
- * Project by DSH105
- */
 
 public class ParticleDetails {
 

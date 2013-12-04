@@ -2,9 +2,6 @@ package io.github.dsh105.sparktrail.util.firework;
 
 import org.bukkit.FireworkEffect;
 
-/**
- * Project by DSH105
- */
 
 public enum FireworkType {
 

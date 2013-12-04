@@ -27,9 +27,6 @@ import org.bukkit.inventory.Inventory;
 import java.util.HashSet;
 import java.util.UUID;
 
-/**
- * Project by DSH105
- */
 
 public class MenuListener implements Listener {
 

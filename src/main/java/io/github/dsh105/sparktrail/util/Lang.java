@@ -5,9 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- * Project by DSH105
- */
 
 public enum Lang {
 

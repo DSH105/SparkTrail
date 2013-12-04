@@ -37,9 +37,6 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * Project by DSH105
- */
 
 public class SparkTrail extends JavaPlugin {
 

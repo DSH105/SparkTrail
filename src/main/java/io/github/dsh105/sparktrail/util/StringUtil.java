@@ -2,9 +2,6 @@ package io.github.dsh105.sparktrail.util;
 
 import org.bukkit.ChatColor;
 
-/**
- * Project by DSH105
- */
 
 public class StringUtil {
 

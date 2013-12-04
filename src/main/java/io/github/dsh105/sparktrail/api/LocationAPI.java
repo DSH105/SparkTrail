@@ -8,9 +8,6 @@ import org.bukkit.Location;
 
 import java.util.HashSet;
 
-/**
- * Project by DSH105
- */
 
 public class LocationAPI {
 

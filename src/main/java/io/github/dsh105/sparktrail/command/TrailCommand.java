@@ -29,9 +29,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
-/**
- * Project by DSH105
- */
 
 public class TrailCommand implements CommandExecutor {
 

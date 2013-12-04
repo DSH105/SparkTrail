@@ -5,9 +5,6 @@ import org.bukkit.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Project by DSH105
- */
 
 public class GeometryUtil {
 

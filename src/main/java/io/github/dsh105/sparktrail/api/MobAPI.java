@@ -7,9 +7,6 @@ import org.bukkit.entity.Entity;
 import java.util.HashSet;
 import java.util.UUID;
 
-/**
- * Project by DSH105
- */
 
 public class MobAPI {
 

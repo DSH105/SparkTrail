@@ -2,9 +2,6 @@ package io.github.dsh105.sparktrail.mysql;
 
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 
-/**
- * Project by DSH105
- */
 
 public class SQLEffectHandler {
 

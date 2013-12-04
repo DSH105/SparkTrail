@@ -11,9 +11,6 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-/**
- * Project by DSH105
- */
 
 public class Swirl extends Effect {
 

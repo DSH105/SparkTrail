@@ -9,9 +9,6 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-/**
- * Project by DSH105
- */
 
 public class Firework extends Effect {
 

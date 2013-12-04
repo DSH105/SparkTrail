@@ -2,9 +2,6 @@ package io.github.dsh105.sparktrail.command;
 
 import java.util.ArrayList;
 
-/**
- * Project by DSH105
- */
 
 public class HelpPage {
 

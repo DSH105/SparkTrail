@@ -4,9 +4,6 @@ import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.PacketEffect;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 
-/**
- * Project by DSH105
- */
 
 public class Splash extends PacketEffect {
 

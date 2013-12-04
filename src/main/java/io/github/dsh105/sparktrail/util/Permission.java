@@ -7,9 +7,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-/**
- * Project by DSH105
- */
 
 public enum Permission {
 

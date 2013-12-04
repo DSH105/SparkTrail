@@ -18,9 +18,6 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashSet;
 import java.util.Iterator;
 
-/**
- * Project by DSH105
- */
 
 public class EffectHolder extends BukkitRunnable {
 

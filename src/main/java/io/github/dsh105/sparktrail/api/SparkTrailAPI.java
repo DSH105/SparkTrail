@@ -5,9 +5,6 @@ import io.github.dsh105.sparktrail.particle.EffectHolder;
 
 import java.util.HashSet;
 
-/**
- * Project by DSH105
- */
 
 public class SparkTrailAPI {
 

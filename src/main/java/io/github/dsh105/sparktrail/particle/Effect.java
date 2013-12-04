@@ -9,9 +9,6 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-/**
- * Project by DSH105
- */
 
 public abstract class Effect {
 

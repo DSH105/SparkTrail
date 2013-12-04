@@ -6,9 +6,6 @@ import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 
-/**
- * Project by DSH105
- */
 
 public class PlayerAPI {
 

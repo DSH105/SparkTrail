@@ -5,9 +5,6 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-/**
- * Project by DSH105
- */
 
 public abstract class Menu {
 

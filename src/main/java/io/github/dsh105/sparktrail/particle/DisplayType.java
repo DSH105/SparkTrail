@@ -5,9 +5,6 @@ import org.bukkit.Location;
 
 import java.util.ArrayList;
 
-/**
- * Project by DSH105
- */
 
 public enum DisplayType {
 

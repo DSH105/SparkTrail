@@ -2,9 +2,6 @@ package io.github.dsh105.sparktrail.command;
 
 import org.bukkit.ChatColor;
 
-/**
- * Project by DSH105
- */
 
 public enum HelpEntry {
 

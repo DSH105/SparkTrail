@@ -8,9 +8,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-/**
- * Project by DSH105
- */
 
 public enum ParticleDataItem {
 

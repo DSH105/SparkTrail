@@ -5,9 +5,6 @@ import io.github.dsh105.sparktrail.util.ReflectionUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-/**
- * Project by DSH105
- */
 
 public abstract class PacketEffect extends Effect {
 

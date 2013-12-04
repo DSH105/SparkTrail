@@ -6,9 +6,6 @@ import io.github.dsh105.sparktrail.particle.ParticleType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-/**
- * Project by DSH105
- */
 
 public class Ender extends Effect {
 

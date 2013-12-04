@@ -9,9 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
-/**
- * Project by DSH105
- */
 
 public class ParticleDemo extends BukkitRunnable {
 

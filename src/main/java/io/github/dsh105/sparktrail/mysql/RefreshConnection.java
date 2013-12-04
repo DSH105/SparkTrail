@@ -3,9 +3,6 @@ package io.github.dsh105.sparktrail.mysql;
 import io.github.dsh105.sparktrail.SparkTrail;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**
- * Project by DSH105
- */
 
 public class RefreshConnection extends BukkitRunnable {
 

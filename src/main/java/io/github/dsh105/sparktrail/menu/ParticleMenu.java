@@ -21,9 +21,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.HashMap;
 import java.util.UUID;
 
-/**
- * Project by DSH105
- */
 
 public class ParticleMenu extends Menu {
 

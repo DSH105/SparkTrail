@@ -16,9 +16,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.HashMap;
 
-/**
- * Project by DSH105
- */
 
 public class InteractListener implements Listener {
 

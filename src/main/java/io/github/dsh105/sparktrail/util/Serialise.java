@@ -14,9 +14,6 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-/**
- * Project by DSH105
- */
 
 public class Serialise {
 

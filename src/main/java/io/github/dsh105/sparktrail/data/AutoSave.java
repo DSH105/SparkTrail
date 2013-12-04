@@ -4,9 +4,6 @@ import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**
- * Project by DSH105
- */
 
 public class AutoSave {
 
