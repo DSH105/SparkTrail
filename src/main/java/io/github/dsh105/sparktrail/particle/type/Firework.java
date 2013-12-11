@@ -25,7 +25,7 @@ public class Firework extends Effect {
         boolean shouldPlay = super.play();
         if (shouldPlay) {
             for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
-                ReflectionUtil.spawnFirework(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.fireworkEffect);
+                ReflectionUtil.spawnFirework(new Location(l.getWorld(), l.getX(), l.getY() + 1, l.getZ()), this.fireworkEffect);
             }
         }
         return shouldPlay;
