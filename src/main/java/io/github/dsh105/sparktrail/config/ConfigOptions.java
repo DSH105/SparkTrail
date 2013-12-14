@@ -1,6 +1,7 @@
-package io.github.dsh105.sparktrail.config.options;
+package io.github.dsh105.sparktrail.config;
 
-import io.github.dsh105.sparktrail.config.YAMLConfig;
+import io.github.dsh105.dshutils.config.YAMLConfig;
+import io.github.dsh105.dshutils.config.options.Options;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 
 

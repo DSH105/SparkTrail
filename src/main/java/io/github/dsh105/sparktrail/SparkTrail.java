@@ -1,26 +1,29 @@
 package io.github.dsh105.sparktrail;
 
+import io.github.dsh105.dshutils.Metrics;
+import io.github.dsh105.dshutils.Updater;
+import io.github.dsh105.dshutils.Version;
+import io.github.dsh105.dshutils.command.CustomCommand;
+import io.github.dsh105.dshutils.config.YAMLConfig;
+import io.github.dsh105.dshutils.config.YAMLConfigManager;
+import io.github.dsh105.dshutils.logger.ConsoleLogger;
+import io.github.dsh105.dshutils.logger.Logger;
+import io.github.dsh105.dshutils.util.ReflectionUtil;
 import io.github.dsh105.sparktrail.api.SparkTrailAPI;
 import io.github.dsh105.sparktrail.chat.MenuChatListener;
 import io.github.dsh105.sparktrail.command.CommandComplete;
-import io.github.dsh105.sparktrail.command.CustomCommand;
 import io.github.dsh105.sparktrail.command.TrailCommand;
-import io.github.dsh105.sparktrail.config.YAMLConfig;
-import io.github.dsh105.sparktrail.config.YAMLConfigManager;
-import io.github.dsh105.sparktrail.config.options.ConfigOptions;
+import io.github.dsh105.sparktrail.config.ConfigOptions;
 import io.github.dsh105.sparktrail.data.AutoSave;
 import io.github.dsh105.sparktrail.data.EffectHandler;
 import io.github.dsh105.sparktrail.listeners.InteractListener;
 import io.github.dsh105.sparktrail.listeners.PlayerListener;
-import io.github.dsh105.sparktrail.logger.ConsoleLogger;
-import io.github.dsh105.sparktrail.logger.Logger;
 import io.github.dsh105.sparktrail.menu.MenuListener;
 import io.github.dsh105.sparktrail.mysql.RefreshConnection;
 import io.github.dsh105.sparktrail.mysql.SQLConnection;
 import io.github.dsh105.sparktrail.mysql.SQLEffectHandler;
 import io.github.dsh105.sparktrail.util.Lang;
 import io.github.dsh105.sparktrail.util.Permission;
-import io.github.dsh105.sparktrail.util.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -70,10 +73,10 @@ public class SparkTrail extends JavaPlugin {
         this.plugin = this;
         PluginManager manager = getServer().getPluginManager();
 
-        ConsoleLogger.initiate();
-        Logger.initiate();
+        ConsoleLogger.initiate(this);
+        Logger.initiate(this, "SparkTrail", "[SparkTrail]");
 
-        if (!(Version.getNMSPackage()).equalsIgnoreCase(ReflectionUtil.getVersionString())) {
+        if (!(Version.getNMSPackage()).equalsIgnoreCase(ReflectionUtil.getVersionString(this))) {
             ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "SparkTrail " + ChatColor.YELLOW
                     + this.getDescription().getVersion() + ChatColor.GREEN
                     + " is only compatible with:");
@@ -177,6 +180,7 @@ public class SparkTrail extends JavaPlugin {
 
         // Register custom commands
         // Command string based off the string defined in config.yml
+        CustomCommand.initiate(this);
         try {
             if (Bukkit.getServer() instanceof CraftServer) {
                 final Field f = CraftServer.class.getDeclaredField("commandMap");

@@ -1,10 +1,10 @@
 package io.github.dsh105.sparktrail.particle.type;
 
-import io.github.dsh105.sparktrail.logger.Logger;
+import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleType;
-import io.github.dsh105.sparktrail.util.ReflectionUtil;
+import io.github.dsh105.dshutils.util.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

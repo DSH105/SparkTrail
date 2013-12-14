@@ -1,7 +1,7 @@
 package io.github.dsh105.sparktrail.particle;
 
-import io.github.dsh105.sparktrail.logger.Logger;
-import io.github.dsh105.sparktrail.util.ReflectionUtil;
+import io.github.dsh105.dshutils.logger.Logger;
+import io.github.dsh105.dshutils.util.ReflectionUtil;
 import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

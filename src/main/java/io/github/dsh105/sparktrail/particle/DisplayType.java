@@ -1,6 +1,6 @@
 package io.github.dsh105.sparktrail.particle;
 
-import io.github.dsh105.sparktrail.util.GeometryUtil;
+import io.github.dsh105.dshutils.util.GeometryUtil;
 import org.bukkit.Location;
 
 import java.util.ArrayList;

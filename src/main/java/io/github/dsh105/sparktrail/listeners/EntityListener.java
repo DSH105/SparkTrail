@@ -5,4 +5,5 @@ import org.bukkit.event.Listener;
 
 public class EntityListener implements Listener {
 
+    //TODO: on entity despawn
 }

@@ -1,9 +1,11 @@
 package io.github.dsh105.sparktrail.util;
 
+import io.github.dsh105.dshutils.util.EnumUtil;
+import io.github.dsh105.dshutils.util.GeneralUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.chat.BlockData;
-import io.github.dsh105.sparktrail.logger.ConsoleLogger;
-import io.github.dsh105.sparktrail.logger.Logger;
+import io.github.dsh105.dshutils.logger.ConsoleLogger;
+import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.util.firework.Colour;
 import io.github.dsh105.sparktrail.util.firework.FireworkType;
 import org.bukkit.*;
@@ -20,15 +22,15 @@ public class Serialise {
     public static BlockData findBlockBreak(String msg) {
         if (msg.contains(" ")) {
             String[] split = msg.split(" ");
-            if (!StringUtil.isInt(split[0])) {
+            if (!GeneralUtil.isInt(split[0])) {
                 return null;
             }
-            if (!StringUtil.isInt(split[1])) {
+            if (!GeneralUtil.isInt(split[1])) {
                 return null;
             }
             return new BlockData(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
         } else {
-            if (!StringUtil.isInt(msg)) {
+            if (!GeneralUtil.isInt(msg)) {
                 return null;
             }
             return new BlockData(Integer.parseInt(msg), 0);
@@ -112,7 +114,7 @@ public class Serialise {
             x = (int) ((BlockCommandSender) sender).getBlock().getLocation().getX();
         } else if (args[start].equalsIgnoreCase("~") && sender instanceof Player) {
             x = (int) ((Player) sender).getLocation().getX();
-        } else if (StringUtil.isInt(args[start])) {
+        } else if (GeneralUtil.isInt(args[start])) {
             x = Integer.parseInt(args[start]);
         } else {
             ConsoleLogger.log("" + start + " " + args[start]);
@@ -126,7 +128,7 @@ public class Serialise {
             y = (int) ((BlockCommandSender) sender).getBlock().getLocation().getY();
         } else if (args[start].equalsIgnoreCase("~") && sender instanceof Player) {
             y = (int) ((Player) sender).getLocation().getY();
-        } else if (StringUtil.isInt(args[start])) {
+        } else if (GeneralUtil.isInt(args[start])) {
             y = Integer.parseInt(args[start]);
         } else {
             Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
@@ -139,7 +141,7 @@ public class Serialise {
             z = (int) ((BlockCommandSender) sender).getBlock().getLocation().getZ();
         } else if (args[start].equalsIgnoreCase("~") && sender instanceof Player) {
             z = (int) ((Player) sender).getLocation().getZ();
-        } else if (StringUtil.isInt(args[start])) {
+        } else if (GeneralUtil.isInt(args[start])) {
             z = Integer.parseInt(args[start]);
         } else {
             Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
@@ -202,7 +204,7 @@ public class Serialise {
         }
         StringBuilder builder = new StringBuilder();
         for (io.github.dsh105.sparktrail.particle.Effect e : effects) {
-            builder.append(StringUtil.capitalise(e.getParticleType().toString()));
+            builder.append(GeneralUtil.capitalise(e.getParticleType().toString()));
             builder.append(", ");
         }
         builder.deleteCharAt(builder.length() - 2);

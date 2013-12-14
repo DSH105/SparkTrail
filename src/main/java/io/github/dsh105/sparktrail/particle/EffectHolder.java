@@ -1,11 +1,9 @@
 package io.github.dsh105.sparktrail.particle;
 
 import io.github.dsh105.sparktrail.SparkTrail;
-import io.github.dsh105.sparktrail.config.options.ConfigOptions;
+import io.github.dsh105.sparktrail.config.ConfigOptions;
 import io.github.dsh105.sparktrail.data.EffectCreator;
 import io.github.dsh105.sparktrail.data.EffectHandler;
-import io.github.dsh105.sparktrail.logger.ConsoleLogger;
-import io.github.dsh105.sparktrail.logger.Logger;
 import io.github.dsh105.sparktrail.particle.type.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,13 +1,14 @@
 package io.github.dsh105.sparktrail.command;
 
+import io.github.dsh105.dshutils.pagination.Paginator;
+import io.github.dsh105.dshutils.util.EnumUtil;
+import io.github.dsh105.dshutils.util.GeneralUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.chat.BlockData;
 import io.github.dsh105.sparktrail.data.EffectCreator;
 import io.github.dsh105.sparktrail.data.EffectHandler;
 import io.github.dsh105.sparktrail.listeners.InteractDetails;
 import io.github.dsh105.sparktrail.listeners.InteractListener;
-import io.github.dsh105.sparktrail.logger.ConsoleLogger;
-import io.github.dsh105.sparktrail.logger.Logger;
 import io.github.dsh105.sparktrail.menu.ParticleMenu;
 import io.github.dsh105.sparktrail.particle.*;
 import io.github.dsh105.sparktrail.particle.type.Critical;
@@ -35,9 +36,19 @@ public class TrailCommand implements CommandExecutor {
     public String label;
     ChatColor c1 = SparkTrail.getInstance().primaryColour;
     ChatColor c2 = SparkTrail.getInstance().secondaryColour;
+    private Paginator help;
 
     public TrailCommand(String name) {
         this.label = name;
+        this.help = this.generateHelp();
+    }
+
+    private Paginator generateHelp() {
+        ArrayList<String> list = new ArrayList<String>();
+        for (HelpEntry he : HelpEntry.values()) {
+            list.add(he.getLine());
+        }
+        return new Paginator(list, 5);
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
@@ -70,9 +81,9 @@ public class TrailCommand implements CommandExecutor {
         } else if (args.length == 1 || (args.length >= 2 && (args[0].equalsIgnoreCase("blockbreak") || args[0].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("help")) {
                 if (Permission.TRAIL.hasPerm(sender, true, true)) {
-                    sender.sendMessage(c2 + "------------ SparkTrail Help 1/" + HelpPage.getIndex() + " ------------");
+                    sender.sendMessage(c2 + "------------ SparkTrail Help 1/" + help.getIndex() + " ------------");
                     sender.sendMessage(c2 + "Parameters: <> = Required      [] = Optional");
-                    for (String s : HelpPage.getPage(1)) {
+                    for (String s : help.getPage(1)) {
                         sender.sendMessage(s);
                     }
                     return true;
@@ -133,9 +144,9 @@ public class TrailCommand implements CommandExecutor {
                     sender.sendMessage(c2 + "------------ Trail Effects ------------");
                     for (Effect e : eh.getEffects()) {
                         if (e.getParticleType().requiresDataMenu()) {
-                            sender.sendMessage(c1 + StringUtil.capitalise(e.getParticleType().toString()) + ": " + c2 + e.getParticleData());
+                            sender.sendMessage(c1 + GeneralUtil.capitalise(e.getParticleType().toString()) + ": " + c2 + e.getParticleData());
                         } else {
-                            sender.sendMessage(c1 + StringUtil.capitalise(e.getParticleType().toString()));
+                            sender.sendMessage(c1 + GeneralUtil.capitalise(e.getParticleType().toString()));
                         }
                     }
                     return true;
@@ -189,7 +200,7 @@ public class TrailCommand implements CommandExecutor {
                                     return true;
                                 }
 
-                                BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(1, args, " "));
+                                BlockData bd = Serialise.findBlockBreak(GeneralUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.blockId = bd.id;
                                 pd.blockMeta = bd.data;
@@ -213,7 +224,7 @@ public class TrailCommand implements CommandExecutor {
                                     return true;
                                 }
 
-                                FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(1, args, " "));
+                                FireworkEffect fe = Serialise.findFirework(GeneralUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.fireworkEffect = fe;
                                 EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
@@ -261,15 +272,15 @@ public class TrailCommand implements CommandExecutor {
         } else if (args.length == 2) {
             if (args[0].equals("help")) {
                 if (Permission.TRAIL.hasPerm(sender, true, true)) {
-                    if (StringUtil.isInt(args[1])) {
-                        String[] help = HelpPage.getPage(Integer.parseInt(args[1]));
-                        if (help == null) {
+                    if (GeneralUtil.isInt(args[1])) {
+                        String[] str = help.getPage(Integer.parseInt(args[1]));
+                        if (str == null) {
                             Lang.sendTo(sender, Lang.HELP_INDEX_TOO_BIG.toString().replace("%index%", args[1]));
                             return true;
                         }
-                        sender.sendMessage(c2 + "------------ SparkTrail Help " + args[1] + "/" + HelpPage.getIndex() + " ------------");
+                        sender.sendMessage(c2 + "------------ SparkTrail Help " + args[1] + "/" + help.getIndex() + " ------------");
                         sender.sendMessage(c2 + "Parameters: <> = Required      [] = Optional");
-                        for (String s : help) {
+                        for (String s : str) {
                             sender.sendMessage(s);
                         }
                     }
@@ -367,7 +378,7 @@ public class TrailCommand implements CommandExecutor {
                         for (EffectHolder eh : list) {
                             Entity e = Serialise.getMob(eh.getDetails().mobUuid);
                             if (e != null) {
-                                sender.sendMessage(SparkTrail.getInstance().primaryColour + StringUtil.capitalise(e.getType().toString()));
+                                sender.sendMessage(SparkTrail.getInstance().primaryColour + GeneralUtil.capitalise(e.getType().toString()));
                                 sender.sendMessage(SparkTrail.getInstance().primaryColour + " ---> " + SparkTrail.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
                             }
                         }
@@ -540,7 +551,7 @@ public class TrailCommand implements CommandExecutor {
                                 return true;
                             }
 
-                            BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(5, args, " "));
+                            BlockData bd = Serialise.findBlockBreak(GeneralUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.blockId = bd.id;
                             pd.blockMeta = bd.data;
@@ -553,7 +564,7 @@ public class TrailCommand implements CommandExecutor {
                                 Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Firework").replace("%extra_info%", "Separate each parameter with a space."));
                                 return true;
                             }
-                            FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(5, args, " "));
+                            FireworkEffect fe = Serialise.findFirework(GeneralUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.fireworkEffect = fe;
                             add(l, pt, sender, pd);
@@ -654,7 +665,7 @@ public class TrailCommand implements CommandExecutor {
         }
 
         Lang.sendTo(sender, Lang.COMMAND_ERROR.toString()
-                .replace("%cmd%", "/" + cmd.getLabel() + " " + (args.length == 0 ? "" : StringUtil.combineSplit(0, args, " "))));
+                .replace("%cmd%", "/" + cmd.getLabel() + " " + (args.length == 0 ? "" : GeneralUtil.combineSplit(0, args, " "))));
         return true;
     }
 

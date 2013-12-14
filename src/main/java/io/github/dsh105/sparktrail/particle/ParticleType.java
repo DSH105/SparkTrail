@@ -1,12 +1,12 @@
 package io.github.dsh105.sparktrail.particle;
 
+import io.github.dsh105.dshutils.util.GeneralUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
-import io.github.dsh105.sparktrail.logger.Logger;
+import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import io.github.dsh105.sparktrail.particle.type.*;
 import io.github.dsh105.sparktrail.particle.type.Void;
-import io.github.dsh105.sparktrail.util.EnumUtil;
-import io.github.dsh105.sparktrail.util.StringUtil;
+import io.github.dsh105.dshutils.util.EnumUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
@@ -96,7 +96,7 @@ public enum ParticleType {
         ItemStack i = new ItemStack(this.material, 1, this.data);
         ItemMeta meta = i.getItemMeta();
         meta.setDisplayName(ChatColor.GOLD + this.name);
-        meta.setLore(Arrays.asList(ChatColor.YELLOW + "Frequency: " + ChatColor.GREEN + this.getFrequency(), ChatColor.YELLOW + "Display: " + ChatColor.GREEN + StringUtil.capitalise(this.getDisplayType().toString())));
+        meta.setLore(Arrays.asList(ChatColor.YELLOW + "Frequency: " + ChatColor.GREEN + this.getFrequency(), ChatColor.YELLOW + "Display: " + ChatColor.GREEN + GeneralUtil.capitalise(this.getDisplayType().toString())));
         i.setItemMeta(meta);
         return i;
     }
@@ -105,7 +105,7 @@ public enum ParticleType {
         ItemStack i = new ItemStack(this.material, 1, this.data);
         ItemMeta meta = i.getItemMeta();
         meta.setDisplayName(ChatColor.GOLD + this.name + (nameFlag ? ChatColor.GREEN + " [TOGGLE ON]" : ChatColor.RED + " [TOGGLE OFF]"));
-        meta.setLore(Arrays.asList(ChatColor.YELLOW + "Frequency: " + ChatColor.GREEN + this.getFrequency(), ChatColor.YELLOW + "Display: " + ChatColor.GREEN + StringUtil.capitalise(this.getDisplayType().toString())));
+        meta.setLore(Arrays.asList(ChatColor.YELLOW + "Frequency: " + ChatColor.GREEN + this.getFrequency(), ChatColor.YELLOW + "Display: " + ChatColor.GREEN + GeneralUtil.capitalise(this.getDisplayType().toString())));
         i.setItemMeta(meta);
         return i;
     }

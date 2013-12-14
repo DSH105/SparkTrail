@@ -1,15 +1,15 @@
 package io.github.dsh105.sparktrail.data;
 
 import io.github.dsh105.sparktrail.SparkTrail;
-import io.github.dsh105.sparktrail.config.YAMLConfig;
-import io.github.dsh105.sparktrail.logger.Logger;
+import io.github.dsh105.dshutils.config.YAMLConfig;
+import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.mysql.SQLEffectHandler;
 import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleDetails;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.sparktrail.particle.type.*;
-import io.github.dsh105.sparktrail.util.EnumUtil;
+import io.github.dsh105.dshutils.util.EnumUtil;
 import io.github.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

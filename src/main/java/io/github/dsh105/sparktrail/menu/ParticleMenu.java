@@ -1,5 +1,6 @@
 package io.github.dsh105.sparktrail.menu;
 
+import io.github.dsh105.dshutils.util.GeneralUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.api.event.MenuOpenEvent;
 import io.github.dsh105.sparktrail.data.EffectHandler;
@@ -8,7 +9,6 @@ import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.sparktrail.util.Lang;
 import io.github.dsh105.sparktrail.util.Serialise;
-import io.github.dsh105.sparktrail.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -40,7 +40,7 @@ public class ParticleMenu extends Menu {
     public EffectHolder.EffectType effectType;
 
     public ParticleMenu(Player viewer, UUID mobUuid) {
-        this(viewer, EffectHolder.EffectType.MOB, "Trail GUI - " + StringUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
+        this(viewer, EffectHolder.EffectType.MOB, "Trail GUI - " + GeneralUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
         this.mobUuid = mobUuid;
         setItems();
     }
@@ -56,7 +56,7 @@ public class ParticleMenu extends Menu {
     }
 
     public ParticleMenu(Player viewer, Location location) {
-        this(viewer, EffectHolder.EffectType.LOCATION, "Trail GUI - " + StringUtil.capitalise(location.getWorld().getName()) + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ());
+        this(viewer, EffectHolder.EffectType.LOCATION, "Trail GUI - " + GeneralUtil.capitalise(location.getWorld().getName()) + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ());
         this.location = location;
         setItems();
     }

@@ -1,6 +1,6 @@
 package io.github.dsh105.sparktrail.data;
 
-import io.github.dsh105.sparktrail.logger.Logger;
+import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.EffectHolder.EffectType;
