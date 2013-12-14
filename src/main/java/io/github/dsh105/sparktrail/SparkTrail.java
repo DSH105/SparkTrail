@@ -1,5 +1,7 @@
 package io.github.dsh105.sparktrail;
 
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 import io.github.dsh105.dshutils.Metrics;
 import io.github.dsh105.dshutils.Updater;
 import io.github.dsh105.dshutils.Version;
@@ -19,8 +21,6 @@ import io.github.dsh105.sparktrail.data.EffectHandler;
 import io.github.dsh105.sparktrail.listeners.InteractListener;
 import io.github.dsh105.sparktrail.listeners.PlayerListener;
 import io.github.dsh105.sparktrail.menu.MenuListener;
-import io.github.dsh105.sparktrail.mysql.RefreshConnection;
-import io.github.dsh105.sparktrail.mysql.SQLConnection;
 import io.github.dsh105.sparktrail.mysql.SQLEffectHandler;
 import io.github.dsh105.sparktrail.util.Lang;
 import io.github.dsh105.sparktrail.util.Permission;
@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class SparkTrail extends JavaPlugin {
@@ -53,8 +54,6 @@ public class SparkTrail extends JavaPlugin {
 
     public EffectHandler EH;
     public SQLEffectHandler SQLH;
-    public SQLConnection sqlCon;
-    private RefreshConnection sqlRefresh;
 
     // Update data
     public boolean update = false;
@@ -62,6 +61,7 @@ public class SparkTrail extends JavaPlugin {
     public long size = 0;
     public boolean updateCheck = false;
 
+    public BoneCP dbPool;
     public CommandMap CM;
 
     public ChatColor primaryColour = ChatColor.GREEN;
@@ -146,31 +146,45 @@ public class SparkTrail extends JavaPlugin {
             String db = config.getString("sql.database", "SparkTrail");
             String user = config.getString("sql.username", "none");
             String pass = config.getString("sql.password", "none");
-            sqlCon = new SQLConnection(host, port, db, user, pass);
-            Connection con = sqlCon.getConnection();
-            if (con != null) {
+            BoneCPConfig bcc = new BoneCPConfig();
+            bcc.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + db);
+            bcc.setUsername(user);
+            bcc.setPassword(pass);
+            bcc.setPartitionCount(2);
+            bcc.setMinConnectionsPerPartition(3);
+            bcc.setMaxConnectionsPerPartition(7);
+            bcc.setConnectionTestStatement("SELECT 1");
+            try {
+                dbPool = new BoneCP(bcc);
+            } catch (SQLException e) {
+                Logger.log(Logger.LogLevel.SEVERE, "Failed to connect to MySQL! [MySQL DataBase: " + db + "].", e, true);
+            }
+            if (dbPool != null) {
+                Connection connection = null;
+                Statement statement = null;
                 try {
-                    con.prepareStatement("CREATE TABLE IF NOT EXISTS PlayerEffects (" +
+                    connection = dbPool.getConnection();
+                    statement = connection.createStatement();
+                    statement.executeUpdate("CREATE TABLE IF NOT EXISTS PlayerEffects (" +
                             "PlayerName varchar(255)," +
                             "Effects varchar(255)," +
                             "PRIMARY KEY (PlayerName)" +
-                            ");").executeUpdate();
+                            ");");
 
-                    con.prepareStatement("CREATE TABLE IF NOT EXISTS LocationEffects (" +
+                    statement.executeUpdate("CREATE TABLE IF NOT EXISTS LocationEffects (" +
                             "Location varchar(255)," +
                             "Effects varchar(255)," +
                             "PRIMARY KEY (Location)" +
-                            ");").executeUpdate();
+                            ");");
 
-                    con.prepareStatement("CREATE TABLE IF NOT EXISTS MobEffects (" +
+                    statement.executeUpdate("CREATE TABLE IF NOT EXISTS MobEffects (" +
                             "MobUUID varchar(255)," +
                             "Effects varchar(255)," +
                             "PRIMARY KEY (MobUUID)" +
-                            ");").executeUpdate();
+                            ");");
                 } catch (SQLException e) {
                     Logger.log(Logger.LogLevel.SEVERE, "MySQL DataBase Table initiation has failed.", e, true);
                 }
-                this.sqlRefresh = new RefreshConnection(getConfig(ConfigType.MAIN).getInt("sql.timeout") * 20 * 60);
             }
         }
 

@@ -34,6 +34,17 @@ public class ConfigOptions extends Options {
         }
     }
 
+    public boolean useSql() {
+        return this.config.getBoolean("sql.use", false);
+    }
+
+    public boolean sqlOverride() {
+        if (useSql()) {
+            return this.config.getBoolean("sql.overrideFile");
+        }
+        return false;
+    }
+
     @Override
     public void setDefaults() {
         set("command", "trail");
@@ -45,7 +56,6 @@ public class ConfigOptions extends Options {
         set("checkForUpdates", true);
 
         set("sql.overrideFile", true, "If true, data saved to the MySQL Database will override data saved to a file");
-        set("sql.timeout", 30);
         set("sql.use", false);
         set("sql.host", "localhost");
         set("sql.port", 3306);

@@ -1,6 +1,14 @@
 package io.github.dsh105.sparktrail.mysql;
 
+import io.github.dsh105.dshutils.logger.Logger;
+import io.github.dsh105.sparktrail.SparkTrail;
+import io.github.dsh105.sparktrail.config.ConfigOptions;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class SQLEffectHandler {
@@ -12,42 +20,130 @@ public class SQLEffectHandler {
     }
 
     public void save(EffectHolder eh) {
-        if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
+        if (ConfigOptions.instance.useSql()) {
+            Connection con = null;
+            PreparedStatement statement = null;
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+            if (SparkTrail.getInstance().dbPool != null) {
+                try {
+                    con = SparkTrail.getInstance().dbPool.getConnection();
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+                    if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
 
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+
+                    }
+
+                } catch (SQLException e) {
+                    //Log the issue
+                } finally {
+                    try {
+                        if (statement != null)
+                            statement.close();
+                        if (con != null)
+                            con.close();
+                    } catch (SQLException ignored) {
+                    }
+                }
+            }
         }
     }
 
     public void clear(EffectHolder eh) {
-        if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
+        if (ConfigOptions.instance.useSql()) {
+            Connection con = null;
+            PreparedStatement statement = null;
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+            if (SparkTrail.getInstance().dbPool != null) {
+                try {
+                    con = SparkTrail.getInstance().dbPool.getConnection();
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+                    if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
 
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+
+                    }
+
+                } catch (SQLException e) {
+                    //Log the issue
+                } finally {
+                    try {
+                        if (statement != null)
+                            statement.close();
+                        if (con != null)
+                            con.close();
+                    } catch (SQLException ignored) {
+                    }
+                }
+            }
         }
     }
 
     public void update(EffectHolder eh) {
-        if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
+        if (ConfigOptions.instance.useSql()) {
+            Connection con = null;
+            PreparedStatement statement = null;
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+            if (SparkTrail.getInstance().dbPool != null) {
+                try {
+                    con = SparkTrail.getInstance().dbPool.getConnection();
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+                    if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
 
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+
+                    }
+
+                } catch (SQLException e) {
+                    //Log the issue
+                } finally {
+                    try {
+                        if (statement != null)
+                            statement.close();
+                        if (con != null)
+                            con.close();
+                    } catch (SQLException ignored) {
+                    }
+                }
+            }
         }
     }
 
     public void create(EffectHolder eh) {
-        if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
+        if (ConfigOptions.instance.useSql()) {
+            Connection con = null;
+            PreparedStatement statement = null;
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+            if (SparkTrail.getInstance().dbPool != null) {
+                try {
+                    con = SparkTrail.getInstance().dbPool.getConnection();
 
-        } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+                    if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
 
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+
+                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+
+                    }
+
+                } catch (SQLException e) {
+                    //Log the issue
+                } finally {
+                    try {
+                        if (statement != null)
+                            statement.close();
+                        if (con != null)
+                            con.close();
+                    } catch (SQLException ignored) {
+                    }
+                }
+            }
         }
     }
 }
