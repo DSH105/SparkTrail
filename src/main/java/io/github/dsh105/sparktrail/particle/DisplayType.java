@@ -19,7 +19,7 @@ public enum DisplayType {
         if (this == DisplayType.NORMAL) {
             locations.add(l);
         } else if (this == DisplayType.CIRCLE) {
-            for (Location location : GeometryUtil.circle(l, 4, 1, true, false)) {
+            for (Location location : GeometryUtil.circle(l, 4, 1, true, false, true)) {
                 locations.add(location);
             }
         } else if (this == DisplayType.DOUBLE) {
