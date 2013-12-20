@@ -1,7 +1,7 @@
 package io.github.dsh105.sparktrail.chat;
 
 import io.github.dsh105.dshutils.logger.Logger;
-import io.github.dsh105.dshutils.util.GeneralUtil;
+import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.data.EffectCreator;
 import io.github.dsh105.sparktrail.data.EffectHandler;
 import io.github.dsh105.sparktrail.listeners.InteractDetails;
@@ -43,7 +43,7 @@ public class MenuChatListener implements Listener {
 
             ParticleType pt = wd.particleType;
             if (msg.equalsIgnoreCase("CANCEL")) {
-                Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", GeneralUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
+                Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
                 AWAITING_DATA.remove(player.getName());
                 return;
             } else if (pt == ParticleType.BLOCKBREAK) {
@@ -118,7 +118,7 @@ public class MenuChatListener implements Listener {
                 AWAITING_RETRY.remove(player.getName());
                 event.setCancelled(true);
             } else if (msg.equalsIgnoreCase("NO")) {
-                Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", GeneralUtil.capitalise(AWAITING_RETRY.get(player.getName()).particleType.toString())));
+                Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_RETRY.get(player.getName()).particleType.toString())));
                 AWAITING_RETRY.remove(player.getName());
                 event.setCancelled(true);
             } else {
@@ -137,7 +137,7 @@ public class MenuChatListener implements Listener {
                 RETRY_INTERACT.remove(player.getName());
                 event.setCancelled(true);
             } else if (msg.equalsIgnoreCase("NO")) {
-                Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", GeneralUtil.capitalise(AWAITING_RETRY.get(player.getName()).particleType.toString())));
+                Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_RETRY.get(player.getName()).particleType.toString())));
                 RETRY_INTERACT.remove(player.getName());
                 event.setCancelled(true);
             } else {
@@ -146,7 +146,7 @@ public class MenuChatListener implements Listener {
             }
         } else if (ParticleDemo.ACTIVE.containsKey(player.getName())) {
             if (msg.equalsIgnoreCase("NAME")) {
-                Lang.sendTo(player, Lang.DEMO_CURRENT_PARTICLE.toString().replace("%effect%", GeneralUtil.capitalise(ParticleDemo.ACTIVE.get(player.getName()).getCurrentParticle().toString())));
+                Lang.sendTo(player, Lang.DEMO_CURRENT_PARTICLE.toString().replace("%effect%", StringUtil.capitalise(ParticleDemo.ACTIVE.get(player.getName()).getCurrentParticle().toString())));
                 event.setCancelled(true);
             } else if (msg.equalsIgnoreCase("STOP")) {
                 ParticleDemo pd = ParticleDemo.ACTIVE.get(player.getName());

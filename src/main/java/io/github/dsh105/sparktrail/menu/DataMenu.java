@@ -1,6 +1,6 @@
 package io.github.dsh105.sparktrail.menu;
 
-import io.github.dsh105.dshutils.util.GeneralUtil;
+import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.api.event.MenuOpenEvent;
 import io.github.dsh105.sparktrail.data.EffectHandler;
@@ -46,14 +46,14 @@ public class DataMenu extends Menu {
     public ParticleType particleType;
 
     public DataMenu(Player viewer, UUID mobUuid, ParticleType particleType) {
-        this(viewer, EffectHolder.EffectType.MOB, GeneralUtil.capitalise(particleType.toString()) + " - Trail GUI - " + GeneralUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
+        this(viewer, EffectHolder.EffectType.MOB, StringUtil.capitalise(particleType.toString()) + " - Trail GUI - " + StringUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
         this.particleType = particleType;
         this.mobUuid = mobUuid;
         setItems();
     }
 
     public DataMenu(Player viewer, String playerName, ParticleType particleType) {
-        this(viewer, EffectHolder.EffectType.PLAYER, GeneralUtil.capitalise(particleType.toString()) + " - Trail GUI - " + playerName);
+        this(viewer, EffectHolder.EffectType.PLAYER, StringUtil.capitalise(particleType.toString()) + " - Trail GUI - " + playerName);
         this.particleType = particleType;
         this.playerName = playerName;
         Player p = Bukkit.getPlayerExact(playerName);
@@ -64,7 +64,7 @@ public class DataMenu extends Menu {
     }
 
     public DataMenu(Player viewer, Location location, ParticleType particleType) {
-        this(viewer, EffectHolder.EffectType.LOCATION, GeneralUtil.capitalise(particleType.toString()) + " - Trail GUI - " + GeneralUtil.capitalise(location.getWorld().getName()) + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ());
+        this(viewer, EffectHolder.EffectType.LOCATION, StringUtil.capitalise(particleType.toString()) + " - Trail GUI - " + StringUtil.capitalise(location.getWorld().getName()) + ", " + location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ());
         this.particleType = particleType;
         this.location = location;
         setItems();

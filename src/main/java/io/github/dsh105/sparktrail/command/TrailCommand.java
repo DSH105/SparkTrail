@@ -2,7 +2,7 @@ package io.github.dsh105.sparktrail.command;
 
 import io.github.dsh105.dshutils.pagination.Paginator;
 import io.github.dsh105.dshutils.util.EnumUtil;
-import io.github.dsh105.dshutils.util.GeneralUtil;
+import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.chat.BlockData;
 import io.github.dsh105.sparktrail.data.EffectCreator;
@@ -144,9 +144,9 @@ public class TrailCommand implements CommandExecutor {
                     sender.sendMessage(c2 + "------------ Trail Effects ------------");
                     for (Effect e : eh.getEffects()) {
                         if (e.getParticleType().requiresDataMenu()) {
-                            sender.sendMessage(c1 + GeneralUtil.capitalise(e.getParticleType().toString()) + ": " + c2 + e.getParticleData());
+                            sender.sendMessage(c1 + StringUtil.capitalise(e.getParticleType().toString()) + ": " + c2 + e.getParticleData());
                         } else {
-                            sender.sendMessage(c1 + GeneralUtil.capitalise(e.getParticleType().toString()));
+                            sender.sendMessage(c1 + StringUtil.capitalise(e.getParticleType().toString()));
                         }
                     }
                     return true;
@@ -200,7 +200,7 @@ public class TrailCommand implements CommandExecutor {
                                     return true;
                                 }
 
-                                BlockData bd = Serialise.findBlockBreak(GeneralUtil.combineSplit(1, args, " "));
+                                BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.blockId = bd.id;
                                 pd.blockMeta = bd.data;
@@ -224,7 +224,7 @@ public class TrailCommand implements CommandExecutor {
                                     return true;
                                 }
 
-                                FireworkEffect fe = Serialise.findFirework(GeneralUtil.combineSplit(1, args, " "));
+                                FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.fireworkEffect = fe;
                                 EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
@@ -272,7 +272,7 @@ public class TrailCommand implements CommandExecutor {
         } else if (args.length == 2) {
             if (args[0].equals("help")) {
                 if (Permission.TRAIL.hasPerm(sender, true, true)) {
-                    if (GeneralUtil.isInt(args[1])) {
+                    if (StringUtil.isInt(args[1])) {
                         String[] str = help.getPage(Integer.parseInt(args[1]));
                         if (str == null) {
                             Lang.sendTo(sender, Lang.HELP_INDEX_TOO_BIG.toString().replace("%index%", args[1]));
@@ -378,7 +378,7 @@ public class TrailCommand implements CommandExecutor {
                         for (EffectHolder eh : list) {
                             Entity e = Serialise.getMob(eh.getDetails().mobUuid);
                             if (e != null) {
-                                sender.sendMessage(SparkTrail.getInstance().primaryColour + GeneralUtil.capitalise(e.getType().toString()));
+                                sender.sendMessage(SparkTrail.getInstance().primaryColour + StringUtil.capitalise(e.getType().toString()));
                                 sender.sendMessage(SparkTrail.getInstance().primaryColour + " ---> " + SparkTrail.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
                             }
                         }
@@ -551,7 +551,7 @@ public class TrailCommand implements CommandExecutor {
                                 return true;
                             }
 
-                            BlockData bd = Serialise.findBlockBreak(GeneralUtil.combineSplit(5, args, " "));
+                            BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.blockId = bd.id;
                             pd.blockMeta = bd.data;
@@ -564,7 +564,7 @@ public class TrailCommand implements CommandExecutor {
                                 Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Firework").replace("%extra_info%", "Separate each parameter with a space."));
                                 return true;
                             }
-                            FireworkEffect fe = Serialise.findFirework(GeneralUtil.combineSplit(5, args, " "));
+                            FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.fireworkEffect = fe;
                             add(l, pt, sender, pd);
@@ -665,7 +665,7 @@ public class TrailCommand implements CommandExecutor {
         }
 
         Lang.sendTo(sender, Lang.COMMAND_ERROR.toString()
-                .replace("%cmd%", "/" + cmd.getLabel() + " " + (args.length == 0 ? "" : GeneralUtil.combineSplit(0, args, " "))));
+                .replace("%cmd%", "/" + cmd.getLabel() + " " + (args.length == 0 ? "" : StringUtil.combineSplit(0, args, " "))));
         return true;
     }
 
