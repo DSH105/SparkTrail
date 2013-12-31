@@ -25,7 +25,7 @@ public class EffectCreator {
             }
         }
         effectHolder.setEffects(effects);
-        EffectHandler.getInstance().addHolder(effectHolder);
+        EffectManager.getInstance().addHolder(effectHolder);
         effectHolder.start();
         return effectHolder;
     }

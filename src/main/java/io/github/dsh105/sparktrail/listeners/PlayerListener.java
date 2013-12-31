@@ -1,7 +1,7 @@
 package io.github.dsh105.sparktrail.listeners;
 
 import io.github.dsh105.sparktrail.SparkTrail;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.util.Lang;
 import org.bukkit.entity.Player;
@@ -17,9 +17,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
-        EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
+        EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
         if (eh != null) {
-            EffectHandler.getInstance().remove(eh);
+            EffectManager.getInstance().remove(eh);
         }
     }
 
@@ -31,7 +31,7 @@ public class PlayerListener implements Listener {
                 @Override
                 public void run() {
                     if (p != null) {
-                        EffectHolder eh = EffectHandler.getInstance().createFromFile(p.getName());
+                        EffectHolder eh = EffectManager.getInstance().createFromFile(p.getName());
                         if (eh != null && !eh.getEffects().isEmpty()) {
                             Lang.sendTo(p, Lang.EFFECTS_LOADED.toString());
                         }

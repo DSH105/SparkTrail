@@ -1,6 +1,6 @@
 package io.github.dsh105.sparktrail.api;
 
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleType;
@@ -21,7 +21,7 @@ public class LocationAPI {
 
     public HashSet<ParticleType> getEffects(Location location) {
         HashSet<ParticleType> list = new HashSet<ParticleType>();
-        for (EffectHolder eh : EffectHandler.getInstance().getEffectHolders()) {
+        for (EffectHolder eh : EffectManager.getInstance().getEffectHolders()) {
             if (eh.getEffectType() == EffectHolder.EffectType.LOCATION && eh.isLocation(location)) {
                 for (Effect e : eh.getEffects()) {
                     list.add(e.getParticleType());
@@ -32,7 +32,7 @@ public class LocationAPI {
     }
 
     public EffectHolder getEffectHolder(Location location) {
-        for (EffectHolder eh : EffectHandler.getInstance().getEffectHolders()) {
+        for (EffectHolder eh : EffectManager.getInstance().getEffectHolders()) {
             if (eh.getEffectType() == EffectHolder.EffectType.LOCATION && eh.isLocation(location)) {
                 return eh;
             }

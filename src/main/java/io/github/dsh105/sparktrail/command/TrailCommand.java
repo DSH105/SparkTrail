@@ -6,7 +6,7 @@ import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.chat.BlockData;
 import io.github.dsh105.sparktrail.data.EffectCreator;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.listeners.InteractDetails;
 import io.github.dsh105.sparktrail.listeners.InteractListener;
 import io.github.dsh105.sparktrail.menu.ParticleMenu;
@@ -95,7 +95,7 @@ public class TrailCommand implements CommandExecutor {
                 }
                 Player p = (Player) sender;
 
-                EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
+                EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                 if (eh == null) {
                     eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
                 }
@@ -120,7 +120,7 @@ public class TrailCommand implements CommandExecutor {
                     }
                     return true;
                 } else {
-                    EffectHandler.getInstance().clear(eh);
+                    EffectManager.getInstance().clear(eh);
                     return true;
                 }
             } else if (args[0].equalsIgnoreCase("demo")) {
@@ -137,7 +137,7 @@ public class TrailCommand implements CommandExecutor {
                 } else return true;
             } else if (args[0].equalsIgnoreCase("info")) {
                 if (Permission.INFO.hasPerm(sender, true, false)) {
-                    EffectHolder eh = EffectHandler.getInstance().getEffect(((Player) sender).getName());
+                    EffectHolder eh = EffectManager.getInstance().getEffect(((Player) sender).getName());
                     if (eh == null || eh.getEffects().isEmpty()) {
                         Lang.sendTo(sender, Lang.NO_ACTIVE_EFFECTS.toString());
                         return true;
@@ -154,10 +154,10 @@ public class TrailCommand implements CommandExecutor {
                 } else return true;
             } else if (args[0].equalsIgnoreCase("start")) {
                 if (Permission.START.hasPerm(sender, true, false)) {
-                    EffectHolder eh = EffectHandler.getInstance().createFromFile(sender.getName());
+                    EffectHolder eh = EffectManager.getInstance().createFromFile(sender.getName());
                     if (eh == null || eh.getEffects().isEmpty()) {
                         Lang.sendTo(sender, Lang.NO_EFFECTS_TO_LOAD.toString());
-                        EffectHandler.getInstance().clear(eh);
+                        EffectManager.getInstance().clear(eh);
                         return true;
                     }
                     Lang.sendTo(sender, Lang.EFFECTS_LOADED.toString());
@@ -165,23 +165,23 @@ public class TrailCommand implements CommandExecutor {
                 }
             } else if (args[0].equalsIgnoreCase("stop")) {
                 if (Permission.STOP.hasPerm(sender, true, false)) {
-                    EffectHolder eh = EffectHandler.getInstance().getEffect(sender.getName());
+                    EffectHolder eh = EffectManager.getInstance().getEffect(sender.getName());
                     if (eh == null) {
                         Lang.sendTo(sender, Lang.NO_ACTIVE_EFFECTS.toString());
                         return true;
                     }
-                    EffectHandler.getInstance().remove(eh);
+                    EffectManager.getInstance().remove(eh);
                     Lang.sendTo(sender, Lang.EFFECTS_STOPPED.toString());
                     return true;
                 } else return true;
             } else if (args[0].equalsIgnoreCase("clear")) {
                 if (Permission.CLEAR.hasPerm(sender, true, false)) {
-                    EffectHolder eh = EffectHandler.getInstance().getEffect(sender.getName());
+                    EffectHolder eh = EffectManager.getInstance().getEffect(sender.getName());
                     if (eh == null) {
                         Lang.sendTo(sender, Lang.NO_ACTIVE_EFFECTS.toString());
                         return true;
                     }
-                    EffectHandler.getInstance().clear(eh);
+                    EffectManager.getInstance().clear(eh);
                     Lang.sendTo(sender, Lang.EFFECTS_CLEARED.toString());
                     return true;
                 } else return true;
@@ -205,7 +205,7 @@ public class TrailCommand implements CommandExecutor {
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.blockId = bd.id;
                                 pd.blockMeta = bd.data;
-                                EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
+                                EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                                 if (eh == null) {
                                     eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
                                 }
@@ -229,7 +229,7 @@ public class TrailCommand implements CommandExecutor {
                                 FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.fireworkEffect = fe;
-                                EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
+                                EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                                 if (eh == null) {
                                     eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
                                 }
@@ -257,7 +257,7 @@ public class TrailCommand implements CommandExecutor {
                             return true;
                         }
                     } else if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
-                        EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
+                        EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                         if (eh == null) {
                             eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
                         }
@@ -294,7 +294,7 @@ public class TrailCommand implements CommandExecutor {
                 if (args[1].equalsIgnoreCase("list")) {
                     if (Permission.PLAYER_LIST.hasPerm(sender, true, true)) {
                         ArrayList<EffectHolder> list = new ArrayList<EffectHolder>();
-                        for (EffectHolder eh : EffectHandler.getInstance().getEffectHolders()) {
+                        for (EffectHolder eh : EffectManager.getInstance().getEffectHolders()) {
                             if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
                                 list.add(eh);
                             }
@@ -330,7 +330,7 @@ public class TrailCommand implements CommandExecutor {
                 if (args[1].equalsIgnoreCase("list")) {
                     if (Permission.LOC_LIST.hasPerm(sender, true, true)) {
                         ArrayList<EffectHolder> list = new ArrayList<EffectHolder>();
-                        for (EffectHolder eh : EffectHandler.getInstance().getEffectHolders()) {
+                        for (EffectHolder eh : EffectManager.getInstance().getEffectHolders()) {
                             if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
                                 list.add(eh);
                             }
@@ -369,7 +369,7 @@ public class TrailCommand implements CommandExecutor {
                 if (args[1].equalsIgnoreCase("list")) {
                     if (Permission.MOB_LIST.hasPerm(sender, true, true)) {
                         ArrayList<EffectHolder> list = new ArrayList<EffectHolder>();
-                        for (EffectHolder eh : EffectHandler.getInstance().getEffectHolders()) {
+                        for (EffectHolder eh : EffectManager.getInstance().getEffectHolders()) {
                             if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
                                 list.add(eh);
                             }
@@ -463,7 +463,7 @@ public class TrailCommand implements CommandExecutor {
                         }
                     }
                     if (pd != null) {
-                        EffectHolder eh = EffectHandler.getInstance().getEffect(p.getName());
+                        EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                         if (eh == null) {
                             eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
                         }
@@ -510,13 +510,13 @@ public class TrailCommand implements CommandExecutor {
                     return true;
                 }
 
-                EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+                EffectHolder eh = EffectManager.getInstance().getEffect(l);
                 if (eh == null) {
                     Lang.sendTo(sender, Lang.LOC_NO_ACTIVE_EFFECTS.toString());
                     return true;
                 }
 
-                EffectHandler.getInstance().remove(eh);
+                EffectManager.getInstance().remove(eh);
                 Lang.sendTo(sender, Lang.LOC_EFFECTS_STOPPED.toString());
                 return true;
             } else return true;
@@ -588,7 +588,7 @@ public class TrailCommand implements CommandExecutor {
                         Lang.sendTo(sender, Lang.SWIRL_NOT_ALLOWED.toString());
                         return true;
                     } else if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
-                        EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+                        EffectHolder eh = EffectManager.getInstance().getEffect(l);
                         if (eh == null) {
                             eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, l);
                         }
@@ -653,7 +653,7 @@ public class TrailCommand implements CommandExecutor {
                         return true;
                     }
                     if (pd != null) {
-                        EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+                        EffectHolder eh = EffectManager.getInstance().getEffect(l);
                         if (eh == null) {
                             eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, l);
                         }
@@ -677,7 +677,7 @@ public class TrailCommand implements CommandExecutor {
     }
 
     public void add(Location l, ParticleType pt, CommandSender sender, ParticleDetails pd) {
-        EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+        EffectHolder eh = EffectManager.getInstance().getEffect(l);
         if (eh == null) {
             eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, l);
         }

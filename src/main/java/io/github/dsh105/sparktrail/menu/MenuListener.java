@@ -3,7 +3,7 @@ package io.github.dsh105.sparktrail.menu;
 import io.github.dsh105.sparktrail.chat.MenuChatListener;
 import io.github.dsh105.sparktrail.chat.WaitingData;
 import io.github.dsh105.sparktrail.data.EffectCreator;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleDetails;
@@ -25,7 +25,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.HashSet;
-import java.util.UUID;
 
 
 public class MenuListener implements Listener {
@@ -347,15 +346,15 @@ public class MenuListener implements Listener {
         EffectHolder eh = null;
         if (effectType == EffectHolder.EffectType.LOCATION) {
             try {
-                eh = EffectHandler.getInstance().getEffect(menu.location);
+                eh = EffectManager.getInstance().getEffect(menu.location);
             } catch (Exception e) {
                 Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + Serialise.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ")", e, true);
                 return null;
             }
         } else if (effectType == EffectHolder.EffectType.PLAYER) {
-            eh = EffectHandler.getInstance().getEffect(menu.playerName);
+            eh = EffectManager.getInstance().getEffect(menu.playerName);
         } else if (effectType == EffectHolder.EffectType.MOB) {
-            eh = EffectHandler.getInstance().getEffect(menu.mobUuid);
+            eh = EffectManager.getInstance().getEffect(menu.mobUuid);
         }
 
         if (eh == null) {

@@ -3,7 +3,7 @@ package io.github.dsh105.sparktrail.data;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.dshutils.config.YAMLConfig;
 import io.github.dsh105.dshutils.logger.Logger;
-import io.github.dsh105.sparktrail.mysql.SQLEffectHandler;
+import io.github.dsh105.sparktrail.mysql.SQLEffectManager;
 import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.particle.ParticleDetails;
@@ -22,16 +22,16 @@ import java.util.Iterator;
 import java.util.UUID;
 
 
-public class EffectHandler {
+public class EffectManager {
 
-    private static EffectHandler instance;
+    private static EffectManager instance;
     private HashSet<EffectHolder> effects = new HashSet<EffectHolder>();
 
-    public EffectHandler() {
+    public EffectManager() {
         instance = this;
     }
 
-    public static EffectHandler getInstance() {
+    public static EffectManager getInstance() {
         return instance;
     }
 
@@ -44,7 +44,7 @@ public class EffectHandler {
         while (i.hasNext()) {
             EffectHolder e = i.next();
             save(e);
-            SQLEffectHandler.instance.save(e);
+            SQLEffectManager.instance.save(e);
             e.stop();
             i.remove();
         }
@@ -277,7 +277,7 @@ public class EffectHandler {
 
     public void remove(EffectHolder e) {
         save(e);
-        SQLEffectHandler.instance.save(e);
+        SQLEffectManager.instance.save(e);
         e.stop();
         effects.remove(e);
     }

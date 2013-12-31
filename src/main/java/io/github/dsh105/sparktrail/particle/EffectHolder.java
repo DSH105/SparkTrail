@@ -3,7 +3,7 @@ package io.github.dsh105.sparktrail.particle;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.config.ConfigOptions;
 import io.github.dsh105.sparktrail.data.EffectCreator;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.particle.type.*;
 import io.github.dsh105.sparktrail.util.Lang;
 import org.bukkit.Bukkit;
@@ -74,7 +74,7 @@ public class EffectHolder extends BukkitRunnable {
                     this.effects.add(effect);
                 }
             }
-            EffectHandler.getInstance().save(this);
+            EffectManager.getInstance().save(this);
             return true;
         } else if (sendFailMessage) {
             if (this.getEffectType().equals(EffectType.PLAYER)) {
@@ -93,7 +93,7 @@ public class EffectHolder extends BukkitRunnable {
             if (effect != null) {
                 this.effects.add(effect);
             }
-            EffectHandler.getInstance().save(this);
+            EffectManager.getInstance().save(this);
             return true;
         } else if (sendFailMessage) {
             if (this.getEffectType().equals(EffectType.PLAYER)) {
@@ -165,7 +165,7 @@ public class EffectHolder extends BukkitRunnable {
                 i.remove();
             }
         }
-        EffectHandler.getInstance().save(this);
+        EffectManager.getInstance().save(this);
     }
 
     public void removeEffect(ParticleDetails particleDetails) {
@@ -207,7 +207,7 @@ public class EffectHolder extends BukkitRunnable {
                 }
             }
         }
-        EffectHandler.getInstance().save(this);
+        EffectManager.getInstance().save(this);
     }
 
     public Location getLocation() {
@@ -277,12 +277,12 @@ public class EffectHolder extends BukkitRunnable {
             Player p = Bukkit.getPlayerExact(this.details.playerName);
             if (p == null) {
                 //Logger.log(Logger.LogLevel.WARNING, "Encountered missing player (Name: " + this.details.playerName + "). Removing particle effect.", true);
-                EffectHandler.getInstance().remove(this);
+                EffectManager.getInstance().remove(this);
                 return false;
             }
             Location l = p.getLocation();
             if (l == null) {
-                EffectHandler.getInstance().remove(this);
+                EffectManager.getInstance().remove(this);
                 return false;
             }
             if (this.world == null || !this.world.equals(l.getWorld())) {
@@ -316,7 +316,7 @@ public class EffectHolder extends BukkitRunnable {
             }
             if (e == null) {
                 //Logger.log(Logger.LogLevel.WARNING, "Encountered missing entity (UUID: " + this.details.mobUuid + "). Removing particle effect. Maybe it despawned?", true);
-                EffectHandler.getInstance().remove(this);
+                EffectManager.getInstance().remove(this);
                 return false;
             }
             Location l = e.getLocation();

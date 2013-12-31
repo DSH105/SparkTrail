@@ -1,7 +1,7 @@
 package io.github.dsh105.sparktrail.listeners;
 
 import io.github.dsh105.sparktrail.chat.MenuChatListener;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.menu.ParticleMenu;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 import io.github.dsh105.sparktrail.util.Lang;
@@ -37,17 +37,17 @@ public class InteractListener implements Listener {
                 pm.open(true);
                 INTERACTION.remove(p.getName());
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.STOP)) {
-                EffectHolder eh = EffectHandler.getInstance().getEffect(e.getUniqueId());
+                EffectHolder eh = EffectManager.getInstance().getEffect(e.getUniqueId());
                 if (eh == null) {
                     MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                     Lang.sendTo(p, Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString());
                 } else {
-                    EffectHandler.getInstance().remove(eh);
+                    EffectManager.getInstance().remove(eh);
                     Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
                 }
                 INTERACTION.remove(p.getName());
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.START)) {
-                EffectHolder eh = EffectHandler.getInstance().getEffect(e.getUniqueId());
+                EffectHolder eh = EffectManager.getInstance().getEffect(e.getUniqueId());
                 if (eh == null) {
                     MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                     Lang.sendTo(p, Lang.MOB_NO_EFFECTS_RETRY_INTERACT.toString());
@@ -56,12 +56,12 @@ public class InteractListener implements Listener {
                 }
                 INTERACTION.remove(p.getName());
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.CLEAR)) {
-                EffectHolder eh = EffectHandler.getInstance().createFromFile(e.getUniqueId());
+                EffectHolder eh = EffectManager.getInstance().createFromFile(e.getUniqueId());
                 if (eh == null) {
                     MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                     Lang.sendTo(p, Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString());
                 } else {
-                    EffectHandler.getInstance().clear(eh);
+                    EffectManager.getInstance().clear(eh);
                     Lang.sendTo(p, Lang.LOC_EFFECTS_CLEARED.toString());
                 }
                 INTERACTION.remove(p.getName());
@@ -87,17 +87,17 @@ public class InteractListener implements Listener {
                     pm.open(true);
                     INTERACTION.remove(p.getName());
                 } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.STOP)) {
-                    EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+                    EffectHolder eh = EffectManager.getInstance().getEffect(l);
                     if (eh == null) {
                         MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                         Lang.sendTo(p, Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString());
                     } else {
-                        EffectHandler.getInstance().remove(eh);
+                        EffectManager.getInstance().remove(eh);
                         Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
                     }
                     INTERACTION.remove(p.getName());
                 } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.START)) {
-                    EffectHolder eh = EffectHandler.getInstance().createFromFile(l);
+                    EffectHolder eh = EffectManager.getInstance().createFromFile(l);
                     if (eh == null) {
                         MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                         Lang.sendTo(p, Lang.LOC_NO_EFFECTS_RETRY_BLOCK_INTERACT.toString());
@@ -106,12 +106,12 @@ public class InteractListener implements Listener {
                     }
                     INTERACTION.remove(p.getName());
                 } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.CLEAR)) {
-                    EffectHolder eh = EffectHandler.getInstance().getEffect(l);
+                    EffectHolder eh = EffectManager.getInstance().getEffect(l);
                     if (eh == null) {
                         MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                         Lang.sendTo(p, Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString());
                     } else {
-                        EffectHandler.getInstance().clear(eh);
+                        EffectManager.getInstance().clear(eh);
                         Lang.sendTo(p, Lang.LOC_EFFECTS_CLEARED.toString());
                     }
                     INTERACTION.remove(p.getName());

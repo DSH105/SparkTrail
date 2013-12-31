@@ -17,11 +17,11 @@ import io.github.dsh105.sparktrail.command.CommandComplete;
 import io.github.dsh105.sparktrail.command.TrailCommand;
 import io.github.dsh105.sparktrail.config.ConfigOptions;
 import io.github.dsh105.sparktrail.data.AutoSave;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.listeners.InteractListener;
 import io.github.dsh105.sparktrail.listeners.PlayerListener;
 import io.github.dsh105.sparktrail.menu.MenuListener;
-import io.github.dsh105.sparktrail.mysql.SQLEffectHandler;
+import io.github.dsh105.sparktrail.mysql.SQLEffectManager;
 import io.github.dsh105.sparktrail.util.Lang;
 import io.github.dsh105.sparktrail.util.Permission;
 import org.bukkit.Bukkit;
@@ -52,8 +52,8 @@ public class SparkTrail extends JavaPlugin {
     public AutoSave AS;
     public SparkTrailAPI api;
 
-    public EffectHandler EH;
-    public SQLEffectHandler SQLH;
+    public EffectManager EH;
+    public SQLEffectManager SQLH;
 
     // Update data
     public boolean update = false;
@@ -137,8 +137,8 @@ public class SparkTrail extends JavaPlugin {
         }
         langConfig.reloadConfig();
 
-        this.EH = new EffectHandler();
-        this.SQLH = new SQLEffectHandler();
+        this.EH = new EffectManager();
+        this.SQLH = new SQLEffectManager();
 
         if (this.config.getBoolean("useSql", false)) {
             String host = config.getString("sql.host", "localhost");

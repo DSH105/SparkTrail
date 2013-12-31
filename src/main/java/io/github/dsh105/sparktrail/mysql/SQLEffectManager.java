@@ -1,6 +1,5 @@
 package io.github.dsh105.sparktrail.mysql;
 
-import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.config.ConfigOptions;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
@@ -8,14 +7,13 @@ import io.github.dsh105.sparktrail.particle.EffectHolder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 
-public class SQLEffectHandler {
+public class SQLEffectManager {
 
-    public static SQLEffectHandler instance;
+    public static SQLEffectManager instance;
 
-    public SQLEffectHandler() {
+    public SQLEffectManager() {
         instance = this;
     }
 

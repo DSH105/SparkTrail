@@ -3,7 +3,7 @@ package io.github.dsh105.sparktrail.menu;
 import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.api.event.MenuOpenEvent;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
@@ -80,11 +80,11 @@ public class DataMenu extends Menu {
     public void setItems() {
         EffectHolder eh = null;
         if (effectType == EffectHolder.EffectType.PLAYER) {
-            eh = EffectHandler.getInstance().getEffect(this.playerName);
+            eh = EffectManager.getInstance().getEffect(this.playerName);
         } else if (effectType == EffectHolder.EffectType.LOCATION) {
-            eh = EffectHandler.getInstance().getEffect(this.location);
+            eh = EffectManager.getInstance().getEffect(this.location);
         } else if (effectType == EffectHolder.EffectType.MOB) {
-            eh = EffectHandler.getInstance().getEffect(this.mobUuid);
+            eh = EffectManager.getInstance().getEffect(this.mobUuid);
         }
 
         int i = 0;

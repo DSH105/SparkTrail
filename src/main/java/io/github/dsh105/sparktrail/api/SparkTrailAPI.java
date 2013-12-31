@@ -1,6 +1,6 @@
 package io.github.dsh105.sparktrail.api;
 
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
 
 import java.util.HashSet;
@@ -31,6 +31,6 @@ public class SparkTrailAPI {
     }
 
     public HashSet<EffectHolder> getAllActiveEffects() {
-        return EffectHandler.getInstance().getEffectHolders();
+        return EffectManager.getInstance().getEffectHolders();
     }
 }

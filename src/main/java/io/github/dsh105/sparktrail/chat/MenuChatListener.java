@@ -3,7 +3,7 @@ package io.github.dsh105.sparktrail.chat;
 import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.data.EffectCreator;
-import io.github.dsh105.sparktrail.data.EffectHandler;
+import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.listeners.InteractDetails;
 import io.github.dsh105.sparktrail.listeners.InteractListener;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
@@ -164,15 +164,15 @@ public class MenuChatListener implements Listener {
         EffectHolder eh = null;
         if (data.effectType == EffectHolder.EffectType.LOCATION) {
             try {
-                eh = EffectHandler.getInstance().getEffect(data.location);
+                eh = EffectManager.getInstance().getEffect(data.location);
             } catch (Exception e) {
                 Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + data + ") whilst removing an Effect (" + data.particleType.toString() + ")", e, true);
                 return null;
             }
         } else if (data.effectType == EffectHolder.EffectType.PLAYER) {
-            eh = EffectHandler.getInstance().getEffect(data.playerName);
+            eh = EffectManager.getInstance().getEffect(data.playerName);
         } else if (data.effectType == EffectHolder.EffectType.MOB) {
-            eh = EffectHandler.getInstance().getEffect(data.mobUuid);
+            eh = EffectManager.getInstance().getEffect(data.mobUuid);
         }
 
         if (eh == null) {
