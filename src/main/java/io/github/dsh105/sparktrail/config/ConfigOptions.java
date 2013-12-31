@@ -66,12 +66,18 @@ public class ConfigOptions extends Options {
         set("autosave", true, "If true, SparkTrail will autosave all pet data to prevent data", "loss in the event of a server crash.");
         set("autosaveTimer", 180, "AutoSave interval (in seconds)");
 
+        set("maxEffectAmount", -1, "Maximum amount of effects a player, location or mob is allowed to have. -1 allows an", "unlimited number.");
+        set("maxEffectAmount.player", -1);
+        set("maxEffectAmount.location", -1);
+        set("maxEffectAmount.mob", -1);
+
         for (ParticleType pt : ParticleType.values()) {
             String name = pt.toString().toLowerCase();
             set("effects." + name + ".enable", true);
             set("effects." + name + ".frequency", 20);
             set("effects." + name + ".playType", "normal");
         }
+
         this.config.saveConfig();
     }
 }

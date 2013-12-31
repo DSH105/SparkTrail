@@ -70,8 +70,9 @@ public class MenuChatListener implements Listener {
                     ParticleDetails pd = new ParticleDetails(pt);
                     pd.blockId = bd.id;
                     pd.blockMeta = bd.data;
-                    eh.addEffect(pd);
-                    Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Block Break"));
+                    if (eh.addEffect(pd, true)) {
+                        Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Block Break"));
+                    }
                 }
 
                 AWAITING_DATA.remove(player.getName());
@@ -99,8 +100,9 @@ public class MenuChatListener implements Listener {
                 if (Permission.hasEffectPerm(player, true, pt, wd.effectType)) {
                     ParticleDetails pd = new ParticleDetails(pt);
                     pd.fireworkEffect = fe;
-                    eh.addEffect(pd);
-                    Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Firework"));
+                    if (eh.addEffect(pd, true)) {
+                        Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Firework"));
+                    }
                 }
 
                 AWAITING_DATA.remove(player.getName());

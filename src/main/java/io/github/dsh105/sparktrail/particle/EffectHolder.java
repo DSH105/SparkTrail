@@ -5,6 +5,7 @@ import io.github.dsh105.sparktrail.config.ConfigOptions;
 import io.github.dsh105.sparktrail.data.EffectCreator;
 import io.github.dsh105.sparktrail.data.EffectHandler;
 import io.github.dsh105.sparktrail.particle.type.*;
+import io.github.dsh105.sparktrail.util.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -50,40 +51,67 @@ public class EffectHolder extends BukkitRunnable {
         return this.effectType;
     }
 
-    public void addEffect(ParticleType particleType) {
-        if (this.effectType == EffectType.PLAYER) {
-            ParticleDetails pd = new ParticleDetails(particleType);
-            pd.setPlayer(this.details.playerName, this.details.mobUuid);
-            Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
-            if (effect != null) {
-                this.effects.add(effect);
+    public boolean addEffect(ParticleType particleType, boolean sendFailMessage) {
+        if (this.canAddEffect()) {
+            if (this.effectType == EffectType.PLAYER) {
+                ParticleDetails pd = new ParticleDetails(particleType);
+                pd.setPlayer(this.details.playerName, this.details.mobUuid);
+                Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
+                if (effect != null) {
+                    this.effects.add(effect);
+                }
+            } else if (this.effectType == EffectType.LOCATION) {
+                ParticleDetails pd = new ParticleDetails(particleType);
+                Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
+                if (effect != null) {
+                    this.effects.add(effect);
+                }
+            } else if (this.effectType == EffectType.MOB) {
+                ParticleDetails pd = new ParticleDetails(particleType);
+                pd.setMob(this.details.mobUuid);
+                Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
+                if (effect != null) {
+                    this.effects.add(effect);
+                }
             }
-            return;
-        } else if (this.effectType == EffectType.LOCATION) {
-            ParticleDetails pd = new ParticleDetails(particleType);
-            Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
-            if (effect != null) {
-                this.effects.add(effect);
+            EffectHandler.getInstance().save(this);
+            return true;
+        } else if (sendFailMessage) {
+            if (this.getEffectType().equals(EffectType.PLAYER)) {
+                Player p = SparkTrail.getInstance().getServer().getPlayerExact(this.getDetails().playerName);
+                if (p != null) {
+                    Lang.sendTo(p, Lang.MAX_EFFECTS_ALLOWED.toString());
+                }
             }
-            return;
-        } else if (this.effectType == EffectType.MOB) {
-            ParticleDetails pd = new ParticleDetails(particleType);
-            pd.setMob(this.details.mobUuid);
-            Effect effect = EffectCreator.createEffect(this, particleType, pd.getDetails());
-            if (effect != null) {
-                this.effects.add(effect);
-            }
-            return;
         }
-        EffectHandler.getInstance().save(this);
+        return false;
     }
 
-    public void addEffect(ParticleDetails particleDetails) {
-        Effect effect = EffectCreator.createEffect(this, particleDetails.getParticleType(), particleDetails.getDetails());
-        if (effect != null) {
-            this.effects.add(effect);
+    public boolean addEffect(ParticleDetails particleDetails, boolean sendFailMessage) {
+        if (this.canAddEffect()) {
+            Effect effect = EffectCreator.createEffect(this, particleDetails.getParticleType(), particleDetails.getDetails());
+            if (effect != null) {
+                this.effects.add(effect);
+            }
+            EffectHandler.getInstance().save(this);
+            return true;
+        } else if (sendFailMessage) {
+            if (this.getEffectType().equals(EffectType.PLAYER)) {
+                Player p = SparkTrail.getInstance().getServer().getPlayerExact(this.getDetails().playerName);
+                if (p != null) {
+                    Lang.sendTo(p, Lang.MAX_EFFECTS_ALLOWED.toString());
+                }
+            }
         }
-        EffectHandler.getInstance().save(this);
+        return false;
+    }
+
+    public boolean canAddEffect() {
+        int maxEffects = ConfigOptions.instance.getConfig().getInt("maxEffectAmount." + this.getEffectType().toString().toLowerCase(), -1);
+        if (maxEffects > -1 && this.effects.size() >= maxEffects) {
+            return false;
+        }
+        return true;
     }
 
     public boolean hasEffect(ParticleType pt) {

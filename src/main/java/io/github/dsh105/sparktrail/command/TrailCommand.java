@@ -115,8 +115,9 @@ public class TrailCommand implements CommandExecutor {
                 }
                 ParticleType pt = list.get(new Random().nextInt(list.size()));
                 if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
-                    eh.addEffect(pt);
-                    Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                    if (eh.addEffect(pt, true)) {
+                        Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                    }
                     return true;
                 } else {
                     EffectHandler.getInstance().clear(eh);
@@ -212,8 +213,9 @@ public class TrailCommand implements CommandExecutor {
                                     eh.removeEffect(pt);
                                     Lang.sendTo(p, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                                 } else {
-                                    eh.addEffect(pt);
-                                    Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                                    if (eh.addEffect(pt, true)) {
+                                        Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                                    }
                                 }
                             }
                             return true;
@@ -235,8 +237,9 @@ public class TrailCommand implements CommandExecutor {
                                     eh.removeEffect(pt);
                                     Lang.sendTo(p, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                                 } else {
-                                    eh.addEffect(pt);
-                                    Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                                    if (eh.addEffect(pt, true)) {
+                                        Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                                    }
                                 }
                             }
                             return true;
@@ -262,8 +265,9 @@ public class TrailCommand implements CommandExecutor {
                             eh.removeEffect(pt);
                             Lang.sendTo(p, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                         } else {
-                            eh.addEffect(pt);
-                            Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            if (eh.addEffect(pt, true)) {
+                                Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            }
                         }
                         return true;
                     } else return true;
@@ -467,8 +471,9 @@ public class TrailCommand implements CommandExecutor {
                             eh.removeEffect(pd);
                             Lang.sendTo(p, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                         } else {
-                            eh.addEffect(pd);
-                            Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            if (eh.addEffect(pd, true)) {
+                                Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            }
                         }
                         return true;
                     }
@@ -591,8 +596,9 @@ public class TrailCommand implements CommandExecutor {
                             eh.removeEffect(pt);
                             Lang.sendTo(sender, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                         } else {
-                            eh.addEffect(pt);
-                            Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            if (eh.addEffect(pt, true)) {
+                                Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            }
                         }
                         return true;
                     } else return true;
@@ -655,8 +661,9 @@ public class TrailCommand implements CommandExecutor {
                             eh.removeEffect(pd);
                             Lang.sendTo(sender, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                         } else {
-                            eh.addEffect(pd);
-                            Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            if (eh.addEffect(pd, true)) {
+                                Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+                            }
                         }
                         return true;
                     }
@@ -678,8 +685,9 @@ public class TrailCommand implements CommandExecutor {
             eh.removeEffect(pd);
             Lang.sendTo(sender, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
         } else {
-            eh.addEffect(pd);
-            Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+            if (eh.addEffect(pd, true)) {
+                Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
+            }
         }
     }
 }

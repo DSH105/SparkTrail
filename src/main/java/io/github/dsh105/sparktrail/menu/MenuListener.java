@@ -284,9 +284,7 @@ public class MenuListener implements Listener {
             return false;
         }
 
-        eh.addEffect(pd);
-
-        return true;
+        return eh.addEffect(pd, true);
     }
 
     private boolean removeEffect(Player player, ParticleDetails pd, EffectHolder.EffectType effectType, Menu menu, String data) {
@@ -330,8 +328,7 @@ public class MenuListener implements Listener {
 
         }
 
-        eh.addEffect(particleType);
-        return true;
+        return eh.addEffect(particleType, true);
     }
 
     private boolean removeEffect(Player player, EffectHolder.EffectType effectType, ParticleType particleType, Menu menu, String data) {

@@ -232,9 +232,9 @@ public class EffectHandler {
                             return null;
                         }
                     }
-                    eh.addEffect(pd);
+                    eh.addEffect(pd, false);
                 } else {
-                    eh.addEffect(pt);
+                    eh.addEffect(pt, false);
                 }
             } else {
                 Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);

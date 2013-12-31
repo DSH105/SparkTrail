@@ -19,7 +19,8 @@ public enum Lang {
     NO_ACTIVE_EFFECTS("no_active_effects", "&aYou do not have any Trail effects active."),
     PLAYER_NO_ACTIVE_EFFECTS("player_no_active_effects", "&aThere are no Player Trail effects active."),
 
-    EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. Please see the console for errors."),
+    MAX_EFFECTS_ALLOWED("max_effects_allowed", "&aMaximum number of effects reached."),
+    EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. SparkTrail may have encountered a severe error."),
     EFFECT_CREATION_CANCELLED("effect_creation_cancelled", "&e%effect% &aeffect creation cancelled."),
     EFFECT_ADDED("effect_added", "&e%effect% &aeffect added."),
     EFFECT_REMOVED("effect_removed", "&e%effect% &aeffect removed."),
