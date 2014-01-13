@@ -36,30 +36,33 @@ public class MenuListener implements Listener {
         String title = event.getView().getTitle();
         int slot = event.getRawSlot();
 
-        try {
-            if (slot < 0 || slot > inv.getSize()) {
+        if (title.startsWith("Trail GUI")) {
+            try {
+                if (slot < 0 || slot > inv.getSize()) {
+                    return;
+                }
+            } catch (Exception e) {
                 return;
             }
-        } catch (Exception e) {
-            return;
-        }
 
-        if (inv.getItem(slot) == null) {
-            return;
-        }
+            if (inv.getItem(slot) == null) {
+                return;
+            }
 
-        if (title.startsWith("Trail GUI")) {
-            if (slot <= 44 && inv.getItem(slot) != null) {
+            try {
                 ParticleMenu menu = ParticleMenu.openMenus.get(player.getName());
                 if (menu == null) {
                     return;
                 }
                 String s = title.split(" - ")[1];
-                if (inv.getItem(slot).equals(ParticleMenu.CLOSE)) {
-                    player.closeInventory();
-                    event.setCancelled(true);
-                    ParticleMenu.openMenus.remove(player.getName());
-                    return;
+                for (MenuIcon mi : menu.endItems) {
+                    if (inv.getItem(slot).equals(mi.getStack())) {
+                        mi.onClick();
+                        event.setCancelled(true);
+                        player.closeInventory();
+                        ParticleMenu.openMenus.remove(player.getName());
+                        return;
+                    }
                 }
 
                 for (ParticleType pt : ParticleType.values()) {
@@ -127,68 +130,73 @@ public class MenuListener implements Listener {
                         }
                     }
                 }
+
                 event.setCancelled(true);
                 return;
+            } catch (Exception e) {
+                event.setCancelled(true);
+                Logger.log(Logger.LogLevel.SEVERE, "Encountered exception in Trail Menu", e, true);
             }
         } else if (title.contains(" - Trail GUI - ")) {
-            if (slot <= 26) {
-                DataMenu menu = DataMenu.openMenus.get(player.getName());
-                if (menu == null) {
-                    return;
-                }
-                String[] split = title.split(" - ");
-                String particle = split[0];
-                String data = split[2];
-
-                if (inv.getItem(slot) != null && inv.getItem(slot).equals(DataMenu.BACK)) {
-                    player.closeInventory();
-                    event.setCancelled(true);
-                    DataMenu.openMenus.remove(player.getName());
-
-                    ParticleMenu pm = null;
-                    if (menu.effectType == EffectHolder.EffectType.PLAYER) {
-                        pm = new ParticleMenu(player, menu.playerName);
-                    } else if (menu.effectType == EffectHolder.EffectType.LOCATION) {
-                        pm = new ParticleMenu(player, menu.location);
-                    } else if (menu.effectType == EffectHolder.EffectType.MOB) {
-                        pm = new ParticleMenu(player, menu.mobUuid);
+            try {
+                if (slot <= 26) {
+                    DataMenu menu = DataMenu.openMenus.get(player.getName());
+                    if (menu == null) {
+                        return;
                     }
-                    if (pm != null) {
-                        if (pm.fail) {
-                            Lang.sendTo(player, Lang.MENU_ERROR.toString());
-                        } else {
-                            pm.open(false);
+                    String[] split = title.split(" - ");
+                    String particle = split[0];
+                    String data = split[2];
+
+                    if (inv.getItem(slot) != null && inv.getItem(slot).equals(DataMenu.BACK)) {
+                        player.closeInventory();
+                        event.setCancelled(true);
+                        DataMenu.openMenus.remove(player.getName());
+
+                        ParticleMenu pm = null;
+                        if (menu.effectType == EffectHolder.EffectType.PLAYER) {
+                            pm = new ParticleMenu(player, menu.playerName);
+                        } else if (menu.effectType == EffectHolder.EffectType.LOCATION) {
+                            pm = new ParticleMenu(player, menu.location);
+                        } else if (menu.effectType == EffectHolder.EffectType.MOB) {
+                            pm = new ParticleMenu(player, menu.mobUuid);
                         }
+                        if (pm != null) {
+                            if (pm.fail) {
+                                Lang.sendTo(player, Lang.MENU_ERROR.toString());
+                            } else {
+                                pm.open(false);
+                            }
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (EnumUtil.isEnumType(ParticleType.class, particle.toString().toUpperCase())) {
-                    ParticleType pt = ParticleType.valueOf(particle.toUpperCase());
-                    if (pt != null) {
-                        for (ParticleDataItem pdi : ParticleDataItem.values()) {
-                            boolean b = inv.getItem(slot).getItemMeta().getDisplayName().contains("OFF");
-                            if (inv.getItem(slot).equals(pdi.getMenuItem(false)) || inv.getItem(slot).equals(pdi.getMenuItem(true))) {
-                                if (pt == ParticleType.CRITICAL) {
-                                    if (EnumUtil.isEnumType(Critical.CriticalType.class, pdi.toString().toUpperCase())) {
-                                        Critical.CriticalType criticalType = Critical.CriticalType.valueOf(pdi.toString().toUpperCase());
-                                        ParticleDetails pd = new ParticleDetails(pt);
-                                        pd.criticalType = criticalType;
-                                        if (Permission.hasEffectPerm(player, true, pt, criticalType.toString().toLowerCase(), menu.effectType)) {
-                                            if (b) {
-                                                if (removeEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Critical"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
-                                                }
-                                            } else {
-                                                if (addEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Critical"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
+                    if (EnumUtil.isEnumType(ParticleType.class, particle.toString().toUpperCase())) {
+                        ParticleType pt = ParticleType.valueOf(particle.toUpperCase());
+                        if (pt != null) {
+                            for (ParticleDataItem pdi : ParticleDataItem.values()) {
+                                boolean b = inv.getItem(slot).getItemMeta().getDisplayName().contains("OFF");
+                                if (inv.getItem(slot).equals(pdi.getMenuItem(false)) || inv.getItem(slot).equals(pdi.getMenuItem(true))) {
+                                    if (pt == ParticleType.CRITICAL) {
+                                        if (EnumUtil.isEnumType(Critical.CriticalType.class, pdi.toString().toUpperCase())) {
+                                            ParticleDetails pd = new ParticleDetails(pt);
+                                            Critical.CriticalType criticalType = Critical.CriticalType.valueOf(pdi.toString().toUpperCase());
+                                            pd.criticalType = criticalType;
+                                            if (Permission.hasEffectPerm(player, true, pt, criticalType.toString().toLowerCase(), menu.effectType)) {
+                                                if (b) {
+                                                    if (removeEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Critical"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
+                                                } else {
+                                                    if (addEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Critical"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
                                                 }
                                             }
                                         }
                                     }
-                                }
                                 /*else if (pt == ParticleType.NOTE) {
                                     if (EnumUtil.isEnumType(Note.NoteType.class, pdi.toString().toUpperCase())) {
 										Note.NoteType noteType = Note.NoteType.valueOf(pdi.toString().toUpperCase());
@@ -206,60 +214,61 @@ public class MenuListener implements Listener {
 										}
 									}
 								}*/
-                                else if (pt == ParticleType.POTION) {
-                                    if (EnumUtil.isEnumType(Potion.PotionType.class, pdi.toString().toUpperCase())) {
-                                        Potion.PotionType potionType = Potion.PotionType.valueOf(pdi.toString().toUpperCase());
-                                        ParticleDetails pd = new ParticleDetails(pt);
-                                        pd.potionType = potionType;
-                                        if (Permission.hasEffectPerm(player, true, pt, potionType.toString().toLowerCase(), menu.effectType)) {
-                                            if (b) {
-                                                if (removeEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Potion"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
-                                                }
-                                            } else {
-                                                if (addEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Potion"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else if (pt == ParticleType.SMOKE) {
-                                    if (EnumUtil.isEnumType(Smoke.SmokeType.class, pdi.toString().toUpperCase())) {
-                                        Smoke.SmokeType smokeType = Smoke.SmokeType.valueOf(pdi.toString().toUpperCase());
-                                        ParticleDetails pd = new ParticleDetails(pt);
-                                        pd.smokeType = smokeType;
-                                        if (Permission.hasEffectPerm(player, true, pt, smokeType.toString().toLowerCase(), menu.effectType)) {
-                                            if (b) {
-                                                if (removeEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Smoke"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
-                                                }
-                                            } else {
-                                                if (addEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Smoke"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
+                                    else if (pt == ParticleType.POTION) {
+                                        if (EnumUtil.isEnumType(Potion.PotionType.class, pdi.toString().toUpperCase())) {
+                                            Potion.PotionType potionType = Potion.PotionType.valueOf(pdi.toString().toUpperCase());
+                                            ParticleDetails pd = new ParticleDetails(pt);
+                                            pd.potionType = potionType;
+                                            if (Permission.hasEffectPerm(player, true, pt, potionType.toString().toLowerCase(), menu.effectType)) {
+                                                if (b) {
+                                                    if (removeEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Potion"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
+                                                } else {
+                                                    if (addEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Potion"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                } else if (pt == ParticleType.SWIRL) {
-                                    if (EnumUtil.isEnumType(Swirl.SwirlType.class, pdi.toString().toUpperCase())) {
-                                        Swirl.SwirlType swirlType = Swirl.SwirlType.valueOf(pdi.toString().toUpperCase());
-                                        ParticleDetails pd = new ParticleDetails(pt);
-                                        pd.swirlType = swirlType;
-                                        pd.setPlayer(player.getName(), player.getUniqueId());
-                                        if (Permission.hasEffectPerm(player, true, pt, swirlType.toString().toLowerCase(), menu.effectType)) {
-                                            if (b) {
-                                                if (removeEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Swirl"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
+                                    } else if (pt == ParticleType.SMOKE) {
+                                        if (EnumUtil.isEnumType(Smoke.SmokeType.class, pdi.toString().toUpperCase())) {
+                                            Smoke.SmokeType smokeType = Smoke.SmokeType.valueOf(pdi.toString().toUpperCase());
+                                            ParticleDetails pd = new ParticleDetails(pt);
+                                            pd.smokeType = smokeType;
+                                            if (Permission.hasEffectPerm(player, true, pt, smokeType.toString().toLowerCase(), menu.effectType)) {
+                                                if (b) {
+                                                    if (removeEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Smoke"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
+                                                } else {
+                                                    if (addEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Smoke"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
                                                 }
-                                            } else {
-                                                if (addEffect(player, pd, menu.effectType, menu, data)) {
-                                                    Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Swirl"));
-                                                    inv.setItem(slot, pdi.getMenuItem(b));
+                                            }
+                                        }
+                                    } else if (pt == ParticleType.SWIRL) {
+                                        if (EnumUtil.isEnumType(Swirl.SwirlType.class, pdi.toString().toUpperCase())) {
+                                            Swirl.SwirlType swirlType = Swirl.SwirlType.valueOf(pdi.toString().toUpperCase());
+                                            ParticleDetails pd = new ParticleDetails(pt);
+                                            pd.swirlType = swirlType;
+                                            pd.setPlayer(player.getName(), player.getUniqueId());
+                                            if (Permission.hasEffectPerm(player, true, pt, swirlType.toString().toLowerCase(), menu.effectType)) {
+                                                if (b) {
+                                                    if (removeEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Swirl"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
+                                                } else {
+                                                    if (addEffect(player, pd, menu.effectType, menu, data)) {
+                                                        Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", "Swirl"));
+                                                        inv.setItem(slot, pdi.getMenuItem(b));
+                                                    }
                                                 }
                                             }
                                         }
@@ -268,9 +277,12 @@ public class MenuListener implements Listener {
                             }
                         }
                     }
-                }
 
+                    event.setCancelled(true);
+                }
+            } catch (Exception e) {
                 event.setCancelled(true);
+                Logger.log(Logger.LogLevel.SEVERE, "Encountered exception in Trail Menu", e, true);
             }
         }
     }
