@@ -43,7 +43,7 @@ public class InteractListener implements Listener {
                     Lang.sendTo(p, Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString());
                 } else {
                     EffectManager.getInstance().remove(eh);
-                    Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
+                    Lang.sendTo(p, Lang.MOB_EFFECTS_STOPPED.toString());
                 }
                 INTERACTION.remove(p.getName());
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.START)) {
@@ -52,7 +52,7 @@ public class InteractListener implements Listener {
                     MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
                     Lang.sendTo(p, Lang.MOB_NO_EFFECTS_RETRY_INTERACT.toString());
                 } else {
-                    Lang.sendTo(p, Lang.LOC_EFFECTS_STARTED.toString());
+                    Lang.sendTo(p, Lang.MOB_EFFECTS_STARTED.toString());
                 }
                 INTERACTION.remove(p.getName());
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.CLEAR)) {
@@ -62,7 +62,7 @@ public class InteractListener implements Listener {
                     Lang.sendTo(p, Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString());
                 } else {
                     EffectManager.getInstance().clear(eh);
-                    Lang.sendTo(p, Lang.LOC_EFFECTS_CLEARED.toString());
+                    Lang.sendTo(p, Lang.MOB_EFFECTS_CLEARED.toString());
                 }
                 INTERACTION.remove(p.getName());
             }

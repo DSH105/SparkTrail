@@ -14,10 +14,15 @@ public enum Permission {
     TRAIL("sparktrail.trail", "", "sparktrail.trail.*", "sparktrail.*"),
 
     PLAYER_TRAIL("sparktrail.trail.player", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    PLAYER_INFO("sparktrail.trail.player.info", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    PLAYER_START("sparktrail.trail.player.start", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    PLAYER_STOP("sparktrail.trail.player.stop", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    PLAYER_CLEAR("sparktrail.trail.player.clear", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
     PLAYER_EFFECT("sparktrail.trail.player.%effect%", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
 
     LOC_START("sparktrail.trail.location.start", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
     LOC_STOP("sparktrail.trail.location.stop", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
+    LOC_STOP_ALL("sparktrail.trail.location.stop", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
     LOC_CLEAR("sparktrail.trail.location.clear", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
     LOC_TRAIL("sparktrail.trail.location", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
     LOC_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
@@ -28,6 +33,7 @@ public enum Permission {
     MOB_TRAIL("sparktrail.trail.mob", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
     MOB_LIST("sparktrail.trail.mob.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
 
+    TIMEOUT("sparktrail.trail.timeout", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     EFFECT("sparktrail.trail.%effect%", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     CLEAR("sparktrail.trail.clear", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     STOP("sparktrail.trail.stop", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),

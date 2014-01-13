@@ -1,4 +1,4 @@
-package io.github.dsh105.sparktrail.util.firework;
+package io.github.dsh105.sparktrail.util;
 
 import org.bukkit.FireworkEffect;
 

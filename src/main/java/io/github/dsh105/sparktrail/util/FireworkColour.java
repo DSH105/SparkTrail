@@ -1,9 +1,9 @@
-package io.github.dsh105.sparktrail.util.firework;
+package io.github.dsh105.sparktrail.util;
 
 import org.bukkit.Color;
 
 
-public enum Colour {
+public enum FireworkColour {
 
     AQUA(Color.AQUA),
     BLACK(Color.BLACK),
@@ -25,7 +25,7 @@ public enum Colour {
 
     private Color color;
 
-    Colour(Color color) {
+    FireworkColour(Color color) {
         this.color = color;
     }
 
@@ -33,10 +33,10 @@ public enum Colour {
         return this.color;
     }
 
-    public static Colour getByColor(Color c) {
-        for (Colour colour : Colour.values()) {
-            if (colour.getColor().equals(c)) {
-                return colour;
+    public static FireworkColour getByColor(Color c) {
+        for (FireworkColour fireworkColour : FireworkColour.values()) {
+            if (fireworkColour.getColor().equals(c)) {
+                return fireworkColour;
             }
         }
         return null;

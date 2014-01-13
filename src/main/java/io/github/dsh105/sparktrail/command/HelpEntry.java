@@ -9,6 +9,7 @@ public enum HelpEntry {
     TRAIL_HELP("/trail help <page>", "View the SparkTrail Help Menu"),
     TRAIL("/trail", "Open the Trail Menu to activate particle effects"),
     TRAIL_EFFECT("/trail <effect> [data]", "Activate a specific Trail effect"),
+    TRAIL_TIMEOUT("/trail timeout <time>", "Sets how long until current effect auto-disables"),
     TRAIL_RANDOM("/trail random", "Activate a random Trail effect"),
     TRAIL_CLEAR("/trail clear", "Clear all Trail effect information"),
     TRAIL_START("/trail start", "Start all Trail effects previously stopped"),

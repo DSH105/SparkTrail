@@ -73,7 +73,7 @@ public class DataMenu extends Menu {
     private DataMenu(Player viewer, EffectHolder.EffectType effectType, String name) {
         this.size = 27;
         this.effectType = effectType;
-        this.viewer = viewer;
+        this.viewer = viewer.getName();
         this.inv = Bukkit.createInventory(viewer, size, name);
     }
 
@@ -100,7 +100,7 @@ public class DataMenu extends Menu {
                                         hasEffect = true;
                                     }
                                 } catch (Exception ex) {
-                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer.getName() + "] for Particle [" + particleType.toString() + "].", ex, true);
+                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer + "] for Particle [" + particleType.toString() + "].", ex, true);
                                     continue;
                                 }
                             }
@@ -120,7 +120,7 @@ public class DataMenu extends Menu {
                                         hasEffect = true;
                                     }
                                 } catch (Exception ex) {
-                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer.getName() + "] for Particle [" + particleType.toString() + "].", ex, true);
+                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer + "] for Particle [" + particleType.toString() + "].", ex, true);
                                     continue;
                                 }
                             } else if (this.particleType == ParticleType.SMOKE) {
@@ -129,7 +129,7 @@ public class DataMenu extends Menu {
                                         hasEffect = true;
                                     }
                                 } catch (Exception ex) {
-                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer.getName() + "] for Particle [" + particleType.toString() + "].", ex, true);
+                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer + "] for Particle [" + particleType.toString() + "].", ex, true);
                                     continue;
                                 }
                             } else if (this.particleType == ParticleType.SWIRL) {
@@ -138,7 +138,7 @@ public class DataMenu extends Menu {
                                         hasEffect = true;
                                     }
                                 } catch (Exception ex) {
-                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer.getName() + "] for Particle [" + particleType.toString() + "].", ex, true);
+                                    Logger.log(Logger.LogLevel.WARNING, "Could not initialise Trail Data Menu [Player: " + this.viewer + "] for Particle [" + particleType.toString() + "].", ex, true);
                                     continue;
                                 }
                             }
@@ -154,16 +154,19 @@ public class DataMenu extends Menu {
     }
 
     public void open(boolean sendMessage) {
-        MenuOpenEvent menuEvent = new MenuOpenEvent(this.viewer, MenuOpenEvent.MenuType.MAIN);
+        if (this.getViewer() == null) {
+            return;
+        }
+        MenuOpenEvent menuEvent = new MenuOpenEvent(this.getViewer(), MenuOpenEvent.MenuType.MAIN);
         SparkTrail.getInstance().getServer().getPluginManager().callEvent(menuEvent);
         if (menuEvent.isCancelled()) {
             return;
         }
-        this.viewer.openInventory(this.inv);
+        this.getViewer().openInventory(this.inv);
         if (sendMessage) {
-            Lang.sendTo(this.viewer, Lang.OPEN_MENU.toString());
+            Lang.sendTo(this.getViewer(), Lang.OPEN_MENU.toString());
         }
-        openMenus.put(viewer.getName(), this);
+        openMenus.put(this.viewer, this);
     }
 
 }

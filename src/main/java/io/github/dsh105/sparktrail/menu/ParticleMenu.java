@@ -3,6 +3,7 @@ package io.github.dsh105.sparktrail.menu;
 import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.api.event.MenuOpenEvent;
+import io.github.dsh105.sparktrail.chat.MenuChatListener;
 import io.github.dsh105.sparktrail.data.EffectManager;
 import io.github.dsh105.sparktrail.particle.Effect;
 import io.github.dsh105.sparktrail.particle.EffectHolder;
@@ -15,8 +16,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -25,15 +24,7 @@ import java.util.UUID;
 public class ParticleMenu extends Menu {
 
     public static HashMap<String, ParticleMenu> openMenus = new HashMap<String, ParticleMenu>();
-    public static ItemStack CLOSE;
-
-    static {
-        ItemStack item = new ItemStack(Material.BOOK, 1, (short) 0);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.GOLD + "Close");
-        item.setItemMeta(meta);
-        CLOSE = item;
-    }
+    protected MenuIcon[] endItems;
 
     Inventory inv;
     private int size;
@@ -64,8 +55,63 @@ public class ParticleMenu extends Menu {
     private ParticleMenu(Player viewer, EffectHolder.EffectType effectType, String name) {
         this.size = 45;
         this.effectType = effectType;
-        this.viewer = viewer;
+        this.viewer = viewer.getName();
         this.inv = Bukkit.createInventory(viewer, size, name);
+
+        endItems = new MenuIcon[]{
+
+                new MenuIcon(this, Material.BOOK, (short) 0, ChatColor.GOLD + "Close"),
+
+                new MenuIcon(this, Material.WATCH, (short) 0, ChatColor.GOLD + "Timeout") {
+                    @Override
+                    public void onClick() {
+                        if (this.getViewer() != null) {
+                            Lang.sendTo(this.getViewer(), Lang.ENTER_TIMEOUT.toString());
+                            MenuChatListener.AWAITING_TIMEOUT_INPUT.add(this.getViewer().getName());
+                        }
+                    }
+                },
+
+                new MenuIcon(this, Material.WOOL, (short) 5, ChatColor.GOLD + "Start") {
+                    @Override
+                    public void onClick() {
+                        if (this.getViewer() != null) {
+                            EffectHolder eh = EffectManager.getInstance().createFromFile(this.getViewer().getName());
+                            if (eh == null || eh.getEffects().isEmpty()) {
+                                Lang.sendTo(this.getViewer(), Lang.NO_EFFECTS_TO_LOAD.toString());
+                                EffectManager.getInstance().clear(eh);
+                                return;
+                            }
+                            Lang.sendTo(this.getViewer(), Lang.EFFECTS_LOADED.toString());
+                        }
+                    }
+                },
+
+                new MenuIcon(this, Material.WOOL, (short) 14, ChatColor.GOLD + "Stop") {
+                    @Override
+                    public void onClick() {
+                        EffectHolder eh = EffectManager.getInstance().getEffect(this.getViewer().getName());
+                        if (eh == null) {
+                            Lang.sendTo(this.getViewer(), Lang.NO_ACTIVE_EFFECTS.toString());
+                            return;
+                        }
+                        EffectManager.getInstance().remove(eh);
+                        Lang.sendTo(this.getViewer(), Lang.EFFECTS_STOPPED.toString());
+                    }
+                },
+
+                new MenuIcon(this, Material.WOOL, (short) 0, ChatColor.GOLD + "Clear") {
+                    @Override
+                    public void onClick() {
+                        EffectHolder eh = EffectManager.getInstance().getEffect(this.getViewer().getName());
+                        if (eh == null) {
+                            Lang.sendTo(this.getViewer(), Lang.NO_ACTIVE_EFFECTS.toString());
+                            return;
+                        }
+                        EffectManager.getInstance().clear(eh);
+                        Lang.sendTo(this.getViewer(), Lang.EFFECTS_CLEARED.toString());
+                    }
+                }};
     }
 
     public void setItems() {
@@ -97,20 +143,25 @@ public class ParticleMenu extends Menu {
             }
         }
 
-        int book = size - 1;
-        inv.setItem(book, CLOSE);
+        int i2 = 0;
+        for (int i3 = size - 1; i3 < endItems.length; i3--) {
+            inv.setItem(i3, endItems[i2].getStack());
+        }
     }
 
     public void open(boolean sendMessage) {
-        MenuOpenEvent menuEvent = new MenuOpenEvent(this.viewer, MenuOpenEvent.MenuType.MAIN);
+        if (this.getViewer() == null) {
+            return;
+        }
+        MenuOpenEvent menuEvent = new MenuOpenEvent(this.getViewer(), MenuOpenEvent.MenuType.MAIN);
         SparkTrail.getInstance().getServer().getPluginManager().callEvent(menuEvent);
         if (menuEvent.isCancelled()) {
             return;
         }
-        this.viewer.openInventory(this.inv);
+        this.getViewer().openInventory(this.inv);
         if (sendMessage) {
-            Lang.sendTo(this.viewer, Lang.OPEN_MENU.toString());
+            Lang.sendTo(this.getViewer(), Lang.OPEN_MENU.toString());
         }
-        openMenus.put(viewer.getName(), this);
+        openMenus.put(this.viewer, this);
     }
 }

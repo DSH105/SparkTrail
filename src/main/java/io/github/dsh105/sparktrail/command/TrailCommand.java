@@ -132,7 +132,7 @@ public class TrailCommand implements CommandExecutor {
                         return true;
                     }
                     Lang.sendTo(sender, Lang.DEMO_BEGIN.toString());
-                    ParticleDemo pd = new ParticleDemo((Player) sender);
+                    new ParticleDemo((Player) sender);
                     return true;
                 } else return true;
             } else if (args[0].equalsIgnoreCase("info")) {
@@ -290,6 +290,21 @@ public class TrailCommand implements CommandExecutor {
                     }
                     return true;
                 } else return true;
+            } else if (args[0].equalsIgnoreCase("timeout")) {
+                if (Permission.TIMEOUT.hasPerm(sender, true, false)) {
+                    if (!StringUtil.isInt(args[1])) {
+                        Lang.sendTo(sender, Lang.INT_ONLY_WITH_ARGS.toString().replace("%string%", args[1]).replace("%argNum%", "1"));
+                        return true;
+                    }
+                    Player p = (Player) sender;
+                    EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
+                    if (eh == null || eh.getEffects().isEmpty()) {
+                        Lang.sendTo(sender, Lang.NO_ACTIVE_EFFECTS.toString());
+                        return true;
+                    }
+                    eh.setTimeout(Integer.parseInt(args[1]));
+                    Lang.sendTo(sender, Lang.TIMEOUT_SET.toString().replace("%timeout%", args[1]));
+                }
             } else if (args[0].equalsIgnoreCase("player")) {
                 if (args[1].equalsIgnoreCase("list")) {
                     if (Permission.PLAYER_LIST.hasPerm(sender, true, true)) {
@@ -300,7 +315,7 @@ public class TrailCommand implements CommandExecutor {
                             }
                         }
                         if (list.isEmpty()) {
-                            Lang.sendTo(sender, Lang.PLAYER_NO_ACTIVE_EFFECTS.toString());
+                            Lang.sendTo(sender, Lang.PLAYER_LIST_NO_ACTIVE_EFFECTS.toString());
                             return true;
                         }
                         sender.sendMessage(SparkTrail.getInstance().secondaryColour + "------------ " + SparkTrail.getInstance().primaryColour + "Player" + " Trail Effects ------------");
@@ -336,7 +351,7 @@ public class TrailCommand implements CommandExecutor {
                             }
                         }
                         if (list.isEmpty()) {
-                            Lang.sendTo(sender, Lang.LOC_NO_ACTIVE_EFFECTS.toString());
+                            Lang.sendTo(sender, Lang.LOC_LIST_NO_ACTIVE_EFFECTS.toString());
                             return true;
                         }
                         sender.sendMessage(SparkTrail.getInstance().secondaryColour + "------------ " + SparkTrail.getInstance().primaryColour + "Location" + " Trail Effects ------------");
@@ -375,7 +390,7 @@ public class TrailCommand implements CommandExecutor {
                             }
                         }
                         if (list.isEmpty()) {
-                            Lang.sendTo(sender, Lang.MOB_NO_ACTIVE_EFFECTS.toString());
+                            Lang.sendTo(sender, Lang.MOB_LIST_NO_ACTIVE_EFFECTS.toString());
                             return true;
                         }
                         sender.sendMessage(SparkTrail.getInstance().secondaryColour + "------------ " + SparkTrail.getInstance().primaryColour + "Mob" + " Trail Effects ------------");
@@ -482,13 +497,88 @@ public class TrailCommand implements CommandExecutor {
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("player")) {
                 if (args[2].equalsIgnoreCase("info")) {
-
+                    if (Permission.PLAYER_INFO.hasPerm(sender, true, true)) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target == null) {
+                            Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
+                            return true;
+                        }
+                        EffectHolder eh = EffectManager.getInstance().getEffect(target.getName());
+                        if (eh == null || eh.getEffects().isEmpty()) {
+                            Lang.sendTo(sender, Lang.PLAYER_NO_ACTIVE_EFFECTS.toString().replace("%player%", args[1]));
+                            return true;
+                        }
+                        sender.sendMessage(c2 + "------------ Trail Effects ------------");
+                        for (Effect e : eh.getEffects()) {
+                            if (e.getParticleType().requiresDataMenu()) {
+                                sender.sendMessage(c1 + StringUtil.capitalise(e.getParticleType().toString()) + ": " + c2 + e.getParticleData());
+                            } else {
+                                sender.sendMessage(c1 + StringUtil.capitalise(e.getParticleType().toString()));
+                            }
+                        }
+                        return true;
+                    } else return true;
                 } else if (args[2].equalsIgnoreCase("start")) {
-
+                    if (Permission.PLAYER_START.hasPerm(sender, true, true)) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target == null) {
+                            Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
+                            return true;
+                        }
+                        EffectHolder eh = EffectManager.getInstance().createFromFile(target.getName());
+                        if (eh == null || eh.getEffects().isEmpty()) {
+                            Lang.sendTo(sender, Lang.PLAYER_NO_EFFECTS_TO_LOAD.toString().replace("%player%", target.getName()));
+                            EffectManager.getInstance().clear(eh);
+                            return true;
+                        }
+                        Lang.sendTo(sender, Lang.PLAYER_EFFECTS_LOADED.toString().replace("%player%", target.getName()));
+                        return true;
+                    } else return true;
                 } else if (args[2].equalsIgnoreCase("stop")) {
-
+                    if (Permission.PLAYER_START.hasPerm(sender, true, true)) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target == null) {
+                            Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
+                            return true;
+                        }
+                        EffectHolder eh = EffectManager.getInstance().getEffect(target.getName());
+                        if (eh == null) {
+                            Lang.sendTo(sender, Lang.PLAYER_NO_ACTIVE_EFFECTS.toString().replace("%player%", args[1]));
+                            return true;
+                        }
+                        EffectManager.getInstance().remove(eh);
+                        Lang.sendTo(sender, Lang.PLAYER_EFFECTS_STOPPED.toString().replace("%player%", target.getName()));
+                        return true;
+                    } else return true;
                 } else if (args[2].equalsIgnoreCase("clear")) {
-
+                    if (Permission.PLAYER_START.hasPerm(sender, true, true)) {
+                        Player target = Bukkit.getPlayer(args[1]);
+                        if (target == null) {
+                            Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
+                            return true;
+                        }
+                        EffectHolder eh = EffectManager.getInstance().getEffect(target.getName());
+                        if (eh == null) {
+                            Lang.sendTo(sender, Lang.PLAYER_NO_ACTIVE_EFFECTS.toString().replace("%player%", args[1]));
+                            return true;
+                        }
+                        EffectManager.getInstance().clear(eh);
+                        Lang.sendTo(sender, Lang.PLAYER_EFFECTS_CLEARED.toString().replace("%player%", target.getName()));
+                        return true;
+                    } else return true;
+                }
+            } else if (args[0].equalsIgnoreCase("location")) {
+                if (args[1].equalsIgnoreCase("stop")) {
+                    if (args[2].equalsIgnoreCase("all")) {
+                        if (Permission.LOC_STOP_ALL.hasPerm(sender, true, true)) {
+                            for (EffectHolder eh : EffectManager.getInstance().getEffectHolders()) {
+                                if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+                                    EffectManager.getInstance().remove(eh);
+                                }
+                            }
+                            Lang.sendTo(sender, Lang.LOC_STOP_ALL.toString());
+                        } else return true;
+                    }
                 }
             }
         } else if (args.length == 4 && args[0].equalsIgnoreCase("location")) {
@@ -521,23 +611,29 @@ public class TrailCommand implements CommandExecutor {
                 return true;
             } else return true;
         } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("start")) {
-            if (Permission.LOC_STOP.hasPerm(sender, true, true)) {
+            if (Permission.LOC_START.hasPerm(sender, true, true)) {
                 Location l = Serialise.getLocation(sender, args, 2);
                 if (l == null) {
                     return true;
                 }
-
-                //TODO
+                EffectHolder eh = EffectManager.getInstance().createFromFile(l);
+                if (eh == null || eh.getEffects().isEmpty()) {
+                    Lang.sendTo(sender, Lang.LOC_NO_EFFECTS_TO_LOAD.toString());
+                    EffectManager.getInstance().clear(eh);
+                    return true;
+                }
+                Lang.sendTo(sender, Lang.LOC_EFFECTS_LOADED.toString());
                 return true;
             } else return true;
         } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("clear")) {
-            if (Permission.LOC_STOP.hasPerm(sender, true, true)) {
+            if (Permission.LOC_CLEAR.hasPerm(sender, true, true)) {
                 Location l = Serialise.getLocation(sender, args, 2);
                 if (l == null) {
                     return true;
                 }
-
-                //TODO
+                EffectHolder eh = EffectManager.getInstance().getEffect(l);
+                EffectManager.getInstance().clear(eh);
+                Lang.sendTo(sender, Lang.LOC_EFFECTS_CLEARED.toString());
                 return true;
             } else return true;
         } else if (args.length == 5 || (args.length >= 6 && (args[4].equalsIgnoreCase("blockbreak") || args[4].equalsIgnoreCase("firework")))) {

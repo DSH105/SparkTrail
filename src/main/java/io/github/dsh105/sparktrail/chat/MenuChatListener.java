@@ -20,6 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -28,6 +29,7 @@ public class MenuChatListener implements Listener {
 
     public static HashMap<String, WaitingData> AWAITING_DATA = new HashMap<String, WaitingData>();
     public static HashMap<String, WaitingData> AWAITING_RETRY = new HashMap<String, WaitingData>();
+    public static ArrayList<String> AWAITING_TIMEOUT_INPUT = new ArrayList<String>();
 
     public static HashMap<String, InteractDetails> RETRY_INTERACT = new HashMap<String, InteractDetails>();
 
@@ -156,6 +158,21 @@ public class MenuChatListener implements Listener {
                 Lang.sendTo(player, Lang.DEMO_STOP.toString());
                 event.setCancelled(true);
 
+            }
+        } else if (AWAITING_TIMEOUT_INPUT.contains(player.getName())) {
+            if (StringUtil.isInt(msg)) {
+                EffectHolder eh = EffectManager.getInstance().getEffect(player.getName());
+                if (eh == null) {
+                    Lang.sendTo(event.getPlayer(), Lang.NO_ACTIVE_EFFECTS.toString());
+                }
+                else if (Permission.TIMEOUT.hasPerm(player, true)) {
+                    eh.setTimeout(Integer.parseInt(msg));
+                    Lang.sendTo(player, Lang.TIMEOUT_SET.toString().replace("%timeout%", msg));
+                }
+                event.setCancelled(true);
+            } else {
+                Lang.sendTo(player, Lang.INT_ONLY.toString().replace("%string%", msg));
+                event.setCancelled(true);
             }
         }
     }

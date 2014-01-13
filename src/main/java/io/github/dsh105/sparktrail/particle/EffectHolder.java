@@ -31,6 +31,8 @@ public class EffectHolder extends BukkitRunnable {
     public int locZ;
 
     private int tick = 0;
+    private int timeout = 0;
+    private int timeoutTicks = 0;
 
     public EffectHolder(EffectType effectType) {
         this.effectType = effectType;
@@ -239,36 +241,6 @@ public class EffectHolder extends BukkitRunnable {
         return this.details;
     }
 
-    public void start() {
-        this.task = this.runTaskTimer(SparkTrail.getInstance(), 0L, 1L);
-    }
-
-    public void run() {
-        if (!this.effects.isEmpty()) {
-            if (update()) {
-                Iterator<Effect> i = this.effects.iterator();
-                while (i.hasNext()) {
-                    Effect e = i.next();
-                    if (e == null || e.getParticleType() == null) {
-                        continue;
-                    }
-                    if (e.getParticleType().getIncompatibleTypes().contains(this.effectType)) {
-                        i.remove();
-                        continue;
-                    }
-                    if (this.tick % e.getParticleType().getFrequency() == 0) {
-                        e.play();
-                    }
-                }
-            }
-        }
-        if (tick == ConfigOptions.instance.maxTick) {
-            tick = 0;
-        } else {
-            tick++;
-        }
-    }
-
     private boolean update() {
         if (this.effectType == EffectType.PLAYER) {
             if (this.details.playerName == null) {
@@ -336,12 +308,50 @@ public class EffectHolder extends BukkitRunnable {
         return true;
     }
 
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public void start() {
+        this.task = this.runTaskTimer(SparkTrail.getInstance(), 0L, 1L);
+    }
+
     public void stop() {
         this.task.cancel();
     }
 
-    public enum EffectType {
+    public void run() {
+        if (this.timeout > 0) {
+            if (++this.timeoutTicks > this.timeout) {
+                EffectManager.getInstance().remove(this);
+            }
+        }
+        if (!this.effects.isEmpty()) {
+            if (update()) {
+                Iterator<Effect> i = this.effects.iterator();
+                while (i.hasNext()) {
+                    Effect e = i.next();
+                    if (e == null || e.getParticleType() == null) {
+                        continue;
+                    }
+                    if (e.getParticleType().getIncompatibleTypes().contains(this.effectType)) {
+                        i.remove();
+                        continue;
+                    }
+                    if (this.tick % e.getParticleType().getFrequency() == 0) {
+                        e.play();
+                    }
+                }
+            }
+        }
+        if (tick == ConfigOptions.instance.maxTick) {
+            tick = 0;
+        } else {
+            tick++;
+        }
+    }
 
+    public enum EffectType {
         LOCATION, PLAYER, MOB;
     }
 }

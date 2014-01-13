@@ -5,8 +5,6 @@ import io.github.dsh105.dshutils.util.StringUtil;
 import io.github.dsh105.sparktrail.SparkTrail;
 import io.github.dsh105.sparktrail.chat.BlockData;
 import io.github.dsh105.dshutils.logger.ConsoleLogger;
-import io.github.dsh105.sparktrail.util.firework.Colour;
-import io.github.dsh105.sparktrail.util.firework.FireworkType;
 import org.bukkit.*;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
@@ -46,11 +44,11 @@ public class Serialise {
             Random r = new Random();
             int colourAmount = r.nextInt(17);
             for (int i = 0; i < colourAmount; i++) {
-                Colour colour = Colour.values()[i];
-                if (colours.contains(colour.getColor())) {
+                FireworkColour fireworkColour = FireworkColour.values()[i];
+                if (colours.contains(fireworkColour.getColor())) {
                     i--;
                 } else {
-                    colours.add(colour.getColor());
+                    colours.add(fireworkColour.getColor());
                 }
             }
             type = FireworkEffect.Type.values()[r.nextInt(4)];
@@ -67,8 +65,8 @@ public class Serialise {
                     trail = true;
                 }
 
-                if (EnumUtil.isEnumType(Colour.class, s.toUpperCase())) {
-                    colours.add(Colour.valueOf(s.toUpperCase()).getColor());
+                if (EnumUtil.isEnumType(FireworkColour.class, s.toUpperCase())) {
+                    colours.add(FireworkColour.valueOf(s.toUpperCase()).getColor());
                 }
 
                 if (EnumUtil.isEnumType(FireworkType.class, s.toUpperCase())) {
@@ -117,7 +115,7 @@ public class Serialise {
             x = Integer.parseInt(args[start]);
         } else {
             ConsoleLogger.log("" + start + " " + args[start]);
-            Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
+            Lang.sendTo(sender, Lang.INT_ONLY_WITH_ARGS.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
             return null;
         }
 
@@ -130,7 +128,7 @@ public class Serialise {
         } else if (StringUtil.isInt(args[start])) {
             y = Integer.parseInt(args[start]);
         } else {
-            Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
+            Lang.sendTo(sender, Lang.INT_ONLY_WITH_ARGS.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
             return null;
         }
 
@@ -143,7 +141,7 @@ public class Serialise {
         } else if (StringUtil.isInt(args[start])) {
             z = Integer.parseInt(args[start]);
         } else {
-            Lang.sendTo(sender, Lang.INT_ONLY.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
+            Lang.sendTo(sender, Lang.INT_ONLY_WITH_ARGS.toString().replace("%string%", args[start]).replace("%argNum%", start + ""));
             return null;
         }
 
@@ -162,7 +160,7 @@ public class Serialise {
 
         String s = "";
         for (Color c : colours) {
-            s = s + Colour.getByColor(c).toString() + ",";
+            s = s + FireworkColour.getByColor(c).toString() + ",";
         }
         s = s + FireworkType.getByType(type).toString().toLowerCase() + (flicker ? ",flicker" : "") + (trail ? ",trail" : "");
         return s;
@@ -184,8 +182,8 @@ public class Serialise {
                 trail = true;
             }
 
-            if (EnumUtil.isEnumType(Colour.class, s.toUpperCase())) {
-                colours.add(Colour.valueOf(s.toUpperCase()).getColor());
+            if (EnumUtil.isEnumType(FireworkColour.class, s.toUpperCase())) {
+                colours.add(FireworkColour.valueOf(s.toUpperCase()).getColor());
             }
 
             if (EnumUtil.isEnumType(FireworkType.class, s.toUpperCase())) {
