@@ -40,8 +40,7 @@ public enum Permission {
     START("sparktrail.trail.start", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     DEMO("sparktrail.trail.demo", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
     INFO("sparktrail.trail.info", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    PLAYER_LIST("sparktrail.trail.player.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
-    ;
+    PLAYER_LIST("sparktrail.trail.player.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),;
 
     String perm;
     String requiredPerm;

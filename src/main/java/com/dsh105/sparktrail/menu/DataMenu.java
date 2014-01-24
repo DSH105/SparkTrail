@@ -1,10 +1,8 @@
 package com.dsh105.sparktrail.menu;
 
-import io.github.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.MenuOpenEvent;
 import com.dsh105.sparktrail.data.EffectManager;
-import io.github.dsh105.dshutils.logger.Logger;
 import com.dsh105.sparktrail.particle.Effect;
 import com.dsh105.sparktrail.particle.EffectHolder;
 import com.dsh105.sparktrail.particle.ParticleType;
@@ -14,6 +12,8 @@ import com.dsh105.sparktrail.particle.type.Smoke;
 import com.dsh105.sparktrail.particle.type.Swirl;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Serialise;
+import io.github.dsh105.dshutils.logger.Logger;
+import io.github.dsh105.dshutils.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

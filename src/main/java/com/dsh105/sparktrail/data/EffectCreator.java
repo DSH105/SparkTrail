@@ -1,12 +1,12 @@
 package com.dsh105.sparktrail.data;
 
-import io.github.dsh105.dshutils.logger.Logger;
 import com.dsh105.sparktrail.particle.Effect;
 import com.dsh105.sparktrail.particle.EffectHolder;
 import com.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import com.dsh105.sparktrail.particle.ParticleDetails;
 import com.dsh105.sparktrail.particle.ParticleType;
 import com.dsh105.sparktrail.particle.type.*;
+import io.github.dsh105.dshutils.logger.Logger;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 

@@ -33,8 +33,7 @@ public enum HelpEntry {
     TRAIL_PLAYER_LIST("/trail player list", "List all active Player Trail effects"),
     TRAIL_PLAYER_CLEAR("/trail player <name> clear", "Clear all Trail effect information for another player"),
     TRAIL_PLAYER_ACTIVATE("/trail player <name> start", "Start all Trail effects previously stopped for another player"),
-    TRAIL_PLAYER_STOP("/trail player <name> stop", "Pause all active Trail effects for another player"),
-    ;
+    TRAIL_PLAYER_STOP("/trail player <name> stop", "Pause all active Trail effects for another player"),;
 
     private String line;
     private EntryType[] entryTypes;

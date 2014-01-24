@@ -1,10 +1,10 @@
 package com.dsh105.sparktrail.particle;
 
-import io.github.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.EffectPlayEvent;
 import com.dsh105.sparktrail.particle.type.*;
 import com.dsh105.sparktrail.util.Serialise;
+import io.github.dsh105.dshutils.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;

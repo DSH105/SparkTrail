@@ -1,12 +1,12 @@
 package com.dsh105.sparktrail.particle;
 
-import io.github.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
-import io.github.dsh105.dshutils.logger.Logger;
 import com.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import com.dsh105.sparktrail.particle.type.*;
 import com.dsh105.sparktrail.particle.type.Void;
+import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.dshutils.util.EnumUtil;
+import io.github.dsh105.dshutils.util.StringUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

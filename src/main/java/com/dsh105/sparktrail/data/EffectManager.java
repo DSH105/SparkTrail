@@ -1,16 +1,16 @@
 package com.dsh105.sparktrail.data;
 
 import com.dsh105.sparktrail.SparkTrailPlugin;
-import io.github.dsh105.dshutils.config.YAMLConfig;
-import io.github.dsh105.dshutils.logger.Logger;
 import com.dsh105.sparktrail.mysql.SQLEffectManager;
 import com.dsh105.sparktrail.particle.Effect;
 import com.dsh105.sparktrail.particle.EffectHolder;
 import com.dsh105.sparktrail.particle.ParticleDetails;
 import com.dsh105.sparktrail.particle.ParticleType;
 import com.dsh105.sparktrail.particle.type.*;
-import io.github.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.sparktrail.util.Serialise;
+import io.github.dsh105.dshutils.config.YAMLConfig;
+import io.github.dsh105.dshutils.logger.Logger;
+import io.github.dsh105.dshutils.util.EnumUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -146,7 +146,7 @@ public class EffectManager {
 
     public EffectHolder createFromFile(String playerName) {
         //Player p = Bukkit.getPlayerExact(playerName);
-		/*if (p == null) {
+        /*if (p == null) {
 			return null;
 		}*/
         String path = "effects.player." + playerName;

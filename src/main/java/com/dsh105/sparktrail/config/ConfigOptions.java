@@ -1,8 +1,8 @@
 package com.dsh105.sparktrail.config;
 
+import com.dsh105.sparktrail.particle.ParticleType;
 import io.github.dsh105.dshutils.config.YAMLConfig;
 import io.github.dsh105.dshutils.config.options.Options;
-import com.dsh105.sparktrail.particle.ParticleType;
 
 
 public class ConfigOptions extends Options {

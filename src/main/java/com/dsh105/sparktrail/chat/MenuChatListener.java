@@ -1,7 +1,5 @@
 package com.dsh105.sparktrail.chat;
 
-import io.github.dsh105.dshutils.logger.Logger;
-import io.github.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.data.EffectCreator;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.listeners.InteractDetails;
@@ -13,6 +11,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
 import com.dsh105.sparktrail.util.Serialise;
+import io.github.dsh105.dshutils.logger.Logger;
+import io.github.dsh105.dshutils.util.StringUtil;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -164,8 +164,7 @@ public class MenuChatListener implements Listener {
                 EffectHolder eh = EffectManager.getInstance().getEffect(player.getName());
                 if (eh == null) {
                     Lang.sendTo(event.getPlayer(), Lang.NO_ACTIVE_EFFECTS.toString());
-                }
-                else if (Permission.TIMEOUT.hasPerm(player, true)) {
+                } else if (Permission.TIMEOUT.hasPerm(player, true)) {
                     eh.setTimeout(Integer.parseInt(msg));
                     Lang.sendTo(player, Lang.TIMEOUT_SET.toString().replace("%timeout%", msg));
                 }

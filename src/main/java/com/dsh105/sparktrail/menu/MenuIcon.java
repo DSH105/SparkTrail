@@ -1,6 +1,5 @@
 package com.dsh105.sparktrail.menu;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -35,5 +34,6 @@ public class MenuIcon {
         return stack;
     }
 
-    public void onClick() {}
+    public void onClick() {
+    }
 }
