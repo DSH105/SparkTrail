@@ -14,6 +14,8 @@ public abstract class Effect {
 
     private EffectHolder holder;
 
+    private LastPlayLoc lastPlayLoc;
+
     protected DisplayType displayType;
     protected ParticleType particleType;
     protected BukkitTask task;
@@ -52,10 +54,26 @@ public abstract class Effect {
         return holder.world;
     }
 
-    public boolean play() {
+    private boolean callPlayEvent() {
         EffectPlayEvent effectPlayEvent = new EffectPlayEvent(this);
-        SparkTrail.getInstance().getServer().getPluginManager().callEvent(effectPlayEvent);
-        return !effectPlayEvent.isCancelled();
+        SparkTrailPlugin.getInstance().getServer().getPluginManager().callEvent(effectPlayEvent);
+        return effectPlayEvent.isCancelled();
+    }
+
+    public boolean play() {
+        if (this.getEffectType().equals(EffectHolder.EffectType.PLAYER) && this.displayType.equals(DisplayType.FEET)) {
+            Player p = Bukkit.getPlayerExact(this.getHolder().getDetails().playerName);
+            if (p == null) {
+                return false;
+            }
+            if (this.lastPlayLoc == null) {
+                this.lastPlayLoc = new LastPlayLoc(p.getLocation());
+            }
+            if (!this.lastPlayLoc.isSimilar(p.getLocation())) {
+                return !this.callPlayEvent();
+            }
+        }
+        return !this.callPlayEvent();
     }
 
     public abstract void playDemo(Player p);

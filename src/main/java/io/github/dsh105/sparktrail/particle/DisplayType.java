@@ -11,7 +11,8 @@ public enum DisplayType {
     NORMAL,
     CIRCLE,
     DOUBLE,
-    ABOVE;
+    ABOVE,
+    FEET;
 
     public ArrayList<Location> getLocations(Location l) {
         ArrayList<Location> locations = new ArrayList<Location>();
