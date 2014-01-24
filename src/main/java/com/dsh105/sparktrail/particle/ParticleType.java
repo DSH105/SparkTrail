@@ -28,6 +28,7 @@ public enum ParticleType {
     EXPLOSION(Explosion.class, 20, Material.TNT, (short) 0, "Explosion", false),
     FIRE(Fire.class, 20, Material.FIRE, (short) 0, "Fire", false),
     FIREWORK(Firework.class, 20, Material.FIREWORK, (short) 0, "Firework", true),
+    FOOTSTEP(FootStep.class, 20, Material.CHAINMAIL_BOOTS, (short) 0, "FootStep", false),
     HEART(Heart.class, 20, Material.NAME_TAG, (short) 0, "Heart", false),
     LAVADRIP(LavaDrip.class, 20, Material.LAVA, (short) 0, "Lava Drip", false),
     MAGIC(Magic.class, 20, Material.ENCHANTED_BOOK, (short) 0, "Magic", false),
