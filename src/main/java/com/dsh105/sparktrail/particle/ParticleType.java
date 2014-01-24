@@ -26,6 +26,7 @@ public enum ParticleType {
     EMBER(Ember.class, 20, Material.TORCH, (short) 0, "Ember", false),
     ENDER(Ender.class, 20, Material.EYE_OF_ENDER, (short) 0, "Ender", false),
     EXPLOSION(Explosion.class, 20, Material.TNT, (short) 0, "Explosion", false),
+    ITEMSPRAY(ItemSpray.class, 20, Material.DIAMOND, (short) 0, "ItemSpray", false),
     FIRE(Fire.class, 20, Material.FIRE, (short) 0, "Fire", false),
     FIREWORK(Firework.class, 20, Material.FIREWORK, (short) 0, "Firework", true),
     FOOTSTEP(FootStep.class, 20, Material.CHAINMAIL_BOOTS, (short) 0, "FootStep", false),

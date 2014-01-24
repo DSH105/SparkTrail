@@ -21,6 +21,12 @@ public class ItemSpray extends Effect {
     public int idValue;
     public int metaValue;
 
+    public ItemSpray(EffectHolder effectHolder, ParticleType particleType) {
+        super(effectHolder, particleType);
+        this.idValue = 264;
+        this.metaValue = 0;
+    }
+
     public ItemSpray(EffectHolder effectHolder, ParticleType particleType, int idValue, int metaValue) {
         super(effectHolder, particleType);
         this.idValue = idValue;
@@ -34,6 +40,7 @@ public class ItemSpray extends Effect {
             for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
                 for (int i = 1; i <= 5; i++) {
                     Item item = this.getWorld().dropItemNaturally(l, new ItemStack(this.idValue, 1, (short) this.metaValue));
+                    item.setVelocity(item.getVelocity().normalize().multiply(0.4F));
                     item.setPickupDelay(Integer.MAX_VALUE);
                     new ItemSprayRemoveTask(item);
                 }
@@ -51,7 +58,7 @@ public class ItemSpray extends Effect {
         }
     }
 
-    class ItemSprayRemoveTask extends BukkitRunnable {
+    public class ItemSprayRemoveTask extends BukkitRunnable {
 
         private Item item;
         private UUID uuid;
@@ -66,11 +73,22 @@ public class ItemSpray extends Effect {
 
         @Override
         public void run() {
+            this.executeFinish(true);
+        }
+
+        public void executeFinish(boolean removeFromLists) {
             if (this.item != null && !this.item.isDead()) {
                 this.item.remove();
             }
-            TASKS.remove(this);
-            UUID_LIST.remove(this.uuid);
+            if (removeFromLists) {
+                TASKS.remove(this);
+                UUID_LIST.remove(this.uuid);
+            }
+        }
+
+        @Override
+        public synchronized void cancel() throws IllegalStateException {
+            super.cancel();
         }
     }
 }

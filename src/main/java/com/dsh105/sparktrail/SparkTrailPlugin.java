@@ -1,5 +1,6 @@
 package com.dsh105.sparktrail;
 
+import com.dsh105.sparktrail.particle.type.ItemSpray;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import io.github.dsh105.dshutils.Metrics;
@@ -33,6 +34,7 @@ import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +42,7 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 
 
 public class SparkTrailPlugin extends JavaPlugin {
@@ -232,7 +235,13 @@ public class SparkTrailPlugin extends JavaPlugin {
     }
 
     public void onDisable() {
-
+        Iterator<ItemSpray.ItemSprayRemoveTask> i = ItemSpray.TASKS.iterator();
+        while (i.hasNext()) {
+            ItemSpray.ItemSprayRemoveTask task = i.next();
+            task.executeFinish(false);
+            i.remove();
+        }
+        this.getServer().getScheduler().cancelTasks(this);
     }
 
     public static SparkTrailPlugin getInstance() {
