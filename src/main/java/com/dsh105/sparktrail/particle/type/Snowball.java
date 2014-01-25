@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Snowball extends PacketEffect {
 
-    public Snowball(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Snowball(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.SNOWBALL);
     }
 
     @Override

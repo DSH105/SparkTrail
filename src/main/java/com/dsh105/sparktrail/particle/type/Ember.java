@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Ember extends PacketEffect {
 
-    public Ember(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Ember(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.EMBER);
     }
 
     @Override

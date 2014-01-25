@@ -36,14 +36,17 @@ public class ParticleDemo extends BukkitRunnable {
             ParticleType pt = particles[i];
             this.currentParticle = pt;
             if (pt == ParticleType.BLOCKBREAK) {
-                BlockBreak bb1 = new BlockBreak(null, pt, 8, 0);
+                BlockBreak bb1 = new BlockBreak(null, 8, 0);
                 bb1.playDemo(this.viewer);
             } else if (pt == ParticleType.CRITICAL) {
-                Critical c = new Critical(null, pt, Critical.CriticalType.NORMAL);
+                Critical c = new Critical(null, Critical.CriticalType.NORMAL);
                 c.playDemo(this.viewer);
+            } else if (pt == ParticleType.ITEMSPRAY) {
+                ItemSpray i = new ItemSpray(null, 264, 0);
+                i.playDemo(this.viewer);
             } else if (pt == ParticleType.FIREWORK) {
                 FireworkEffect fe = FireworkEffect.builder().withColor(Color.WHITE).withFade(Color.WHITE).trail(true).build();
-                Firework f = new Firework(null, pt, fe);
+                Firework f = new Firework(null, fe);
                 f.playDemo(this.viewer);
             }
             /*else if (pt == ParticleType.NOTE) {
@@ -51,13 +54,13 @@ public class ParticleDemo extends BukkitRunnable {
 				n.playDemo(this.viewer);
 			}*/
             else if (pt == ParticleType.POTION) {
-                Potion p = new Potion(null, pt, Potion.PotionType.AQUA);
+                Potion p = new Potion(null, Potion.PotionType.AQUA);
                 p.playDemo(this.viewer);
             } else if (pt == ParticleType.SMOKE) {
-                Smoke s = new Smoke(null, pt, Smoke.SmokeType.BLACK);
+                Smoke s = new Smoke(null, Smoke.SmokeType.BLACK);
                 s.playDemo(this.viewer);
             } else if (pt == ParticleType.SWIRL) {
-                Swirl s = new Swirl(null, pt, Swirl.SwirlType.WHITE, this.viewer.getUniqueId());
+                Swirl s = new Swirl(null, Swirl.SwirlType.WHITE, this.viewer.getUniqueId());
                 s.playDemo(this.viewer);
                 s.stopDemo(this.viewer);
             } else {

@@ -102,7 +102,7 @@ public class MenuListener implements Listener {
                                 }
                             }
                         } else {
-                            if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.FIREWORK) {
+                            if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY || pt == ParticleType.FIREWORK) {
                                 if (inv.getItem(slot).equals(pt.getMenuItem(false))) {
                                     removeEffect(player, menu.effectType, pt, menu, s);
                                     inv.setItem(slot, pt.getMenuItem(true));
@@ -114,8 +114,8 @@ public class MenuListener implements Listener {
                                 wd.mobUuid = menu.mobUuid;
                                 wd.playerName = menu.playerName;
                                 MenuChatListener.AWAITING_DATA.put(player.getName(), wd);
-                                if (pt == ParticleType.BLOCKBREAK) {
-                                    Lang.sendTo(player, Lang.ENTER_BLOCK.toString());
+                                if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
+                                    Lang.sendTo(player, Lang.ENTER_BLOCK_OR_ITEM.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray"));
                                 } else if (pt == ParticleType.FIREWORK) {
                                     Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
                                 }

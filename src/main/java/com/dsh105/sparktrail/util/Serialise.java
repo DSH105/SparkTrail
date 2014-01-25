@@ -16,7 +16,7 @@ import java.util.*;
 
 public class Serialise {
 
-    public static BlockData findBlockBreak(String msg) {
+    public static BlockData findBlockData(String msg) {
         if (msg.contains(" ")) {
             String[] split = msg.split(" ");
             if (!StringUtil.isInt(split[0])) {

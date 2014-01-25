@@ -76,7 +76,7 @@ public class EffectManager {
             if (effect.getParticleType().requiresDataMenu()) {
                 ParticleType pt = effect.getParticleType();
                 String value = null;
-                if (pt == ParticleType.BLOCKBREAK) {
+                if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
                     value = ((BlockBreak) effect).idValue + "," + ((BlockBreak) effect).metaValue;
                 } else if (pt == ParticleType.CRITICAL) {
                     value = ((Critical) effect).criticalType.toString();
@@ -170,7 +170,7 @@ public class EffectManager {
                 if (pt.requiresDataMenu()) {
                     ParticleDetails pd = new ParticleDetails(pt);
                     String value = config.getString(path + "." + key);
-                    if (pt == ParticleType.BLOCKBREAK) {
+                    if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
                         try {
                             pd.blockId = Integer.parseInt(value.split(",")[0]);
                             pd.blockMeta = Integer.parseInt(value.split(",")[1]);

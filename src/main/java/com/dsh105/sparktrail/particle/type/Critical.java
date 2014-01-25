@@ -9,8 +9,8 @@ public class Critical extends PacketEffect {
 
     public CriticalType criticalType;
 
-    public Critical(EffectHolder effectHolder, ParticleType particleType, CriticalType criticalType) {
-        super(effectHolder, particleType);
+    public Critical(EffectHolder effectHolder, CriticalType criticalType) {
+        super(effectHolder, ParticleType.CRITICAL);
         this.criticalType = criticalType;
     }
 

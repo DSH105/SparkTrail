@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Slime extends PacketEffect {
 
-    public Slime(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Slime(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.SLIME);
     }
 
     @Override

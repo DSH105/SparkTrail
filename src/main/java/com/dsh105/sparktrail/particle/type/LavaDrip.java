@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class LavaDrip extends PacketEffect {
 
-    public LavaDrip(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public LavaDrip(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.LAVADRIP);
     }
 
     @Override

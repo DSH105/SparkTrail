@@ -14,8 +14,8 @@ public class BlockBreak extends PacketEffect {
     public int idValue;
     public int metaValue;
 
-    public BlockBreak(EffectHolder effectHolder, ParticleType particleType, int idValue, int metaValue) {
-        super(effectHolder, particleType);
+    public BlockBreak(EffectHolder effectHolder, int idValue, int metaValue) {
+        super(effectHolder, ParticleType.BLOCKBREAK);
         this.idValue = idValue;
         this.metaValue = metaValue;
     }

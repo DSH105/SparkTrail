@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class WaterDrip extends PacketEffect {
 
-    public WaterDrip(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public WaterDrip(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.WATERDRIP);
     }
 
     @Override

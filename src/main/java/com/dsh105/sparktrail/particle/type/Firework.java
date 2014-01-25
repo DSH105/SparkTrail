@@ -15,8 +15,8 @@ public class Firework extends Effect {
 
     public FireworkEffect fireworkEffect;
 
-    public Firework(EffectHolder effectHolder, ParticleType particleType, FireworkEffect fireworkEffect) {
-        super(effectHolder, particleType);
+    public Firework(EffectHolder effectHolder, FireworkEffect fireworkEffect) {
+        super(effectHolder, ParticleType.FIREWORK);
         this.fireworkEffect = fireworkEffect;
     }
 

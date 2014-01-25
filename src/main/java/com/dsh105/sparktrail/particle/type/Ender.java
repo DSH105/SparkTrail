@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 
 public class Ender extends Effect {
 
-    public Ender(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Ender(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.ENDER);
     }
 
     @Override

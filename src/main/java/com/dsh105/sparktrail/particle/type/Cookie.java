@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Cookie extends PacketEffect {
 
-    public Cookie(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Cookie(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.COOKIE);
     }
 
     @Override

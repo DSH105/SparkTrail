@@ -117,7 +117,7 @@ public enum ParticleType {
     public Effect getEffectInstance(EffectHolder effectHolder) {
         Effect effect = null;
         try {
-            Object o = this.effectClass.getConstructor(EffectHolder.class, ParticleType.class).newInstance(effectHolder, this);
+            Object o = this.effectClass.getConstructor(EffectHolder.class).newInstance(effectHolder);
             if (o instanceof Effect) {
                 effect = (Effect) o;
             }

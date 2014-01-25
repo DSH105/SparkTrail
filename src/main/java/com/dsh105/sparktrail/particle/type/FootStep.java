@@ -6,8 +6,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class FootStep extends PacketEffect {
 
-    public FootStep(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public FootStep(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.FOOTSTEP);
     }
 
     @Override

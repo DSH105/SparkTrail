@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Sparkle extends PacketEffect {
 
-    public Sparkle(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Sparkle(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.SPARKLE);
     }
 
     @Override

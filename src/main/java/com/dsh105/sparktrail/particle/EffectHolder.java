@@ -137,6 +137,10 @@ public class EffectHolder extends BukkitRunnable {
                     if (pd.criticalType.equals(((Critical) e).criticalType)) {
                         return true;
                     }
+                } else if (pt == ParticleType.ITEMSPRAY) {
+                    if (pd.blockId == ((ItemSpray) e).idValue && pd.blockMeta == ((ItemSpray) e).metaValue) {
+                        return true;
+                    }
                 } else if (pt == ParticleType.FIREWORK) {
                     return true;
                 } else if (pt == ParticleType.POTION) {
@@ -178,6 +182,10 @@ public class EffectHolder extends BukkitRunnable {
                 ParticleType pt = e.getParticleType();
                 if (pt == ParticleType.BLOCKBREAK) {
                     if (particleDetails.blockId == ((BlockBreak) e).idValue && particleDetails.blockMeta == ((BlockBreak) e).metaValue) {
+                        i.remove();
+                    }
+                } else if (pt == ParticleType.ITEMSPRAY) {
+                    if (particleDetails.blockId == ((ItemSpray) e).idValue && particleDetails.blockMeta == ((ItemSpray) e).metaValue) {
                         i.remove();
                     }
                 } else if (pt == ParticleType.CRITICAL) {

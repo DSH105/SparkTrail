@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Cloud extends PacketEffect {
 
-    public Cloud(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Cloud(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.CLOUD);
     }
 
     @Override

@@ -48,11 +48,11 @@ public class MenuChatListener implements Listener {
                 Lang.sendTo(player, Lang.EFFECT_CREATION_CANCELLED.toString().replace("%effect%", StringUtil.capitalise(AWAITING_DATA.get(player.getName()).particleType.toString())));
                 AWAITING_DATA.remove(player.getName());
                 return;
-            } else if (pt == ParticleType.BLOCKBREAK) {
-                BlockData bd = Serialise.findBlockBreak(msg);
+            } else if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
+                BlockData bd = Serialise.findBlockData(msg);
                 if (bd == null) {
                     Lang.sendTo(player, Lang.INCORRECT_EFFECT_ARGS.toString()
-                            .replace("%effect%", "Block Break")
+                            .replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray")
                             .replace("%string%", msg));
                     AWAITING_RETRY.put(player.getName(), wd);
                     AWAITING_DATA.remove(player.getName());
@@ -113,8 +113,9 @@ public class MenuChatListener implements Listener {
             event.setCancelled(true);
         } else if (AWAITING_RETRY.containsKey(player.getName())) {
             if (msg.equalsIgnoreCase("YES")) {
-                if (AWAITING_RETRY.get(player.getName()).particleType.equals(ParticleType.BLOCKBREAK)) {
-                    Lang.sendTo(player, Lang.ENTER_BLOCK.toString());
+                ParticleType pt = AWAITING_RETRY.get(player.getName()).particleType;
+                if (pt.equals(ParticleType.BLOCKBREAK) || pt.equals(ParticleType.ITEMSPRAY)) {
+                    Lang.sendTo(player, Lang.ENTER_BLOCK_OR_ITEM.toString().replace("%effect%", pt.equals(ParticleType.BLOCKBREAK) ? "Block Break" : "ItemSpray"));
                 } else if (AWAITING_RETRY.get(player.getName()).equals(ParticleType.FIREWORK)) {
                     Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
                 }

@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Void extends PacketEffect {
 
-    public Void(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Void(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.VOID);
     }
 
     @Override

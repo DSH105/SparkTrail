@@ -17,8 +17,8 @@ public class Swirl extends Effect {
     public SwirlType swirlType;
     public UUID uuid;
 
-    public Swirl(EffectHolder effectHolder, ParticleType particleType, SwirlType swirlType, UUID entityUuid) {
-        super(effectHolder, particleType);
+    public Swirl(EffectHolder effectHolder, SwirlType swirlType, UUID entityUuid) {
+        super(effectHolder, ParticleType.SWIRL);
         this.swirlType = swirlType;
         this.uuid = entityUuid;
     }

@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Explosion extends PacketEffect {
 
-    public Explosion(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Explosion(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.EXPLOSION);
     }
 
     @Override

@@ -11,8 +11,8 @@ public class Potion extends Effect {
 
     public PotionType potionType;
 
-    public Potion(EffectHolder effectHolder, ParticleType particleType, PotionType potionType) {
-        super(effectHolder, particleType);
+    public Potion(EffectHolder effectHolder, PotionType potionType) {
+        super(effectHolder, ParticleType.POTION);
         this.potionType = potionType;
     }
 

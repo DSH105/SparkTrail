@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Fire extends PacketEffect {
 
-    public Fire(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Fire(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.FIRE);
     }
 
     @Override

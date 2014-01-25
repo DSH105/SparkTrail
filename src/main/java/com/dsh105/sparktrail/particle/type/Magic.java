@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Magic extends PacketEffect {
 
-    public Magic(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Magic(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.MAGIC);
     }
 
     @Override

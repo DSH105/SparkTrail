@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Runes extends PacketEffect {
 
-    public Runes(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Runes(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.RUNES);
     }
 
     @Override

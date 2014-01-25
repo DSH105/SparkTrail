@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Splash extends PacketEffect {
 
-    public Splash(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Splash(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.SPLASH);
     }
 
     @Override

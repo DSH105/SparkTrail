@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class RainbowSwirl extends PacketEffect {
 
-    public RainbowSwirl(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public RainbowSwirl(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.RAINBOWSWIRL);
     }
 
     @Override

@@ -56,19 +56,25 @@ public class EffectCreator {
                 Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
                 return null;
             }
-            e = new BlockBreak(effectHolder, particleType, (Integer) o[0], (Integer) o[1]);
+            e = new BlockBreak(effectHolder, (Integer) o[0], (Integer) o[1]);
         } else if (particleType == ParticleType.CRITICAL) {
             if (!checkArray(o, new Class[]{Critical.CriticalType.class})) {
                 Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
                 return null;
             }
-            e = new Critical(effectHolder, particleType, (Critical.CriticalType) o[0]);
+            e = new Critical(effectHolder, (Critical.CriticalType) o[0]);
         } else if (particleType == ParticleType.FIREWORK) {
             if (!checkArray(o, new Class[]{FireworkEffect.class})) {
                 Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
                 return null;
             }
-            e = new Firework(effectHolder, particleType, (FireworkEffect) o[0]);
+            e = new Firework(effectHolder, (FireworkEffect) o[0]);
+        } else if (particleType == ParticleType.ITEMSPRAY) {
+            if (!checkArray(o, new Class[]{Integer.class, Integer.class})) {
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                return null;
+            }
+            e = new ItemSpray(effectHolder, (Integer) o[0], (Integer) o[1]);
         }
         /*else if (particleType == ParticleType.NOTE) {
             if (!checkArray(o, new Class[] {Note.NoteType.class})) {
@@ -82,19 +88,19 @@ public class EffectCreator {
                 Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
                 return null;
             }
-            e = new Potion(effectHolder, particleType, (Potion.PotionType) o[0]);
+            e = new Potion(effectHolder, (Potion.PotionType) o[0]);
         } else if (particleType == ParticleType.SMOKE) {
             if (!checkArray(o, new Class[]{Smoke.SmokeType.class})) {
                 Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
                 return null;
             }
-            e = new Smoke(effectHolder, particleType, (Smoke.SmokeType) o[0]);
+            e = new Smoke(effectHolder, (Smoke.SmokeType) o[0]);
         } else if (particleType == ParticleType.SWIRL) {
             if (!checkArray(o, new Class[]{Swirl.SwirlType.class, UUID.class})) {
                 Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
                 return null;
             }
-            e = new Swirl(effectHolder, particleType, (Swirl.SwirlType) o[0], (UUID) o[1]);
+            e = new Swirl(effectHolder, (Swirl.SwirlType) o[0], (UUID) o[1]);
         } else {
             e = particleType.getEffectInstance(effectHolder);
         }

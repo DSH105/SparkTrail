@@ -44,10 +44,9 @@ public class ParticleDetails {
 
     public Object[] getDetails() {
         Object[] o = new Object[]{};
-        if (particleType == ParticleType.BLOCKBREAK) {
+        if (particleType == ParticleType.BLOCKBREAK || particleType == ParticleType.ITEMSPRAY) {
             return new Object[]{this.blockId, this.blockMeta};
-        }
-        if (particleType == ParticleType.CRITICAL) {
+        } else if (particleType == ParticleType.CRITICAL) {
             return new Object[]{this.criticalType};
         } else if (particleType == ParticleType.FIREWORK) {
             return new Object[]{this.fireworkEffect};

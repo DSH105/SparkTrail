@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Note extends PacketEffect {
 
-    public Note(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Note(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.NOTE);
     }
 
     @Override

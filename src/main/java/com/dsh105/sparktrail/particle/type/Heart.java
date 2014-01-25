@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Heart extends PacketEffect {
 
-    public Heart(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Heart(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.HEART);
     }
 
     @Override

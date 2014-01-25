@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Portal extends PacketEffect {
 
-    public Portal(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Portal(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.PORTAL);
     }
 
     @Override

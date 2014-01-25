@@ -7,8 +7,8 @@ import com.dsh105.sparktrail.particle.ParticleType;
 
 public class Snow extends PacketEffect {
 
-    public Snow(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
+    public Snow(EffectHolder effectHolder) {
+        super(effectHolder, ParticleType.SNOW);
     }
 
     @Override

@@ -196,14 +196,14 @@ public class TrailCommand implements CommandExecutor {
                     }
                     Player p = (Player) sender;
                     if (pt.requiresDataMenu()) {
-                        if (pt == ParticleType.BLOCKBREAK) {
+                        if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
                             if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
                                 if (args.length == 1) {
-                                    Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Block Break").replace("%extra_info%", "Structure: &e<IdValue> <BlockMeta>"));
+                                    Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray").replace("%extra_info%", "Structure: &e<IdValue> <BlockMeta>"));
                                     return true;
                                 }
 
-                                BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(1, args, " "));
+                                BlockData bd = Serialise.findBlockData(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.blockId = bd.id;
                                 pd.blockMeta = bd.data;
@@ -647,14 +647,14 @@ public class TrailCommand implements CommandExecutor {
 
                 if (EnumUtil.isEnumType(ParticleType.class, args[4].toUpperCase())) {
                     ParticleType pt = ParticleType.valueOf(args[4].toUpperCase());
-                    if (pt == ParticleType.BLOCKBREAK) {
+                    if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
                         if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
                             if (args.length == 5) {
-                                Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Block Break").replace("%extra_info%", "Separate each parameter with a space."));
+                                Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray").replace("%extra_info%", "Separate each parameter with a space."));
                                 return true;
                             }
 
-                            BlockData bd = Serialise.findBlockBreak(StringUtil.combineSplit(5, args, " "));
+                            BlockData bd = Serialise.findBlockData(StringUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.blockId = bd.id;
                             pd.blockMeta = bd.data;

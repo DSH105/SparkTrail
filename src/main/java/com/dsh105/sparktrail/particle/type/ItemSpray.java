@@ -21,14 +21,8 @@ public class ItemSpray extends Effect {
     public int idValue;
     public int metaValue;
 
-    public ItemSpray(EffectHolder effectHolder, ParticleType particleType) {
-        super(effectHolder, particleType);
-        this.idValue = 264;
-        this.metaValue = 0;
-    }
-
-    public ItemSpray(EffectHolder effectHolder, ParticleType particleType, int idValue, int metaValue) {
-        super(effectHolder, particleType);
+    public ItemSpray(EffectHolder effectHolder, int idValue, int metaValue) {
+        super(effectHolder, ParticleType.ITEMSPRAY);
         this.idValue = idValue;
         this.metaValue = metaValue;
     }

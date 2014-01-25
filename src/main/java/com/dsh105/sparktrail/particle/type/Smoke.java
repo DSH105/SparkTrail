@@ -9,8 +9,8 @@ public class Smoke extends PacketEffect {
 
     public SmokeType smokeType;
 
-    public Smoke(EffectHolder effectHolder, ParticleType particleType, SmokeType smokeType) {
-        super(effectHolder, particleType);
+    public Smoke(EffectHolder effectHolder, SmokeType smokeType) {
+        super(effectHolder, ParticleType.SMOKE);
         this.smokeType = smokeType;
     }
 

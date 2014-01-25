@@ -14,8 +14,8 @@ public class Dust extends PacketEffect {
     public int idValue;
     public int metaValue;
 
-    public Dust(EffectHolder effectHolder, ParticleType particleType, int idValue, int metaValue) {
-        super(effectHolder, particleType);
+    public Dust(EffectHolder effectHolder, int idValue, int metaValue) {
+        super(effectHolder, ParticleType.DUST);
         this.idValue = idValue;
         this.metaValue = metaValue;
     }
