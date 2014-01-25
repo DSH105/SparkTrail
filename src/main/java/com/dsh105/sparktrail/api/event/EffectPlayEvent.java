@@ -1,7 +1,7 @@
 package com.dsh105.sparktrail.api.event;
 
-import com.dsh105.sparktrail.particle.Effect;
-import com.dsh105.sparktrail.particle.EffectHolder;
+import com.dsh105.sparktrail.trail.Effect;
+import com.dsh105.sparktrail.trail.EffectHolder;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

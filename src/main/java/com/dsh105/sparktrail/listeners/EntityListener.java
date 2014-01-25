@@ -1,8 +1,8 @@
 package com.dsh105.sparktrail.listeners;
 
 import com.dsh105.sparktrail.data.EffectManager;
-import com.dsh105.sparktrail.particle.EffectHolder;
-import com.dsh105.sparktrail.particle.type.ItemSpray;
+import com.dsh105.sparktrail.trail.EffectHolder;
+import com.dsh105.sparktrail.trail.type.ItemSpray;
 import io.github.dsh105.dshutils.logger.ConsoleLogger;
 import io.github.dsh105.dshutils.logger.Logger;
 import net.minecraft.server.v1_7_R1.Entity;

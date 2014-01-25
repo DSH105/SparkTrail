@@ -1,11 +1,9 @@
 package com.dsh105.sparktrail.util;
 
-import com.dsh105.sparktrail.particle.EffectHolder;
-import com.dsh105.sparktrail.particle.ParticleType;
+import com.dsh105.sparktrail.trail.EffectHolder;
+import com.dsh105.sparktrail.trail.ParticleType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 
 
 public enum Permission {

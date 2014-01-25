@@ -11,7 +11,7 @@ import com.dsh105.sparktrail.listeners.InteractListener;
 import com.dsh105.sparktrail.listeners.PlayerListener;
 import com.dsh105.sparktrail.menu.MenuListener;
 import com.dsh105.sparktrail.mysql.SQLEffectManager;
-import com.dsh105.sparktrail.particle.type.ItemSpray;
+import com.dsh105.sparktrail.trail.type.ItemSpray;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
 import com.jolbox.bonecp.BoneCP;

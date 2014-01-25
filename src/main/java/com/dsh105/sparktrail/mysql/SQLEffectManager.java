@@ -2,7 +2,7 @@ package com.dsh105.sparktrail.mysql;
 
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.config.ConfigOptions;
-import com.dsh105.sparktrail.particle.EffectHolder;
+import com.dsh105.sparktrail.trail.EffectHolder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

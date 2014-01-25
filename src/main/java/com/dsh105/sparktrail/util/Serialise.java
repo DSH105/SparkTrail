@@ -195,12 +195,12 @@ public class Serialise {
         return fe;
     }
 
-    public static String serialiseEffects(HashSet<com.dsh105.sparktrail.particle.Effect> effects) {
+    public static String serialiseEffects(HashSet<com.dsh105.sparktrail.trail.Effect> effects) {
         if (effects.isEmpty()) {
             return "";
         }
         StringBuilder builder = new StringBuilder();
-        for (com.dsh105.sparktrail.particle.Effect e : effects) {
+        for (com.dsh105.sparktrail.trail.Effect e : effects) {
             builder.append(StringUtil.capitalise(e.getParticleType().toString()));
             builder.append(", ");
         }

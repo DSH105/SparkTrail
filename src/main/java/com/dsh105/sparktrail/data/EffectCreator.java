@@ -1,12 +1,12 @@
 package com.dsh105.sparktrail.data;
 
-import com.dsh105.sparktrail.particle.Effect;
-import com.dsh105.sparktrail.particle.EffectHolder;
-import com.dsh105.sparktrail.particle.EffectHolder.EffectType;
-import com.dsh105.sparktrail.particle.ParticleDetails;
-import com.dsh105.sparktrail.particle.ParticleType;
-import com.dsh105.sparktrail.particle.type.*;
-import com.dsh105.sparktrail.sound.Sound;
+import com.dsh105.sparktrail.trail.Effect;
+import com.dsh105.sparktrail.trail.EffectHolder;
+import com.dsh105.sparktrail.trail.EffectHolder.EffectType;
+import com.dsh105.sparktrail.trail.ParticleDetails;
+import com.dsh105.sparktrail.trail.ParticleType;
+import com.dsh105.sparktrail.trail.type.*;
+import com.dsh105.sparktrail.trail.type.Sound;
 import io.github.dsh105.dshutils.logger.Logger;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;

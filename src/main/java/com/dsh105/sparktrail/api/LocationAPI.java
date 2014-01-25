@@ -1,9 +1,9 @@
 package com.dsh105.sparktrail.api;
 
 import com.dsh105.sparktrail.data.EffectManager;
-import com.dsh105.sparktrail.particle.Effect;
-import com.dsh105.sparktrail.particle.EffectHolder;
-import com.dsh105.sparktrail.particle.ParticleType;
+import com.dsh105.sparktrail.trail.Effect;
+import com.dsh105.sparktrail.trail.EffectHolder;
+import com.dsh105.sparktrail.trail.ParticleType;
 import org.bukkit.Location;
 
 import java.util.HashSet;

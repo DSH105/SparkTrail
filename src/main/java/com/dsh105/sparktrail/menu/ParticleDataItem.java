@@ -1,6 +1,6 @@
 package com.dsh105.sparktrail.menu;
 
-import com.dsh105.sparktrail.particle.ParticleType;
+import com.dsh105.sparktrail.trail.ParticleType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

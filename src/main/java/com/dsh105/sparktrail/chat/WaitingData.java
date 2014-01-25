@@ -1,7 +1,7 @@
 package com.dsh105.sparktrail.chat;
 
-import com.dsh105.sparktrail.particle.EffectHolder;
-import com.dsh105.sparktrail.particle.ParticleType;
+import com.dsh105.sparktrail.trail.EffectHolder;
+import com.dsh105.sparktrail.trail.ParticleType;
 import org.bukkit.Location;
 
 import java.util.UUID;

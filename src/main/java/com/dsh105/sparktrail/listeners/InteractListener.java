@@ -3,7 +3,7 @@ package com.dsh105.sparktrail.listeners;
 import com.dsh105.sparktrail.chat.MenuChatListener;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.menu.ParticleMenu;
-import com.dsh105.sparktrail.particle.EffectHolder;
+import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.util.Lang;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

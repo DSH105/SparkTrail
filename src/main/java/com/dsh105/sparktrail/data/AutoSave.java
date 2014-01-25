@@ -1,7 +1,7 @@
 package com.dsh105.sparktrail.data;
 
 import com.dsh105.sparktrail.SparkTrailPlugin;
-import com.dsh105.sparktrail.particle.EffectHolder;
+import com.dsh105.sparktrail.trail.EffectHolder;
 import org.bukkit.scheduler.BukkitRunnable;
 
 
