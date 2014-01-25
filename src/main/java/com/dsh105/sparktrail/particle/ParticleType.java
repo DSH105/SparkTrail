@@ -4,6 +4,7 @@ import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import com.dsh105.sparktrail.particle.type.*;
 import com.dsh105.sparktrail.particle.type.Void;
+import com.dsh105.sparktrail.sound.Sound;
 import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.dshutils.util.EnumUtil;
 import io.github.dsh105.dshutils.util.StringUtil;
@@ -17,36 +18,38 @@ import java.util.Arrays;
 
 
 public enum ParticleType {
-    BLOCKBREAK(BlockBreak.class, 20, Material.IRON_PICKAXE, (short) 0, "Block Break", true),
+    BLOCKBREAK(BlockBreak.class, 20, Material.IRON_PICKAXE, (short) 0, "Block Break", true, true),
     //BLOCKCRACK(BlockCrack.class, 10, Material.getMaterial(20), (short) 0, "Block Crack", false),
-    CLOUD(Cloud.class, 20, Material.getMaterial(351), (short) 15, "Cloud", false),
-    COOKIE(Cookie.class, 20, Material.COOKIE, (short) 0, "Cookie", false),
-    CRITICAL(Critical.class, 20, Material.IRON_SWORD, (short) 0, "Critical", true),
-    DUST(Dust.class, 20, Material.SULPHUR, (short) 0, "Dust", true),
-    EMBER(Ember.class, 20, Material.TORCH, (short) 0, "Ember", false),
-    ENDER(Ender.class, 20, Material.EYE_OF_ENDER, (short) 0, "Ender", false),
-    EXPLOSION(Explosion.class, 20, Material.TNT, (short) 0, "Explosion", false),
-    ITEMSPRAY(ItemSpray.class, 20, Material.DIAMOND, (short) 0, "ItemSpray", false),
-    FIRE(Fire.class, 20, Material.FIRE, (short) 0, "Fire", false),
-    FIREWORK(Firework.class, 20, Material.FIREWORK, (short) 0, "Firework", true),
-    FOOTSTEP(FootStep.class, 20, Material.CHAINMAIL_BOOTS, (short) 0, "FootStep", false),
-    HEART(Heart.class, 20, Material.NAME_TAG, (short) 0, "Heart", false),
-    LAVADRIP(LavaDrip.class, 20, Material.LAVA, (short) 0, "Lava Drip", false),
-    MAGIC(Magic.class, 20, Material.ENCHANTED_BOOK, (short) 0, "Magic", false),
-    NOTE(Note.class, 20, Material.getMaterial(2259), (short) 0, "Rainbow Note", false),
-    PORTAL(Portal.class, 20, Material.PORTAL, (short) 0, "Portal", false),
-    POTION(Potion.class, 20, Material.getMaterial(373), (short) 8193, "Potion", true),
-    RAINBOWSWIRL(RainbowSwirl.class, 20, Material.getMaterial(373), (short) 16385, "Rainbow Swirl", false),
-    RUNES(Runes.class, 20, Material.ENCHANTMENT_TABLE, (short) 0, "Runes", false),
-    SLIME(Slime.class, 20, Material.SLIME_BALL, (short) 0, "Slime", false),
-    SMOKE(Smoke.class, 20, Material.COAL, (short) 0, "Smoke", true),
-    SNOW(Snow.class, 20, Material.SNOW, (short) 0, "Snow", false),
-    SNOWBALL(Snowball.class, 20, Material.SNOW_BALL, (short) 0, "Snowball", false),
-    SPARKLE(Sparkle.class, 20, Material.EMERALD, (short) 0, "Sparkle", false),
-    SPLASH(Splash.class, 20, Material.WATER, (short) 0, "Splash", false),
-    SWIRL(Swirl.class, 20, Material.BEACON, (short) 0, "Swirl", true, EffectType.LOCATION),
-    VOID(Void.class, 20, Material.ENDER_PORTAL, (short) 0, "Void", false),
-    WATERDRIP(WaterDrip.class, 20, Material.WATER_LILY, (short) 0, "Water Drip", false);
+    CLOUD(Cloud.class, 20, Material.getMaterial(351), (short) 15, "Cloud", false, true),
+    COOKIE(Cookie.class, 20, Material.COOKIE, (short) 0, "Cookie", false, true),
+    CRITICAL(Critical.class, 20, Material.IRON_SWORD, (short) 0, "Critical", true, true),
+    DUST(Dust.class, 20, Material.SULPHUR, (short) 0, "Dust", true, true),
+    EMBER(Ember.class, 20, Material.TORCH, (short) 0, "Ember", false, true),
+    ENDER(Ender.class, 20, Material.EYE_OF_ENDER, (short) 0, "Ender", false, true),
+    EXPLOSION(Explosion.class, 20, Material.TNT, (short) 0, "Explosion", false, true),
+    ITEMSPRAY(ItemSpray.class, 20, Material.DIAMOND, (short) 0, "ItemSpray", false, true),
+    FIRE(Fire.class, 20, Material.FIRE, (short) 0, "Fire", false, true),
+    FIREWORK(Firework.class, 20, Material.FIREWORK, (short) 0, "Firework", true, true),
+    FOOTSTEP(FootStep.class, 20, Material.CHAINMAIL_BOOTS, (short) 0, "FootStep", false, true),
+    HEART(Heart.class, 20, Material.NAME_TAG, (short) 0, "Heart", false, true),
+    LAVADRIP(LavaDrip.class, 20, Material.LAVA, (short) 0, "Lava Drip", false, true),
+    MAGIC(Magic.class, 20, Material.ENCHANTED_BOOK, (short) 0, "Magic", false, true),
+    NOTE(Note.class, 20, Material.getMaterial(2259), (short) 0, "Rainbow Note", false, true),
+    PORTAL(Portal.class, 20, Material.PORTAL, (short) 0, "Portal", false, true),
+    POTION(Potion.class, 20, Material.getMaterial(373), (short) 8193, "Potion", true, true),
+    RAINBOWSWIRL(RainbowSwirl.class, 20, Material.getMaterial(373), (short) 16385, "Rainbow Swirl", false, true),
+    RUNES(Runes.class, 20, Material.ENCHANTMENT_TABLE, (short) 0, "Runes", false, true),
+    SLIME(Slime.class, 20, Material.SLIME_BALL, (short) 0, "Slime", false, true),
+    SMOKE(Smoke.class, 20, Material.COAL, (short) 0, "Smoke", true, true),
+    SNOW(Snow.class, 20, Material.SNOW, (short) 0, "Snow", false, true),
+    SNOWBALL(Snowball.class, 20, Material.SNOW_BALL, (short) 0, "Snowball", false, true),
+    SPARKLE(Sparkle.class, 20, Material.EMERALD, (short) 0, "Sparkle", false, true),
+    SPLASH(Splash.class, 20, Material.WATER, (short) 0, "Splash", false, true),
+    SWIRL(Swirl.class, 20, Material.BEACON, (short) 0, "Swirl", true, true, EffectType.LOCATION),
+    VOID(Void.class, 20, Material.ENDER_PORTAL, (short) 0, "Void", false, true),
+    WATERDRIP(WaterDrip.class, 20, Material.WATER_LILY, (short) 0, "Water Drip", false, true),
+
+    SOUND(Sound.class, 20, Material.JUKEBOX, (short) 0, "Sound", false, false);
 
     private Class<? extends Effect> effectClass;
     private int frequency;
@@ -54,15 +57,17 @@ public enum ParticleType {
     private short data;
     private String name;
     private boolean requiresDataMenu;
+    private boolean includeInMenu;
     private ArrayList<EffectType> incompatibleTypes = new ArrayList<EffectType>();
 
-    ParticleType(Class<? extends Effect> effectClass, int frequency, Material material, short data, String name, boolean requiresDataMenu, EffectType... incompatibleTypes) {
+    ParticleType(Class<? extends Effect> effectClass, int frequency, Material material, short data, String name, boolean requiresDataMenu, boolean includeInMenu, EffectType... incompatibleTypes) {
         this.effectClass = effectClass;
         this.frequency = frequency;
         this.material = material;
         this.data = data;
         this.name = name;
         this.requiresDataMenu = requiresDataMenu;
+        this.includeInMenu = includeInMenu;
 
         for (EffectType et : incompatibleTypes) {
             this.incompatibleTypes.add(et);
@@ -75,6 +80,10 @@ public enum ParticleType {
 
     public boolean requiresDataMenu() {
         return this.requiresDataMenu;
+    }
+
+    public boolean includeInMenu() {
+        return this.includeInMenu;
     }
 
     public ArrayList<EffectType> getIncompatibleTypes() {

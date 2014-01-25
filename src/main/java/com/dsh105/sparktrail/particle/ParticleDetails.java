@@ -6,6 +6,7 @@ import com.dsh105.sparktrail.particle.type.Smoke;
 import com.dsh105.sparktrail.particle.type.Swirl;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Sound;
 
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class ParticleDetails {
     public Potion.PotionType potionType = Potion.PotionType.AQUA;
     public Smoke.SmokeType smokeType = Smoke.SmokeType.BLACK;
     public Swirl.SwirlType swirlType = Swirl.SwirlType.WHITE;
+    public org.bukkit.Sound sound = Sound.ANVIL_BREAK;
 
     public ParticleDetails(ParticleType particleType) {
         this.particleType = particleType;
@@ -60,6 +62,10 @@ public class ParticleDetails {
             return new Object[]{this.smokeType};
         } else if (particleType == ParticleType.SWIRL) {
             return new Object[]{this.swirlType, this.uuid};
+        }
+
+        else if (particleType == ParticleType.SOUND) {
+            return new Object[]{this.sound};
         }
         return o;
     }

@@ -16,6 +16,7 @@ public enum HelpEntry {
     TRAIL_STOP("/trail stop", "Pause all active particle effects"),
     TRAIL_DEMO("/trail demo", "Display a Client-Side demonstration of all Trail effects."),
     TRAIL_INFO("/trail info", "View active particle effects"),
+    TRAIL_SOUND("/trail sound <sound>", "Activate a Sound Trail effect"),
 
     TRAIL_LOC("/trail location", "Select Location Trail effects"),
     TRAIL_LOCATION_INFO("/trail location <id> info ", "View active particle effects for a location"),
@@ -39,7 +40,7 @@ public enum HelpEntry {
     private EntryType[] entryTypes;
 
     HelpEntry(String cmd, String desc, EntryType... entryTypes) {
-        this.line = ChatColor.YELLOW + cmd + ChatColor.WHITE + "  |  " + ChatColor.GREEN + desc;
+        this.line = ChatColor.YELLOW + cmd + ChatColor.WHITE + "  •••  " + ChatColor.GREEN + desc;
         this.entryTypes = entryTypes;
     }
 

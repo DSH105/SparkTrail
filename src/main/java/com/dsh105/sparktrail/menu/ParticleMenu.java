@@ -126,6 +126,9 @@ public class ParticleMenu extends Menu {
 
         int i = 0;
         for (ParticleType pt : ParticleType.values()) {
+            if (pt == ParticleType.SOUND) {
+                continue;
+            }
             if (pt.requiresDataMenu() && pt != ParticleType.BLOCKBREAK && pt != ParticleType.ITEMSPRAY && pt != ParticleType.FIREWORK) {
                 inv.setItem(i++, pt.getMenuItem());
             } else {

@@ -16,6 +16,7 @@ public enum Lang {
     NULL_PLAYER("null_player", "&e%player% &ais not online. Please try a different Player."),
     INT_ONLY("int_only", "&e%string% &aneeds to be an integer."),
     INT_ONLY_WITH_ARGS("int_only_with_args", "&e%string% &a[Arg &e%argNum%&a] needs to be an integer."),
+    NO_SOUND_IN_STRING("no_sound_in_string", "&aError parsing String: [&e%string%&a]. Sound Trail could not be created."),
 
     PLAYER_LIST_NO_ACTIVE_EFFECTS("player_list_no_active_effects", "&aThere are no Player Trail effects active."),
     PLAYER_NO_ACTIVE_EFFECTS("player_no_active_effects", "&aThere are no Player Trail effects active for &e%player%&a."),

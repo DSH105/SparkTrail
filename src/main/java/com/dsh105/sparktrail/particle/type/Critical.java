@@ -30,7 +30,8 @@ public class Critical extends PacketEffect {
     }
 
     public enum CriticalType {
-        NORMAL("crit"), MAGIC("magicCrit");
+        NORMAL("crit"),
+        MAGIC("magicCrit");
 
         private String nmsName;
 

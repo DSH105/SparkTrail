@@ -1,6 +1,5 @@
 package com.dsh105.sparktrail.sound;
 
-import com.dsh105.sparktrail.particle.DisplayType;
 import com.dsh105.sparktrail.particle.Effect;
 import com.dsh105.sparktrail.particle.EffectHolder;
 import com.dsh105.sparktrail.particle.ParticleType;
@@ -11,8 +10,8 @@ public class Sound extends Effect {
 
     private org.bukkit.Sound sound;
 
-    public Sound(EffectHolder effectHolder, ParticleType particleType, org.bukkit.Sound sound) {
-        super(effectHolder, particleType);
+    public Sound(EffectHolder effectHolder, org.bukkit.Sound sound) {
+        super(effectHolder, ParticleType.SOUND);
         this.sound = sound;
     }
 

@@ -307,6 +307,26 @@ public class TrailCommand implements CommandExecutor {
                     eh.setTimeout(Integer.parseInt(args[1]));
                     Lang.sendTo(sender, Lang.TIMEOUT_SET.toString().replace("%timeout%", args[1]));
                 }
+            } else if (args[0].equalsIgnoreCase("sound")) {
+                if (Permission.SOUND.hasPerm(sender, true, false)) {
+                    EffectHolder eh = EffectManager.getInstance().getEffect(sender.getName());
+                    if (eh == null || eh.getEffects().isEmpty()) {
+                        Lang.sendTo(sender, Lang.NO_ACTIVE_EFFECTS.toString());
+                        return true;
+                    }
+                    if (!EnumUtil.isEnumType(org.bukkit.Sound.class, args[1].toUpperCase())) {
+                        Lang.sendTo(sender, Lang.NO_SOUND_IN_STRING.toString().replace("%string%", args[1]));
+                        return true;
+                    }
+
+                    org.bukkit.Sound enumSound = org.bukkit.Sound.valueOf(args[1].toUpperCase());
+                    ParticleDetails pd = new ParticleDetails(ParticleType.SOUND);
+                    pd.sound = enumSound;
+                    if (eh.addEffect(pd, true)) {
+                        Lang.sendTo(sender, Lang.EFFECT_ADDED.toString().replace("%effect%", "Sound"));
+                    }
+                    return true;
+                } else return true;
             } else if (args[0].equalsIgnoreCase("player")) {
                 if (args[1].equalsIgnoreCase("list")) {
                     if (Permission.PLAYER_LIST.hasPerm(sender, true, true)) {

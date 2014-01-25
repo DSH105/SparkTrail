@@ -6,6 +6,7 @@ import com.dsh105.sparktrail.particle.EffectHolder.EffectType;
 import com.dsh105.sparktrail.particle.ParticleDetails;
 import com.dsh105.sparktrail.particle.ParticleType;
 import com.dsh105.sparktrail.particle.type.*;
+import com.dsh105.sparktrail.sound.Sound;
 import io.github.dsh105.dshutils.logger.Logger;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -53,25 +54,25 @@ public class EffectCreator {
 
         if (particleType == ParticleType.BLOCKBREAK) {
             if (!checkArray(o, new Class[]{Integer.class, Integer.class})) {
-                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;
             }
             e = new BlockBreak(effectHolder, (Integer) o[0], (Integer) o[1]);
         } else if (particleType == ParticleType.CRITICAL) {
             if (!checkArray(o, new Class[]{Critical.CriticalType.class})) {
-                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;
             }
             e = new Critical(effectHolder, (Critical.CriticalType) o[0]);
         } else if (particleType == ParticleType.FIREWORK) {
             if (!checkArray(o, new Class[]{FireworkEffect.class})) {
-                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;
             }
             e = new Firework(effectHolder, (FireworkEffect) o[0]);
         } else if (particleType == ParticleType.ITEMSPRAY) {
             if (!checkArray(o, new Class[]{Integer.class, Integer.class})) {
-                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;
             }
             e = new ItemSpray(effectHolder, (Integer) o[0], (Integer) o[1]);
@@ -85,22 +86,28 @@ public class EffectCreator {
 		}*/
         else if (particleType == ParticleType.POTION) {
             if (!checkArray(o, new Class[]{Potion.PotionType.class})) {
-                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;
             }
             e = new Potion(effectHolder, (Potion.PotionType) o[0]);
         } else if (particleType == ParticleType.SMOKE) {
             if (!checkArray(o, new Class[]{Smoke.SmokeType.class})) {
-                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;
             }
             e = new Smoke(effectHolder, (Smoke.SmokeType) o[0]);
         } else if (particleType == ParticleType.SWIRL) {
             if (!checkArray(o, new Class[]{Swirl.SwirlType.class, UUID.class})) {
-                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;
             }
             e = new Swirl(effectHolder, (Swirl.SwirlType) o[0], (UUID) o[1]);
+        } else if (particleType == ParticleType.SOUND) {
+            if (!checkArray(o, new Class[]{org.bukkit.Sound.class})) {
+                Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
+                return null;
+            }
+            e = new Sound(effectHolder, (org.bukkit.Sound) o[0]);
         } else {
             e = particleType.getEffectInstance(effectHolder);
         }
