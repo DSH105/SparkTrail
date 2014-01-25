@@ -3,12 +3,14 @@ package com.dsh105.sparktrail.particle;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.EffectPlayEvent;
 import com.dsh105.sparktrail.particle.type.*;
+import com.dsh105.sparktrail.util.PluginHook;
 import com.dsh105.sparktrail.util.Serialise;
 import io.github.dsh105.dshutils.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
+import org.kitteh.vanish.VanishPlugin;
 
 
 public abstract class Effect {
@@ -65,6 +67,15 @@ public abstract class Effect {
         if (this.getEffectType().equals(EffectHolder.EffectType.PLAYER) && this.displayType.equals(DisplayType.FEET)) {
             Player p = Bukkit.getPlayerExact(this.getHolder().getDetails().playerName);
             if (p == null) {
+                return false;
+            }
+            boolean vanished = false;
+            if (PluginHook.getVNP() != null) {
+                VanishPlugin vnp = PluginHook.getVNP();
+                vanished = vnp.getManager().isVanished(this.getHolder().getDetails().playerName);
+            }
+            if (vanished) {
+                this.playDemo(p);
                 return false;
             }
             if (this.lastPlayLoc == null) {

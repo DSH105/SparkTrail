@@ -1,10 +1,13 @@
 package com.dsh105.sparktrail.particle;
 
+import com.dsh105.sparktrail.util.PluginHook;
 import io.github.dsh105.dshutils.logger.Logger;
 import io.github.dsh105.dshutils.util.ReflectionUtil;
 import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.kitteh.vanish.VanishPlugin;
 
 
 public abstract class PacketEffect extends Effect {
@@ -34,11 +37,25 @@ public abstract class PacketEffect extends Effect {
         //TODO: VNP support
         boolean shouldPlay = super.play();
         if (shouldPlay) {
+            boolean vanished = false;
+            if (this.getHolder().getEffectType() == EffectHolder.EffectType.PLAYER) {
+                if (PluginHook.getVNP() != null) {
+                    VanishPlugin vnp = PluginHook.getVNP();
+                    vanished = vnp.getManager().isVanished(this.getHolder().getDetails().playerName);
+                }
+            }
             for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
-                try {
-                    ReflectionUtil.sendPacket(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.createPacket());
-                } catch (Exception e) {
-                    Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to players within a radius of 20 [" + this.getWorld() + "," + this.getX() + "," + this.getY() + "," + this.getZ() + "].", e, true);
+                if (vanished) {
+                    Player p = Bukkit.getPlayerExact(this.getHolder().getDetails().playerName);
+                    if (p != null) {
+                        this.playDemo(p);
+                    }
+                } else {
+                    try {
+                        ReflectionUtil.sendPacket(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.createPacket());
+                    } catch (Exception e) {
+                        Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to players within a radius of 20 [" + this.getWorld() + "," + this.getX() + "," + this.getY() + "," + this.getZ() + "].", e, true);
+                    }
                 }
             }
         }
