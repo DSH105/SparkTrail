@@ -1,7 +1,7 @@
 name: ${project.name}
 version: ${project.version}
 author: DSH105
-description: The Next Generation Of Particle Effect Control
+description: The Next Generation of Dynamic Particle Effect Control
 website: ${project.url}
 main: ${main.class}
 commands:
@@ -9,3 +9,854 @@ commands:
         description: Update the plugin.
     sparktrail:
         description: View plugin information
+permissions:
+    sparktrail.update:
+        default: op
+    sparktrail.trail:
+        default: op
+    sparktrail.trail.sound:
+        default: op
+    sparktrail.trail.timeout:
+        default: op
+    sparktrail.trail.clear:
+        default: op
+    sparktrail.stop:
+        default: op
+    sparktrail.start:
+        default: op
+    sparktrail.demo:
+        default: op
+    sparktrail.info:
+        default: op
+    sparktrail.trail.type.blockbreak:
+        default: op
+    sparktrail.trail.type.cloud:
+        default: op
+    sparktrail.trail.type.cookie:
+        default: op
+    sparktrail.trail.type.critical.normal:
+        default: op
+    sparktrail.trail.type.critical.magic:
+        default: op
+    sparktrail.trail.type.dust:
+        default: op
+    sparktrail.trail.type.ember:
+        default: op
+    sparktrail.trail.type.ender:
+        default: op
+    sparktrail.trail.type.explosion:
+        default: op
+    sparktrail.trail.type.fire:
+        default: op
+    sparktrail.trail.type.firework:
+        default: op
+    sparktrail.trail.type.footstep:
+        default: op
+    sparktrail.trail.type.heart:
+        default: op
+    sparktrail.trail.type.itemspray:
+        default: op
+    sparktrail.trail.type.lavadrip:
+        default: op
+    sparktrail.trail.type.magic:
+        default: op
+    sparktrail.trail.type.note:
+        default: op
+    sparktrail.trail.type.portal:
+        default: op
+    sparktrail.trail.type.potion.aqua:
+        default: op
+    sparktrail.trail.type.potion.black:
+        default: op
+    sparktrail.trail.type.potion.blue:
+        default: op
+    sparktrail.trail.type.potion.crimson:
+        default: op
+    sparktrail.trail.type.potion.darkblue:
+        default: op
+    sparktrail.trail.type.potion.darkgreen:
+        default: op
+    sparktrail.trail.type.potion.darkred:
+        default: op
+    sparktrail.trail.type.potion.gold:
+        default: op
+    sparktrail.trail.type.potion.gray:
+        default: op
+    sparktrail.trail.type.potion.green:
+        default: op
+    sparktrail.trail.type.potion.pink:
+        default: op
+    sparktrail.trail.type.potion.red:
+        default: op
+    sparktrail.trail.type.rainbowswirl:
+        default: op
+    sparktrail.trail.type.runes:
+        default: op
+    sparktrail.trail.type.slime:
+        default: op
+    sparktrail.trail.type.smoke.black:
+        default: op
+    sparktrail.trail.type.smoke.red:
+        default: op
+    sparktrail.trail.type.smoke.rainbow:
+        default: op
+    sparktrail.trail.type.snow:
+        default: op
+    sparktrail.trail.type.snowball:
+        default: op
+    sparktrail.trail.type.sparkle:
+        default: op
+    sparktrail.trail.type.splash:
+        default: op
+    sparktrail.trail.type.swirl.lightblue:
+        default: op
+    sparktrail.trail.type.swirl.blue:
+        default: op
+    sparktrail.trail.type.swirl.darkblue:
+        default: op
+    sparktrail.trail.type.swirl.red:
+        default: op
+    sparktrail.trail.type.swirl.darkred:
+        default: op
+    sparktrail.trail.type.swirl.green:
+        default: op
+    sparktrail.trail.type.swirl.darkgreen:
+        default: op
+    sparktrail.trail.type.swirl.yellow:
+        default: op
+    sparktrail.trail.type.swirl.orange:
+        default: op
+    sparktrail.trail.type.swirl.gray:
+        default: op
+    sparktrail.trail.type.swirl.black:
+        default: op
+    sparktrail.trail.type.swirl.white:
+        default: op
+    sparktrail.trail.type.swirl.purple:
+        default: op
+    sparktrail.trail.type.swirl.pink:
+        default: op
+    sparktrail.trail.type.void:
+        default: op
+    sparktrail.trail.type.waterdrip:
+        default: op
+    sparktrail.trail.player.info:
+        default: op
+    sparktrail.trail.player.start:
+        default: op
+    sparktrail.trail.player.stop:
+        default: op
+    sparktrail.trail.player.clear:
+        default: op
+    sparktrail.trail.player.list:
+        default: op
+    sparktrail.trail.player.type.blockbreak:
+        default: op
+    sparktrail.trail.player.type.cloud:
+        default: op
+    sparktrail.trail.player.type.cookie:
+        default: op
+    sparktrail.trail.player.type.critical.normal:
+        default: op
+    sparktrail.trail.player.type.critical.magic:
+        default: op
+    sparktrail.trail.player.type.dust:
+        default: op
+    sparktrail.trail.player.type.ember:
+        default: op
+    sparktrail.trail.player.type.ender:
+        default: op
+    sparktrail.trail.player.type.explosion:
+        default: op
+    sparktrail.trail.player.type.fire:
+        default: op
+    sparktrail.trail.player.type.firework:
+        default: op
+    sparktrail.trail.player.type.footstep:
+        default: op
+    sparktrail.trail.player.type.heart:
+        default: op
+    sparktrail.trail.player.type.itemspray:
+        default: op
+    sparktrail.trail.player.type.lavadrip:
+        default: op
+    sparktrail.trail.player.type.magic:
+        default: op
+    sparktrail.trail.player.type.note:
+        default: op
+    sparktrail.trail.player.type.portal:
+        default: op
+    sparktrail.trail.player.type.potion.aqua:
+        default: op
+    sparktrail.trail.player.type.potion.black:
+        default: op
+    sparktrail.trail.player.type.potion.blue:
+        default: op
+    sparktrail.trail.player.type.potion.crimson:
+        default: op
+    sparktrail.trail.player.type.potion.darkblue:
+        default: op
+    sparktrail.trail.player.type.potion.darkgreen:
+        default: op
+    sparktrail.trail.player.type.potion.darkred:
+        default: op
+    sparktrail.trail.player.type.potion.gold:
+        default: op
+    sparktrail.trail.player.type.potion.gray:
+        default: op
+    sparktrail.trail.player.type.potion.green:
+        default: op
+    sparktrail.trail.player.type.potion.pink:
+        default: op
+    sparktrail.trail.player.type.potion.red:
+        default: op
+    sparktrail.trail.player.type.rainbowswirl:
+        default: op
+    sparktrail.trail.player.type.runes:
+        default: op
+    sparktrail.trail.player.type.slime:
+        default: op
+    sparktrail.trail.player.type.smoke.black:
+        default: op
+    sparktrail.trail.player.type.smoke.red:
+        default: op
+    sparktrail.trail.player.type.smoke.rainbow:
+        default: op
+    sparktrail.trail.player.type.snow:
+        default: op
+    sparktrail.trail.player.type.snowball:
+        default: op
+    sparktrail.trail.player.type.sparkle:
+        default: op
+    sparktrail.trail.player.type.splash:
+        default: op
+    sparktrail.trail.player.type.swirl.lightblue:
+        default: op
+    sparktrail.trail.player.type.swirl.blue:
+        default: op
+    sparktrail.trail.player.type.swirl.darkblue:
+        default: op
+    sparktrail.trail.player.type.swirl.red:
+        default: op
+    sparktrail.trail.player.type.swirl.darkred:
+        default: op
+    sparktrail.trail.player.type.swirl.green:
+        default: op
+    sparktrail.trail.player.type.swirl.darkgreen:
+        default: op
+    sparktrail.trail.player.type.swirl.yellow:
+        default: op
+    sparktrail.trail.player.type.swirl.orange:
+        default: op
+    sparktrail.trail.player.type.swirl.gray:
+        default: op
+    sparktrail.trail.player.type.swirl.black:
+        default: op
+    sparktrail.trail.player.type.swirl.white:
+        default: op
+    sparktrail.trail.player.type.swirl.purple:
+        default: op
+    sparktrail.trail.player.type.swirl.pink:
+        default: op
+    sparktrail.trail.player.type.void:
+        default: op
+    sparktrail.trail.player.type.waterdrip:
+        default: op
+    sparktrail.trail.location:
+        default: op
+    sparktrail.trail.location.info:
+        default: op
+    sparktrail.trail.location.start:
+        default: op
+    sparktrail.trail.location.stop:
+        default: op
+    sparktrail.trail.location.stop.all:
+        default: op
+    sparktrail.trail.location.clear:
+        default: op
+    sparktrail.trail.location.list:
+        default: op
+    sparktrail.trail.location.type.blockbreak:
+        default: op
+    sparktrail.trail.location.type.cloud:
+        default: op
+    sparktrail.trail.location.type.cookie:
+        default: op
+    sparktrail.trail.location.type.critical.normal:
+        default: op
+    sparktrail.trail.location.type.critical.magic:
+        default: op
+    sparktrail.trail.location.type.dust:
+        default: op
+    sparktrail.trail.location.type.ember:
+        default: op
+    sparktrail.trail.location.type.ender:
+        default: op
+    sparktrail.trail.location.type.explosion:
+        default: op
+    sparktrail.trail.location.type.fire:
+        default: op
+    sparktrail.trail.location.type.firework:
+        default: op
+    sparktrail.trail.location.type.footstep:
+        default: op
+    sparktrail.trail.location.type.heart:
+        default: op
+    sparktrail.trail.location.type.itemspray:
+        default: op
+    sparktrail.trail.location.type.lavadrip:
+        default: op
+    sparktrail.trail.location.type.magic:
+        default: op
+    sparktrail.trail.location.type.note:
+        default: op
+    sparktrail.trail.location.type.portal:
+        default: op
+    sparktrail.trail.location.type.potion.aqua:
+        default: op
+    sparktrail.trail.location.type.potion.black:
+        default: op
+    sparktrail.trail.location.type.potion.blue:
+        default: op
+    sparktrail.trail.location.type.potion.crimson:
+        default: op
+    sparktrail.trail.location.type.potion.darkblue:
+        default: op
+    sparktrail.trail.location.type.potion.darkgreen:
+        default: op
+    sparktrail.trail.location.type.potion.darkred:
+        default: op
+    sparktrail.trail.location.type.potion.gold:
+        default: op
+    sparktrail.trail.location.type.potion.gray:
+        default: op
+    sparktrail.trail.location.type.potion.green:
+        default: op
+    sparktrail.trail.location.type.potion.pink:
+        default: op
+    sparktrail.trail.location.type.potion.red:
+        default: op
+    sparktrail.trail.location.type.rainbowswirl:
+        default: op
+    sparktrail.trail.location.type.runes:
+        default: op
+    sparktrail.trail.location.type.slime:
+        default: op
+    sparktrail.trail.location.type.smoke.black:
+        default: op
+    sparktrail.trail.location.type.smoke.red:
+        default: op
+    sparktrail.trail.location.type.smoke.rainbow:
+        default: op
+    sparktrail.trail.location.type.snow:
+        default: op
+    sparktrail.trail.location.type.snowball:
+        default: op
+    sparktrail.trail.location.type.sparkle:
+        default: op
+    sparktrail.trail.location.type.splash:
+        default: op
+    sparktrail.trail.location.type.swirl.lightblue:
+        default: op
+    sparktrail.trail.location.type.swirl.blue:
+        default: op
+    sparktrail.trail.location.type.swirl.darkblue:
+        default: op
+    sparktrail.trail.location.type.swirl.red:
+        default: op
+    sparktrail.trail.location.type.swirl.darkred:
+        default: op
+    sparktrail.trail.location.type.swirl.green:
+        default: op
+    sparktrail.trail.location.type.swirl.darkgreen:
+        default: op
+    sparktrail.trail.location.type.swirl.yellow:
+        default: op
+    sparktrail.trail.location.type.swirl.orange:
+        default: op
+    sparktrail.trail.location.type.swirl.gray:
+        default: op
+    sparktrail.trail.location.type.swirl.black:
+        default: op
+    sparktrail.trail.location.type.swirl.white:
+        default: op
+    sparktrail.trail.location.type.swirl.purple:
+        default: op
+    sparktrail.trail.location.type.swirl.pink:
+        default: op
+    sparktrail.trail.location.type.void:
+        default: op
+    sparktrail.trail.location.type.waterdrip:
+        default: op
+    sparktrail.trail.mob:
+        default: op
+    sparktrail.trail.mob.info:
+        default: op
+    sparktrail.trail.mob.start:
+        default: op
+    sparktrail.trail.mob.stop:
+        default: op
+    sparktrail.trail.mob.clear:
+        default: op
+    sparktrail.trail.mob.list:
+        default: op
+    sparktrail.trail.mob.type.blockbreak:
+        default: op
+    sparktrail.trail.mob.type.cloud:
+        default: op
+    sparktrail.trail.mob.type.cookie:
+        default: op
+    sparktrail.trail.mob.type.critical.normal:
+        default: op
+    sparktrail.trail.mob.type.critical.magic:
+        default: op
+    sparktrail.trail.mob.type.dust:
+        default: op
+    sparktrail.trail.mob.type.ember:
+        default: op
+    sparktrail.trail.mob.type.ender:
+        default: op
+    sparktrail.trail.mob.type.explosion:
+        default: op
+    sparktrail.trail.mob.type.fire:
+        default: op
+    sparktrail.trail.mob.type.firework:
+        default: op
+    sparktrail.trail.mob.type.footstep:
+        default: op
+    sparktrail.trail.mob.type.heart:
+        default: op
+    sparktrail.trail.mob.type.itemspray:
+        default: op
+    sparktrail.trail.mob.type.lavadrip:
+        default: op
+    sparktrail.trail.mob.type.magic:
+        default: op
+    sparktrail.trail.mob.type.note:
+        default: op
+    sparktrail.trail.mob.type.portal:
+        default: op
+    sparktrail.trail.mob.type.potion.aqua:
+        default: op
+    sparktrail.trail.mob.type.potion.black:
+        default: op
+    sparktrail.trail.mob.type.potion.blue:
+        default: op
+    sparktrail.trail.mob.type.potion.crimson:
+        default: op
+    sparktrail.trail.mob.type.potion.darkblue:
+        default: op
+    sparktrail.trail.mob.type.potion.darkgreen:
+        default: op
+    sparktrail.trail.mob.type.potion.darkred:
+        default: op
+    sparktrail.trail.mob.type.potion.gold:
+        default: op
+    sparktrail.trail.mob.type.potion.gray:
+        default: op
+    sparktrail.trail.mob.type.potion.green:
+        default: op
+    sparktrail.trail.mob.type.potion.pink:
+        default: op
+    sparktrail.trail.mob.type.potion.red:
+        default: op
+    sparktrail.trail.mob.type.rainbowswirl:
+        default: op
+    sparktrail.trail.mob.type.runes:
+        default: op
+    sparktrail.trail.mob.type.slime:
+        default: op
+    sparktrail.trail.mob.type.smoke.black:
+        default: op
+    sparktrail.trail.mob.type.smoke.red:
+        default: op
+    sparktrail.trail.mob.type.smoke.rainbow:
+        default: op
+    sparktrail.trail.mob.type.snow:
+        default: op
+    sparktrail.trail.mob.type.snowball:
+        default: op
+    sparktrail.trail.mob.type.sparkle:
+        default: op
+    sparktrail.trail.mob.type.splash:
+        default: op
+    sparktrail.trail.mob.type.swirl.lightblue:
+        default: op
+    sparktrail.trail.mob.type.swirl.blue:
+        default: op
+    sparktrail.trail.mob.type.swirl.darkblue:
+        default: op
+    sparktrail.trail.mob.type.swirl.red:
+        default: op
+    sparktrail.trail.mob.type.swirl.darkred:
+        default: op
+    sparktrail.trail.mob.type.swirl.green:
+        default: op
+    sparktrail.trail.mob.type.swirl.darkgreen:
+        default: op
+    sparktrail.trail.mob.type.swirl.yellow:
+        default: op
+    sparktrail.trail.mob.type.swirl.orange:
+        default: op
+    sparktrail.trail.mob.type.swirl.gray:
+        default: op
+    sparktrail.trail.mob.type.swirl.black:
+        default: op
+    sparktrail.trail.mob.type.swirl.white:
+        default: op
+    sparktrail.trail.mob.type.swirl.purple:
+        default: op
+    sparktrail.trail.mob.type.swirl.pink:
+        default: op
+    sparktrail.trail.mob.type.void:
+        default: op
+    sparktrail.trail.mob.type.waterdrip:
+        default: op
+    sparktrail.*:
+        default: op
+        children:
+            sparktrail.trail.self.*: true
+            sparktrail.trail.location.*: true
+            sparktrail.trail.mob.*: true
+    sparktrail.trail.self.*:
+        default: op
+        children:
+            sparktrail.trail.type.*: true
+            sparktrail.trail: true
+            sparktrail.trail.sound: true
+            sparktrail.trail.timeout: true
+            sparktrail.trail.clear: true
+            sparktrail.stop: true
+            sparktrail.start: true
+            sparktrail.demo: true
+            sparktrail.info: true
+    sparktrail.trail.player.*:
+        default: op
+        children:
+            sparktrail.trail: true
+            sparktrail.trail.player.info: true
+            sparktrail.trail.player.start: true
+            sparktrail.trail.player.stop: true
+            sparktrail.trail.player.clear: true
+            sparktrail.trail.player.list: true
+    sparktrail.trail.location.*:
+        default: op
+        children:
+            sparktrail.trail: true
+            sparktrail.trail.location: true
+            sparktrail.trail.location.info: true
+            sparktrail.trail.location.start: true
+            sparktrail.trail.location.stop: true
+            sparktrail.trail.location.stop.all: true
+            sparktrail.trail.location.clear: true
+            sparktrail.trail.location.list: true
+    sparktrail.trail.mob.*:
+        default: op
+        children:
+            sparktrail.trail: true
+            sparktrail.trail.mob: true
+            sparktrail.trail.mob.info: true
+            sparktrail.trail.mob.start: true
+            sparktrail.trail.mob.stop: true
+            sparktrail.trail.mob.clear: true
+            sparktrail.trail.mob.list: true
+    sparktrail.trail.type.*:
+        default: op
+        children:
+                sparktrail.trail.type.blockbreak: true
+                sparktrail.trail.type.cloud: true
+                sparktrail.trail.type.cookie: true
+                sparktrail.trail.type.critical.*: true
+                sparktrail.trail.type.dust: true
+                sparktrail.trail.type.ember: true
+                sparktrail.trail.type.ender: true
+                sparktrail.trail.type.explosion: true
+                sparktrail.trail.type.fire: true
+                sparktrail.trail.type.firework: true
+                sparktrail.trail.type.footstep: true
+                sparktrail.trail.type.heart: true
+                sparktrail.trail.type.itemspray: true
+                sparktrail.trail.type.lavadrip: true
+                sparktrail.trail.type.magic: true
+                sparktrail.trail.type.note: true
+                sparktrail.trail.type.portal: true
+                sparktrail.trail.type.potion.*: true
+                sparktrail.trail.type.rainbowswirl: true
+                sparktrail.trail.type.runes: true
+                sparktrail.trail.type.slime: true
+                sparktrail.trail.type.smoke.*: true
+                sparktrail.trail.type.snow: true
+                sparktrail.trail.type.snowball: true
+                sparktrail.trail.type.sparkle: true
+                sparktrail.trail.type.splash: true
+                sparktrail.trail.type.swirl.*: true
+                sparktrail.trail.type.void: true
+                sparktrail.trail.type.waterdrip: true
+    sparktrail.trail.type.critical.*:
+        default: op
+        children:
+            sparktrail.trail.type.critical.normal: true
+            sparktrail.trail.type.critical.magic: true
+    sparktrail.trail.type.potion.*:
+        default: op
+        children:
+                sparktrail.trail.type.potion.aqua: true
+                sparktrail.trail.type.potion.black: true
+                sparktrail.trail.type.potion.blue: true
+                sparktrail.trail.type.potion.crimson: true
+                sparktrail.trail.type.potion.darkblue: true
+                sparktrail.trail.type.potion.darkgreen: true
+                sparktrail.trail.type.potion.darkred: true
+                sparktrail.trail.type.potion.gold: true
+                sparktrail.trail.type.potion.gray: true
+                sparktrail.trail.type.potion.green: true
+                sparktrail.trail.type.potion.pink: true
+                sparktrail.trail.type.potion.red: true
+    sparktrail.trail.type.smoke.*:
+        default: op
+        children:
+            sparktrail.trail.type.smoke.black: true
+            sparktrail.trail.type.smoke.red: true
+            sparktrail.trail.type.smoke.rainbow: true
+    sparktrail.trail.type.swirl.*:
+        default: op
+        children:
+                sparktrail.trail.type.swirl.lightblue: true
+                sparktrail.trail.type.swirl.blue: true
+                sparktrail.trail.type.swirl.darkblue: true
+                sparktrail.trail.type.swirl.red: true
+                sparktrail.trail.type.swirl.darkred: true
+                sparktrail.trail.type.swirl.green: true
+                sparktrail.trail.type.swirl.darkgreen: true
+                sparktrail.trail.type.swirl.yellow: true
+                sparktrail.trail.type.swirl.orange: true
+                sparktrail.trail.type.swirl.gray: true
+                sparktrail.trail.type.swirl.black: true
+                sparktrail.trail.type.swirl.white: true
+                sparktrail.trail.type.swirl.purple: true
+                sparktrail.trail.type.swirl.pink: true
+    sparktrail.trail.player.type.*:
+        default: op
+        children:
+                sparktrail.trail.player.type.blockbreak: true
+                sparktrail.trail.player.type.cloud: true
+                sparktrail.trail.player.type.cookie: true
+                sparktrail.trail.player.type.critical.*: true
+                sparktrail.trail.player.type.dust: true
+                sparktrail.trail.player.type.ember: true
+                sparktrail.trail.player.type.ender: true
+                sparktrail.trail.player.type.explosion: true
+                sparktrail.trail.player.type.fire: true
+                sparktrail.trail.player.type.firework: true
+                sparktrail.trail.player.type.footstep: true
+                sparktrail.trail.player.type.heart: true
+                sparktrail.trail.player.type.itemspray: true
+                sparktrail.trail.player.type.lavadrip: true
+                sparktrail.trail.player.type.magic: true
+                sparktrail.trail.player.type.note: true
+                sparktrail.trail.player.type.portal: true
+                sparktrail.trail.player.type.potion.*: true
+                sparktrail.trail.player.type.rainbowswirl: true
+                sparktrail.trail.player.type.runes: true
+                sparktrail.trail.player.type.slime: true
+                sparktrail.trail.player.type.smoke.*: true
+                sparktrail.trail.player.type.snow: true
+                sparktrail.trail.player.type.snowball: true
+                sparktrail.trail.player.type.sparkle: true
+                sparktrail.trail.player.type.splash: true
+                sparktrail.trail.player.type.swirl.*: true
+                sparktrail.trail.player.type.void: true
+                sparktrail.trail.player.type.waterdrip: true
+    sparktrail.trail.player.type.critical.*:
+        default: op
+        children:
+            sparktrail.trail.player.type.critical.normal: true
+            sparktrail.trail.player.type.critical.magic: true
+    sparktrail.trail.player.type.potion.*:
+        default: op
+        children:
+                sparktrail.trail.player.type.potion.aqua: true
+                sparktrail.trail.player.type.potion.black: true
+                sparktrail.trail.player.type.potion.blue: true
+                sparktrail.trail.player.type.potion.crimson: true
+                sparktrail.trail.player.type.potion.darkblue: true
+                sparktrail.trail.player.type.potion.darkgreen: true
+                sparktrail.trail.player.type.potion.darkred: true
+                sparktrail.trail.player.type.potion.gold: true
+                sparktrail.trail.player.type.potion.gray: true
+                sparktrail.trail.player.type.potion.green: true
+                sparktrail.trail.player.type.potion.pink: true
+                sparktrail.trail.player.type.potion.red: true
+    sparktrail.trail.player.type.smoke.*:
+        default: op
+        children:
+            sparktrail.trail.player.type.smoke.black: true
+            sparktrail.trail.player.type.smoke.red: true
+            sparktrail.trail.player.type.smoke.rainbow: true
+    sparktrail.trail.player.type.swirl.*:
+        default: op
+        children:
+                sparktrail.trail.player.type.swirl.lightblue: true
+                sparktrail.trail.player.type.swirl.blue: true
+                sparktrail.trail.player.type.swirl.darkblue: true
+                sparktrail.trail.player.type.swirl.red: true
+                sparktrail.trail.player.type.swirl.darkred: true
+                sparktrail.trail.player.type.swirl.green: true
+                sparktrail.trail.player.type.swirl.darkgreen: true
+                sparktrail.trail.player.type.swirl.yellow: true
+                sparktrail.trail.player.type.swirl.orange: true
+                sparktrail.trail.player.type.swirl.gray: true
+                sparktrail.trail.player.type.swirl.black: true
+                sparktrail.trail.player.type.swirl.white: true
+                sparktrail.trail.player.type.swirl.purple: true
+                sparktrail.trail.player.type.swirl.pink: true
+    sparktrail.trail.location.type.*:
+        default: op
+        children:
+                sparktrail.trail.location.type.blockbreak: true
+                sparktrail.trail.location.type.cloud: true
+                sparktrail.trail.location.type.cookie: true
+                sparktrail.trail.location.type.critical.*: true
+                sparktrail.trail.location.type.dust: true
+                sparktrail.trail.location.type.ember: true
+                sparktrail.trail.location.type.ender: true
+                sparktrail.trail.location.type.explosion: true
+                sparktrail.trail.location.type.fire: true
+                sparktrail.trail.location.type.firework: true
+                sparktrail.trail.location.type.footstep: true
+                sparktrail.trail.location.type.heart: true
+                sparktrail.trail.location.type.itemspray: true
+                sparktrail.trail.location.type.lavadrip: true
+                sparktrail.trail.location.type.magic: true
+                sparktrail.trail.location.type.note: true
+                sparktrail.trail.location.type.portal: true
+                sparktrail.trail.location.type.potion.*: true
+                sparktrail.trail.location.type.rainbowswirl: true
+                sparktrail.trail.location.type.runes: true
+                sparktrail.trail.location.type.slime: true
+                sparktrail.trail.location.type.smoke.*: true
+                sparktrail.trail.location.type.snow: true
+                sparktrail.trail.location.type.snowball: true
+                sparktrail.trail.location.type.sparkle: true
+                sparktrail.trail.location.type.splash: true
+                sparktrail.trail.location.type.swirl.*: true
+                sparktrail.trail.location.type.void: true
+                sparktrail.trail.location.type.waterdrip: true
+    sparktrail.trail.location.type.critical.*:
+        default: op
+        children:
+            sparktrail.trail.location.type.critical.normal: true
+            sparktrail.trail.location.type.critical.magic: true
+    sparktrail.trail.location.type.potion.*:
+        default: op
+        children:
+                sparktrail.trail.location.type.potion.aqua: true
+                sparktrail.trail.location.type.potion.black: true
+                sparktrail.trail.location.type.potion.blue: true
+                sparktrail.trail.location.type.potion.crimson: true
+                sparktrail.trail.location.type.potion.darkblue: true
+                sparktrail.trail.location.type.potion.darkgreen: true
+                sparktrail.trail.location.type.potion.darkred: true
+                sparktrail.trail.location.type.potion.gold: true
+                sparktrail.trail.location.type.potion.gray: true
+                sparktrail.trail.location.type.potion.green: true
+                sparktrail.trail.location.type.potion.pink: true
+                sparktrail.trail.location.type.potion.red: true
+    sparktrail.trail.location.type.smoke.*:
+        default: op
+        children:
+            sparktrail.trail.location.type.smoke.black: true
+            sparktrail.trail.location.type.smoke.red: true
+            sparktrail.trail.location.type.smoke.rainbow: true
+    sparktrail.trail.location.type.swirl.*:
+        default: op
+        children:
+                sparktrail.trail.location.type.swirl.lightblue: true
+                sparktrail.trail.location.type.swirl.blue: true
+                sparktrail.trail.location.type.swirl.darkblue: true
+                sparktrail.trail.location.type.swirl.red: true
+                sparktrail.trail.location.type.swirl.darkred: true
+                sparktrail.trail.location.type.swirl.green: true
+                sparktrail.trail.location.type.swirl.darkgreen: true
+                sparktrail.trail.location.type.swirl.yellow: true
+                sparktrail.trail.location.type.swirl.orange: true
+                sparktrail.trail.location.type.swirl.gray: true
+                sparktrail.trail.location.type.swirl.black: true
+                sparktrail.trail.location.type.swirl.white: true
+                sparktrail.trail.location.type.swirl.purple: true
+                sparktrail.trail.location.type.swirl.pink: true
+    sparktrail.trail.mob.type.*:
+        default: op
+        children:
+                sparktrail.trail.mob.type.blockbreak: true
+                sparktrail.trail.mob.type.cloud: true
+                sparktrail.trail.mob.type.cookie: true
+                sparktrail.trail.mob.type.critical.*: true
+                sparktrail.trail.mob.type.dust: true
+                sparktrail.trail.mob.type.ember: true
+                sparktrail.trail.mob.type.ender: true
+                sparktrail.trail.mob.type.explosion: true
+                sparktrail.trail.mob.type.fire: true
+                sparktrail.trail.mob.type.firework: true
+                sparktrail.trail.mob.type.footstep: true
+                sparktrail.trail.mob.type.heart: true
+                sparktrail.trail.mob.type.itemspray: true
+                sparktrail.trail.mob.type.lavadrip: true
+                sparktrail.trail.mob.type.magic: true
+                sparktrail.trail.mob.type.note: true
+                sparktrail.trail.mob.type.portal: true
+                sparktrail.trail.mob.type.potion.*: true
+                sparktrail.trail.mob.type.rainbowswirl: true
+                sparktrail.trail.mob.type.runes: true
+                sparktrail.trail.mob.type.slime: true
+                sparktrail.trail.mob.type.smoke.*: true
+                sparktrail.trail.mob.type.snow: true
+                sparktrail.trail.mob.type.snowball: true
+                sparktrail.trail.mob.type.sparkle: true
+                sparktrail.trail.mob.type.splash: true
+                sparktrail.trail.mob.type.swirl.*: true
+                sparktrail.trail.mob.type.void: true
+                sparktrail.trail.mob.type.waterdrip: true
+    sparktrail.trail.mob.type.critical.*:
+        default: op
+        children:
+            sparktrail.trail.mob.type.critical.normal: true
+            sparktrail.trail.mob.type.critical.magic: true
+    sparktrail.trail.mob.type.potion.*:
+        default: op
+        children:
+                sparktrail.trail.mob.type.potion.aqua: true
+                sparktrail.trail.mob.type.potion.black: true
+                sparktrail.trail.mob.type.potion.blue: true
+                sparktrail.trail.mob.type.potion.crimson: true
+                sparktrail.trail.mob.type.potion.darkblue: true
+                sparktrail.trail.mob.type.potion.darkgreen: true
+                sparktrail.trail.mob.type.potion.darkred: true
+                sparktrail.trail.mob.type.potion.gold: true
+                sparktrail.trail.mob.type.potion.gray: true
+                sparktrail.trail.mob.type.potion.green: true
+                sparktrail.trail.mob.type.potion.pink: true
+                sparktrail.trail.mob.type.potion.red: true
+    sparktrail.trail.mob.type.smoke.*:
+        default: op
+        children:
+            sparktrail.trail.mob.type.smoke.black: true
+            sparktrail.trail.mob.type.smoke.red: true
+            sparktrail.trail.mob.type.smoke.rainbow: true
+    sparktrail.trail.mob.type.swirl.*:
+        default: op
+        children:
+                sparktrail.trail.mob.type.swirl.lightblue: true
+                sparktrail.trail.mob.type.swirl.blue: true
+                sparktrail.trail.mob.type.swirl.darkblue: true
+                sparktrail.trail.mob.type.swirl.red: true
+                sparktrail.trail.mob.type.swirl.darkred: true
+                sparktrail.trail.mob.type.swirl.green: true
+                sparktrail.trail.mob.type.swirl.darkgreen: true
+                sparktrail.trail.mob.type.swirl.yellow: true
+                sparktrail.trail.mob.type.swirl.orange: true
+                sparktrail.trail.mob.type.swirl.gray: true
+                sparktrail.trail.mob.type.swirl.black: true
+                sparktrail.trail.mob.type.swirl.white: true
+                sparktrail.trail.mob.type.swirl.purple: true
+                sparktrail.trail.mob.type.swirl.pink: true

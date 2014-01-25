@@ -10,48 +10,40 @@ import java.util.ArrayList;
 
 public enum Permission {
 
-    UPDATE("sparktrail.update", ""),
-    TRAIL("sparktrail.trail", "", "sparktrail.trail.*", "sparktrail.*"),
+    UPDATE("sparktrail.update"),
+    TRAIL("sparktrail.trail"),
 
-    PLAYER_TRAIL("sparktrail.trail.player", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
-    PLAYER_INFO("sparktrail.trail.player.info", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
-    PLAYER_START("sparktrail.trail.player.start", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
-    PLAYER_STOP("sparktrail.trail.player.stop", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
-    PLAYER_CLEAR("sparktrail.trail.player.clear", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
-    PLAYER_EFFECT("sparktrail.trail.player.%effect%", "", "sparktrail.trail.*", "sparktrail.*", "sparktrail.trail.player.*"),
+    PLAYER_INFO("sparktrail.trail.player.info"),
+    PLAYER_START("sparktrail.trail.player.start"),
+    PLAYER_STOP("sparktrail.trail.player.stop"),
+    PLAYER_CLEAR("sparktrail.trail.player.clear"),
+    PLAYER_LIST("sparktrail.trail.player.list"),
 
-    LOC_START("sparktrail.trail.location.start", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    LOC_STOP("sparktrail.trail.location.stop", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    LOC_STOP_ALL("sparktrail.trail.location.stop", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    LOC_CLEAR("sparktrail.trail.location.clear", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    LOC_TRAIL("sparktrail.trail.location", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    LOC_LIST("sparktrail.trail.location.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
+    LOC_TRAIL("sparktrail.trail.location"),
+    LOC_START("sparktrail.trail.location.start"),
+    LOC_STOP("sparktrail.trail.location.stop"),
+    LOC_STOP_ALL("sparktrail.trail.location.stop.all"),
+    LOC_CLEAR("sparktrail.trail.location.clear"),
+    LOC_LIST("sparktrail.trail.location.list"),
 
-    MOB_START("sparktrail.trail.mob.start", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    MOB_STOP("sparktrail.trail.mob.stop", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    MOB_CLEAR("sparktrail.trail.mob.clear", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    MOB_TRAIL("sparktrail.trail.mob", "", "sparktrail.trail.*", "sparktrail.trail.location.*", "sparktrail.*"),
-    MOB_LIST("sparktrail.trail.mob.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),
+    MOB_TRAIL("sparktrail.trail.mob"),
+    MOB_START("sparktrail.trail.mob.start"),
+    MOB_STOP("sparktrail.trail.mob.stop"),
+    MOB_CLEAR("sparktrail.trail.mob.clear"),
+    MOB_LIST("sparktrail.trail.mob.list"),
 
-    TIMEOUT("sparktrail.trail.timeout", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    EFFECT("sparktrail.trail.%effect%", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    CLEAR("sparktrail.trail.clear", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    STOP("sparktrail.trail.stop", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    START("sparktrail.trail.start", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    DEMO("sparktrail.trail.demo", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    INFO("sparktrail.trail.info", "sparktrail.trail", "sparktrail.trail.*", "sparktrail.*"),
-    PLAYER_LIST("sparktrail.trail.player.list", "sparktrail.trail", "sparktrail.trail.location.*", "sparktrail.*"),;
+    SOUND("sparktrail.trail.sound"),
+    TIMEOUT("sparktrail.trail.timeout"),
+    CLEAR("sparktrail.trail.clear"),
+    STOP("sparktrail.trail.stop"),
+    START("sparktrail.trail.start"),
+    DEMO("sparktrail.trail.demo"),
+    INFO("sparktrail.trail.info"),
+    ;
 
     String perm;
-    String requiredPerm;
-    ArrayList<String> hierarchy = new ArrayList<String>();
-
-    Permission(String perm, String requiredPerm, String... hierarchy) {
+    Permission(String perm) {
         this.perm = perm;
-        this.requiredPerm = requiredPerm;
-        for (String s : hierarchy) {
-            this.hierarchy.add(s);
-        }
     }
 
     public boolean hasPerm(CommandSender sender, boolean sendMessage, boolean allowConsole) {
@@ -66,48 +58,32 @@ public enum Permission {
     }
 
     public boolean hasPerm(Player player, boolean sendMessage) {
-        boolean hasRequiredPerm = this.requiredPerm.equalsIgnoreCase("") ? true : player.hasPermission(this.requiredPerm);
-        if (!(player.hasPermission(this.perm) && hasRequiredPerm)) {
-            for (String s : this.hierarchy) {
-                if (player.hasPermission(s)) {
-                    return true;
-                }
-            }
-            if (sendMessage) {
-                Lang.sendTo(player, Lang.NO_PERMISSION.toString().replace("%perm%", this.perm));
-            }
-            return false;
-        } else {
+        if (player.hasPermission(this.perm)) {
             return true;
         }
+        if (sendMessage) {
+            Lang.sendTo(player, Lang.NO_PERMISSION.toString().replace("%perm%", this.perm));
+        }
+        return false;
     }
 
     public static boolean hasEffectPerm(Player player, boolean sendMessage, String perm, EffectHolder.EffectType effectType) {
-        if (!(player.hasPermission(perm) && player.hasPermission("sparktrail.trail"))) {
-            for (String s : EFFECT.hierarchy) {
-                if (player.hasPermission(s)) {
-                    return true;
-                }
-            }
-            if (player.hasPermission("sparktrail.trail." + effectType.toString().toLowerCase() + ".type.*") || player.hasPermission("sparktrail.trail.type.*") || player.hasPermission("sparktrail.trail." + effectType.toString())) {
-                return true;
-            }
-            if (sendMessage) {
-                Lang.sendTo(player, Lang.NO_PERMISSION.toString().replace("%perm%", perm));
-            }
-            return false;
-        } else {
+        if (player.hasPermission(perm)) {
             return true;
         }
+        if (sendMessage) {
+            Lang.sendTo(player, Lang.NO_PERMISSION.toString().replace("%perm%", perm));
+        }
+        return false;
     }
 
     public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, EffectHolder.EffectType effectType) {
         String perm = "sparktrail.trail." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
-        return hasEffectPerm(player, sendMessage, perm, effectType) || hasEffectPerm(player, sendMessage, perm + ".*", effectType);
+        return hasEffectPerm(player, sendMessage, perm, effectType);
     }
 
     public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, String data, EffectHolder.EffectType effectType) {
         String perm = "sparktrail.trail." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
-        return hasEffectPerm(player, sendMessage, perm + "." + data, effectType) || hasEffectPerm(player, sendMessage, perm + ".*", effectType);
+        return hasEffectPerm(player, sendMessage, perm + "." + data, effectType);
     }
 }
