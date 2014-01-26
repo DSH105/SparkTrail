@@ -68,7 +68,7 @@ public class SparkTrailPlugin extends JavaPlugin {
 
     public ChatColor primaryColour = ChatColor.GREEN;
     public ChatColor secondaryColour = ChatColor.YELLOW;
-    public String prefix = "" + ChatColor.DARK_GREEN + "ST" + ChatColor.GREEN + "» " + ChatColor.RESET;
+    public String prefix = "" + ChatColor.DARK_GREEN + "ST" + ChatColor.GREEN + " » " + ChatColor.RESET;
     public String cmdString = "trail";
 
     public void onEnable() {
