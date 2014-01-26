@@ -37,25 +37,11 @@ public abstract class PacketEffect extends Effect {
         //TODO: VNP support
         boolean shouldPlay = super.play();
         if (shouldPlay) {
-            boolean vanished = false;
-            if (this.getHolder().getEffectType() == EffectHolder.EffectType.PLAYER) {
-                if (PluginHook.getVNP() != null) {
-                    VanishPlugin vnp = PluginHook.getVNP();
-                    vanished = vnp.getManager().isVanished(this.getHolder().getDetails().playerName);
-                }
-            }
             for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
-                if (vanished) {
-                    Player p = Bukkit.getPlayerExact(this.getHolder().getDetails().playerName);
-                    if (p != null) {
-                        this.playDemo(p);
-                    }
-                } else {
-                    try {
-                        ReflectionUtil.sendPacket(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.createPacket());
-                    } catch (Exception e) {
-                        Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to players within a radius of 20 [" + this.getWorld() + "," + this.getX() + "," + this.getY() + "," + this.getZ() + "].", e, true);
-                    }
+                try {
+                    ReflectionUtil.sendPacket(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.createPacket());
+                } catch (Exception e) {
+                    Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to players within a radius of 20 [" + this.getWorld() + "," + this.getX() + "," + this.getY() + "," + this.getZ() + "].", e, true);
                 }
             }
         }
