@@ -31,7 +31,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_7_R1.CraftServer;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -85,6 +84,8 @@ public class SparkTrailPlugin extends JavaPlugin {
                     + " is only compatible with:");
             ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.YELLOW + "    " + Version.getMinecraftVersion() + "-" + Version.getCraftBukkitVersion() + ".");
             ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "Initialisation failed. Please update the plugin.");
+
+            manager.disablePlugin(this);
             return;
         }
 
@@ -199,13 +200,14 @@ public class SparkTrailPlugin extends JavaPlugin {
         // Command string based off the string defined in config.yml
         CustomCommand.initiate(this);
         try {
-            if (Bukkit.getServer() instanceof CraftServer) {
-                final Field f = CraftServer.class.getDeclaredField("commandMap");
+            Class craftServer = Class.forName("org.bukkit.craftbukkit." + ReflectionUtil.getVersionString(this) + ".CraftServer");
+            if (craftServer.isInstance(Bukkit.getServer())) {
+                final Field f = craftServer.getDeclaredField("commandMap");
                 f.setAccessible(true);
                 CM = (CommandMap) f.get(Bukkit.getServer());
             }
         } catch (Exception e) {
-            Logger.log(Logger.LogLevel.SEVERE, "Command registration has failed.", e, true);
+            Logger.log(Logger.LogLevel.WARNING, "Registration of commands failed.", e, true);
         }
 
         String cmdString = this.config.getString("command", "trail");
@@ -242,6 +244,9 @@ public class SparkTrailPlugin extends JavaPlugin {
             i.remove();
         }
         this.getServer().getScheduler().cancelTasks(this);
+        if (this.EH != null) {
+            this.EH.clearEffects();
+        }
     }
 
     public static SparkTrailPlugin getInstance() {
