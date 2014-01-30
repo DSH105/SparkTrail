@@ -22,6 +22,7 @@ public class EffectPlayEvent extends Event implements Cancellable {
      * Get the Effect that is being played
      *
      * @return effect being played
+     */
     public Effect getEffect() {
         return this.effect;
     }

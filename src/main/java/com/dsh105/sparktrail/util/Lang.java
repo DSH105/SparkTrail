@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public enum Lang {
 
-    NO_PERMISSION("no_permission", "&e%perm% &apermission needed to do that."),
+    NO_PERMISSION("no_permission", "&aYou are not permitted to do that."),
     COMMAND_ERROR("cmd_error", "&aError for input string: &e%cmd%&a. Use &e/" + SparkTrailPlugin.getInstance().cmdString + " help &afor help."),
     HELP_INDEX_TOO_BIG("help_index_too_big", "&aPage &e%index% &adoes not exist."),
     IN_GAME_ONLY("in_game_only", "&ePlease log in to do that."),
