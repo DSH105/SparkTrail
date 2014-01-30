@@ -7,7 +7,7 @@ import com.dsh105.sparktrail.trail.ParticleDetails;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.trail.type.*;
 import com.dsh105.sparktrail.trail.type.Sound;
-import io.github.dsh105.dshutils.logger.Logger;
+import com.dsh105.dshutils.logger.Logger;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 

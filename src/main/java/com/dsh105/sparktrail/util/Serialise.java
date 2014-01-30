@@ -2,9 +2,9 @@ package com.dsh105.sparktrail.util;
 
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.chat.BlockData;
-import io.github.dsh105.dshutils.logger.ConsoleLogger;
-import io.github.dsh105.dshutils.util.EnumUtil;
-import io.github.dsh105.dshutils.util.StringUtil;
+import com.dsh105.dshutils.logger.ConsoleLogger;
+import com.dsh105.dshutils.util.EnumUtil;
+import com.dsh105.dshutils.util.StringUtil;
 import org.bukkit.*;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;

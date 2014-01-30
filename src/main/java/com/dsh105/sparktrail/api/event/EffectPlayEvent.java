@@ -18,10 +18,19 @@ public class EffectPlayEvent extends Event implements Cancellable {
         this.effect = effect;
     }
 
+    /**
+     * Get the Effect that is being played
+     *
+     * @return effect being played
     public Effect getEffect() {
         return this.effect;
     }
 
+    /**
+     * Get the {@link com.dsh105.sparktrail.trail.EffectHolder.EffectType} of the effect being played
+     *
+     * @return type of effect being played
+     */
     public EffectHolder.EffectType getEffectType() {
         return this.effect.getEffectType();
     }

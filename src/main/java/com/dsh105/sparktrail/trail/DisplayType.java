@@ -1,6 +1,6 @@
 package com.dsh105.sparktrail.trail;
 
-import io.github.dsh105.dshutils.util.GeometryUtil;
+import com.dsh105.dshutils.util.GeometryUtil;
 import org.bukkit.Location;
 
 import java.util.ArrayList;

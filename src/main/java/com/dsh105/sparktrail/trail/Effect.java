@@ -5,7 +5,7 @@ import com.dsh105.sparktrail.api.event.EffectPlayEvent;
 import com.dsh105.sparktrail.trail.type.*;
 import com.dsh105.sparktrail.util.PluginHook;
 import com.dsh105.sparktrail.util.Serialise;
-import io.github.dsh105.dshutils.util.StringUtil;
+import com.dsh105.dshutils.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
