@@ -5,6 +5,7 @@ import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.dshutils.util.ReflectionUtil;
+import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -58,27 +59,16 @@ public class Swirl extends Effect {
 
     public void playDemo(Player p) {
         try {
-            Object nmsEntity = p.getClass().getMethod("getHandle")
-                    .invoke(p);
-            Object dw = ReflectionUtil.getMethod(nmsEntity.getClass(), "getDataWatcher")
-                    .invoke(nmsEntity);
-            ReflectionUtil.getMethod(dw.getClass(), "watch")
-                    .invoke(dw, new Object[]{7, Integer.valueOf(this.swirlType.getValue())});
+            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                    "mobSpell",
+                    (float) (p.getLocation().getX() + 0.5D),
+                    (float) p.getLocation().getY(),
+                    (float) (p.getLocation().getZ() + 0.5D),
+                    0.5F, 1F, 0.5F,
+                    0F, 100);
+            ReflectionUtil.sendPacket(p, packet);
         } catch (Exception e) {
-            Logger.log(Logger.LogLevel.SEVERE, "Failed to access Entity Datawatcher (Swirl Effect).", e, true);
-        }
-    }
-
-    public void stopDemo(Player p) {
-        try {
-            Object nmsEntity = p.getClass().getMethod("getHandle")
-                    .invoke(p);
-            Object dw = ReflectionUtil.getMethod(nmsEntity.getClass(), "getDataWatcher")
-                    .invoke(nmsEntity);
-            ReflectionUtil.getMethod(dw.getClass(), "watch")
-                    .invoke(dw, new Object[]{7, Integer.valueOf(0)});
-        } catch (Exception e) {
-            Logger.log(Logger.LogLevel.SEVERE, "Failed to access Entity Datawatcher (Swirl Effect).", e, true);
+            Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to player [" + p.getName() + "].", e, true);
         }
     }
 
