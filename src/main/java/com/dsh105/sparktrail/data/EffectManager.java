@@ -134,7 +134,7 @@ public class EffectManager {
         if (config.get(path) == null) {
             return null;
         }
-        EffectHolder eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, location);
+        EffectHolder eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), location);
         return createFromFile(path, eh);
     }
 
@@ -144,7 +144,7 @@ public class EffectManager {
         if (config.get(path) == null) {
             return null;
         }
-        EffectHolder eh = EffectCreator.createMobHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.MOB, uuid);
+        EffectHolder eh = EffectCreator.createMobHolder(new HashSet<ParticleDetails>(), uuid);
         return createFromFile(path, eh);
     }
 
@@ -158,7 +158,7 @@ public class EffectManager {
         if (config.get(path) == null) {
             return null;
         }
-        EffectHolder eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, playerName);
+        EffectHolder eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), playerName);
         return createFromFile(path, eh);
     }
 

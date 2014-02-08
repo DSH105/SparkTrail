@@ -31,20 +31,20 @@ public class EffectCreator {
         return effectHolder;
     }
 
-    public static EffectHolder createLocHolder(HashSet<ParticleDetails> particles, EffectType effectType, Location location) {
-        EffectHolder effectHolder = new EffectHolder(effectType);
+    public static EffectHolder createLocHolder(HashSet<ParticleDetails> particles, Location location) {
+        EffectHolder effectHolder = new EffectHolder(EffectType.LOCATION);
         effectHolder.updateLocation(location);
         return createHolder(effectHolder, particles);
     }
 
-    public static EffectHolder createPlayerHolder(HashSet<ParticleDetails> particles, EffectType effectType, String playerName) {
-        EffectHolder effectHolder = new EffectHolder(effectType);
+    public static EffectHolder createPlayerHolder(HashSet<ParticleDetails> particles, String playerName) {
+        EffectHolder effectHolder = new EffectHolder(EffectType.PLAYER);
         effectHolder.getDetails().playerName = playerName;
         return createHolder(effectHolder, particles);
     }
 
-    public static EffectHolder createMobHolder(HashSet<ParticleDetails> particles, EffectType effectType, UUID uuid) {
-        EffectHolder effectHolder = new EffectHolder(effectType);
+    public static EffectHolder createMobHolder(HashSet<ParticleDetails> particles, UUID uuid) {
+        EffectHolder effectHolder = new EffectHolder(EffectType.MOB);
         effectHolder.getDetails().mobUuid = uuid;
         return createHolder(effectHolder, particles);
     }

@@ -99,7 +99,7 @@ public class TrailCommand implements CommandExecutor {
 
                 EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                 if (eh == null) {
-                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
+                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
                 }
 
                 ArrayList<ParticleType> list = new ArrayList<ParticleType>();
@@ -208,7 +208,7 @@ public class TrailCommand implements CommandExecutor {
                                 pd.blockMeta = bd.data;
                                 EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                                 if (eh == null) {
-                                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
+                                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
                                 }
                                 if (eh.hasEffect(pt)) {
                                     eh.removeEffect(pt);
@@ -232,7 +232,7 @@ public class TrailCommand implements CommandExecutor {
                                 pd.fireworkEffect = fe;
                                 EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                                 if (eh == null) {
-                                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
+                                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
                                 }
                                 if (eh.hasEffect(pt)) {
                                     eh.removeEffect(pt);
@@ -260,7 +260,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                         if (eh == null) {
-                            eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
+                            eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
                         }
                         if (eh.hasEffect(pt)) {
                             eh.removeEffect(pt);
@@ -310,8 +310,7 @@ public class TrailCommand implements CommandExecutor {
                 if (Permission.SOUND.hasPerm(sender, true, false)) {
                     EffectHolder eh = EffectManager.getInstance().getEffect(sender.getName());
                     if (eh == null || eh.getEffects().isEmpty()) {
-                        Lang.sendTo(sender, Lang.NO_ACTIVE_EFFECTS.toString());
-                        return true;
+                        eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), sender.getName());
                     }
                     if (!EnumUtil.isEnumType(org.bukkit.Sound.class, args[1].toUpperCase())) {
                         Lang.sendTo(sender, Lang.NO_SOUND_IN_STRING.toString().replace("%string%", args[1]));
@@ -501,7 +500,7 @@ public class TrailCommand implements CommandExecutor {
                     if (pd != null) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                         if (eh == null) {
-                            eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.PLAYER, p.getName());
+                            eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
                         }
                         if (eh.hasEffect(pd)) {
                             eh.removeEffect(pd);
@@ -707,7 +706,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(l);
                         if (eh == null) {
-                            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, l);
+                            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), l);
                         }
                         if (eh.hasEffect(pt)) {
                             eh.removeEffect(pt);
@@ -772,7 +771,7 @@ public class TrailCommand implements CommandExecutor {
                     if (pd != null) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(l);
                         if (eh == null) {
-                            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, l);
+                            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), l);
                         }
                         if (eh.hasEffect(pd)) {
                             eh.removeEffect(pd);
@@ -796,7 +795,7 @@ public class TrailCommand implements CommandExecutor {
     public void add(Location l, ParticleType pt, CommandSender sender, ParticleDetails pd) {
         EffectHolder eh = EffectManager.getInstance().getEffect(l);
         if (eh == null) {
-            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), EffectHolder.EffectType.LOCATION, l);
+            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), l);
         }
         if (eh.hasEffect(pd)) {
             eh.removeEffect(pd);

@@ -395,7 +395,7 @@ public class MenuListener implements Listener {
                     Logger.log(Logger.LogLevel.SEVERE, "Failed to create Player Effect (" + menu.playerName + ") while finding Effect Holder (" + particleType.toString() + ") [Reported from MenuListener].", true);
                     return null;
                 }
-                eh = EffectCreator.createPlayerHolder(hashSet, effectType, menu.playerName);
+                eh = EffectCreator.createPlayerHolder(hashSet, menu.playerName);
             } else if (effectType == EffectHolder.EffectType.LOCATION) {
                 Location l;
                 try {
@@ -409,9 +409,9 @@ public class MenuListener implements Listener {
                     Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + Serialise.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ") [Reported from MenuListener].", true);
                     return null;
                 }
-                eh = EffectCreator.createLocHolder(hashSet, effectType, l);
+                eh = EffectCreator.createLocHolder(hashSet, l);
             } else if (effectType == EffectHolder.EffectType.MOB) {
-                eh = EffectCreator.createMobHolder(hashSet, effectType, menu.mobUuid);
+                eh = EffectCreator.createMobHolder(hashSet, menu.mobUuid);
             }
         }
 

@@ -195,16 +195,16 @@ public class MenuChatListener implements Listener {
         if (eh == null) {
             HashSet<ParticleDetails> hashSet = new HashSet<ParticleDetails>();
             if (data.effectType == EffectHolder.EffectType.PLAYER) {
-                eh = EffectCreator.createPlayerHolder(hashSet, data.effectType, data.playerName);
+                eh = EffectCreator.createPlayerHolder(hashSet, data.playerName);
             } else if (data.effectType == EffectHolder.EffectType.LOCATION) {
                 Location l = data.location;
                 if (l == null) {
                     Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location Effect (" + data + ") whilst finding EffectHolder (" + data.particleType.toString() + ") [Reported from MenuChatListener].", true);
                     return null;
                 }
-                eh = EffectCreator.createLocHolder(hashSet, data.effectType, l);
+                eh = EffectCreator.createLocHolder(hashSet, l);
             } else if (data.effectType == EffectHolder.EffectType.MOB) {
-                eh = EffectCreator.createMobHolder(hashSet, data.effectType, data.mobUuid);
+                eh = EffectCreator.createMobHolder(hashSet, data.mobUuid);
             }
         }
         return eh;
