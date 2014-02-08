@@ -7,6 +7,7 @@ import com.dsh105.sparktrail.command.TrailCommand;
 import com.dsh105.sparktrail.config.ConfigOptions;
 import com.dsh105.sparktrail.data.AutoSave;
 import com.dsh105.sparktrail.data.EffectManager;
+import com.dsh105.sparktrail.listeners.EntityListener;
 import com.dsh105.sparktrail.listeners.InteractListener;
 import com.dsh105.sparktrail.listeners.PlayerListener;
 import com.dsh105.sparktrail.menu.MenuListener;
@@ -225,6 +226,7 @@ public class SparkTrailPlugin extends JavaPlugin {
         manager.registerEvents(new MenuChatListener(), this);
         manager.registerEvents(new PlayerListener(), this);
         manager.registerEvents(new InteractListener(), this);
+        manager.registerEvents(new EntityListener(), this);
 
         try {
             Metrics metrics = new Metrics(this);

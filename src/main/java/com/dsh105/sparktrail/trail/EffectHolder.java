@@ -24,6 +24,7 @@ public class EffectHolder extends BukkitRunnable {
     private BukkitTask task = null;
     protected EffectType effectType;
     protected EffectDetails details;
+    private boolean persistent = true;
 
     public World world;
     public int locX;
@@ -37,6 +38,13 @@ public class EffectHolder extends BukkitRunnable {
     public EffectHolder(EffectType effectType) {
         this.effectType = effectType;
         this.details = new EffectDetails(effectType);
+        if (this.effectType == EffectType.MOB) {
+            this.persistent = false;
+        }
+    }
+
+    public boolean isPersistent() {
+        return this.persistent;
     }
 
     public void setEffects(HashSet<Effect> effects) {

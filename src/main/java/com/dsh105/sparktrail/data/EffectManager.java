@@ -55,53 +55,57 @@ public class EffectManager {
     }
 
     public void save(EffectHolder e) {
-        clearFromFile(e);
-        if (e.getEffects().isEmpty()) {
-            return;
-        }
-        YAMLConfig config = SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.DATA);
-        String path = "effects.";
-        if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
-            path = path + "player." + e.getDetails().playerName + ".";
-        } else if (e.getEffectType() == EffectHolder.EffectType.LOCATION) {
-            path = path + "location." + Serialise.serialiseLocation(e.getLocation()) + ".";
-        } else if (e.getEffectType() == EffectHolder.EffectType.MOB) {
-            path = path + "mob." + e.getDetails().mobUuid + ".";
-        }
-
-        for (Effect effect : e.getEffects()) {
-            if (effect == null || effect.getParticleType() == null) {
-                continue;
+        if (e.isPersistent()) {
+            clearFromFile(e);
+            if (e.getEffects().isEmpty()) {
+                return;
             }
-            if (effect.getParticleType().requiresDataMenu()) {
-                ParticleType pt = effect.getParticleType();
-                String value = null;
-                if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
-                    value = ((BlockBreak) effect).idValue + "," + ((BlockBreak) effect).metaValue;
-                } else if (pt == ParticleType.CRITICAL) {
-                    value = ((Critical) effect).criticalType.toString();
-                } else if (pt == ParticleType.FIREWORK) {
-                    value = Serialise.serialiseFireworkEffect(((Firework) effect).fireworkEffect);
+            YAMLConfig config = SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.DATA);
+            String path = "effects.";
+            if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
+                path = path + "player." + e.getDetails().playerName + ".";
+            } else if (e.getEffectType() == EffectHolder.EffectType.LOCATION) {
+                path = path + "location." + Serialise.serialiseLocation(e.getLocation()) + ".";
+            } else if (e.getEffectType() == EffectHolder.EffectType.MOB) {
+                path = path + "mob." + e.getDetails().mobUuid + ".";
+            }
+
+            for (Effect effect : e.getEffects()) {
+                if (effect == null || effect.getParticleType() == null) {
+                    continue;
                 }
+                if (effect.getParticleType().requiresDataMenu()) {
+                    ParticleType pt = effect.getParticleType();
+                    String value = null;
+                    if (pt == ParticleType.BLOCKBREAK) {
+                        value = ((BlockBreak) effect).idValue + "," + ((BlockBreak) effect).metaValue;
+                    } else if (pt == ParticleType.ITEMSPRAY) {
+                        value = ((ItemSpray) effect).idValue + "," + ((ItemSpray) effect).metaValue;
+                    } else if (pt == ParticleType.CRITICAL) {
+                        value = ((Critical) effect).criticalType.toString();
+                    } else if (pt == ParticleType.FIREWORK) {
+                        value = Serialise.serialiseFireworkEffect(((Firework) effect).fireworkEffect);
+                    }
                 /*else if (pt == ParticleType.NOTE) {
                     value = ((Note) effect).noteType.toString();
 				}*/
-                else if (pt == ParticleType.POTION) {
-                    value = ((Potion) effect).potionType.toString();
-                } else if (pt == ParticleType.SMOKE) {
-                    value = ((Smoke) effect).smokeType.toString();
-                } else if (pt == ParticleType.SWIRL) {
-                    value = ((Swirl) effect).swirlType.toString();
+                    else if (pt == ParticleType.POTION) {
+                        value = ((Potion) effect).potionType.toString();
+                    } else if (pt == ParticleType.SMOKE) {
+                        value = ((Smoke) effect).smokeType.toString();
+                    } else if (pt == ParticleType.SWIRL) {
+                        value = ((Swirl) effect).swirlType.toString();
+                    }
+                    if (value != null) {
+                        config.set(path + effect.getParticleType().toString().toLowerCase(), value);
+                    }
+                } else {
+                    config.set(path + effect.getParticleType().toString().toLowerCase(), "none");
                 }
-                if (value != null) {
-                    config.set(path + effect.getParticleType().toString().toLowerCase(), value);
-                }
-            } else {
-                config.set(path + effect.getParticleType().toString().toLowerCase(), "none");
             }
-        }
 
-        config.saveConfig();
+            config.saveConfig();
+        }
     }
 
     public void clearFromFile(EffectHolder e) {

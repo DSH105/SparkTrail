@@ -19,7 +19,6 @@ import java.util.Arrays;
 
 public enum ParticleType {
     BLOCKBREAK(BlockBreak.class, 20, Material.IRON_PICKAXE, (short) 0, "Block Break", true, true),
-    //BLOCKCRACK(BlockCrack.class, 10, Material.getMaterial(20), (short) 0, "Block Crack", false),
     CLOUD(Cloud.class, 20, Material.getMaterial(351), (short) 15, "Cloud", false, true),
     COOKIE(Cookie.class, 20, Material.COOKIE, (short) 0, "Cookie", false, true),
     CRITICAL(Critical.class, 20, Material.IRON_SWORD, (short) 0, "Critical", true, true),
@@ -27,7 +26,7 @@ public enum ParticleType {
     EMBER(Ember.class, 20, Material.TORCH, (short) 0, "Ember", false, true),
     ENDER(Ender.class, 20, Material.EYE_OF_ENDER, (short) 0, "Ender", false, true),
     EXPLOSION(Explosion.class, 20, Material.TNT, (short) 0, "Explosion", false, true),
-    ITEMSPRAY(ItemSpray.class, 20, Material.DIAMOND, (short) 0, "ItemSpray", false, true),
+    ITEMSPRAY(ItemSpray.class, 20, Material.DIAMOND, (short) 0, "ItemSpray", true, true),
     FIRE(Fire.class, 20, Material.FIRE, (short) 0, "Fire", false, true),
     FIREWORK(Firework.class, 20, Material.FIREWORK, (short) 0, "Firework", true, true),
     FOOTSTEP(FootStep.class, 20, Material.CHAINMAIL_BOOTS, (short) 0, "FootStep", false, true),

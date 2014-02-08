@@ -159,7 +159,6 @@ public class TrailCommand implements CommandExecutor {
                     EffectHolder eh = EffectManager.getInstance().createFromFile(sender.getName());
                     if (eh == null || eh.getEffects().isEmpty()) {
                         Lang.sendTo(sender, Lang.NO_EFFECTS_TO_LOAD.toString());
-                        EffectManager.getInstance().clear(eh);
                         return true;
                     }
                     Lang.sendTo(sender, Lang.EFFECTS_LOADED.toString());

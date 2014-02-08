@@ -66,7 +66,7 @@ public enum Lang {
 
     MENU_ERROR("menu_error", "&aThere has been a problem with the Trail GUI Menu. Please see the console for details."),
     OPEN_MENU("open_menu", "&aOpening Trail Effect GUI"),
-    ENTER_BLOCK_OR_ITEM("enter_block_break", "&aPlease enter effect parameters [&e%effect%&a]. Structure: &e<IdValue> <BlockMeta>"),
+    ENTER_BLOCK_OR_ITEM("enter_block_break", "&aPlease enter effect parameters [&e%effect%&a]. Structure: &e<IdValue> <Meta>"),
     ENTER_FIREWORK("enter_firework", "&aPlease enter effect parameters [&eFirework&a]. Separate each parameter with a space."),
     ENTER_TIMEOUT("enter_timeout", "&aPlease enter an integer."),
     INCORRECT_EFFECT_ARGS("incorrect_blockbreak_args", "&aCould not create &e%effect% &aeffect from String [&e%string%&a]. Would you like to retry? [&eYES &aor &eNO&a]"),

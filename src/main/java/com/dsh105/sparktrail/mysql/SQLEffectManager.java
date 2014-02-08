@@ -18,31 +18,33 @@ public class SQLEffectManager {
     }
 
     public void save(EffectHolder eh) {
-        if (ConfigOptions.instance.useSql()) {
-            Connection con = null;
-            PreparedStatement statement = null;
+        if (eh.isPersistent()) {
+            if (ConfigOptions.instance.useSql()) {
+                Connection con = null;
+                PreparedStatement statement = null;
 
-            if (SparkTrailPlugin.getInstance().dbPool != null) {
-                try {
-                    con = SparkTrailPlugin.getInstance().dbPool.getConnection();
-
-                    if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
-
-                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
-
-                    } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
-
-                    }
-
-                } catch (SQLException e) {
-                    //Log the issue
-                } finally {
+                if (SparkTrailPlugin.getInstance().dbPool != null) {
                     try {
-                        if (statement != null)
-                            statement.close();
-                        if (con != null)
-                            con.close();
-                    } catch (SQLException ignored) {
+                        con = SparkTrailPlugin.getInstance().dbPool.getConnection();
+
+                        if (eh.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
+
+                        } else if (eh.getEffectType().equals(EffectHolder.EffectType.LOCATION)) {
+
+                        } else if (eh.getEffectType().equals(EffectHolder.EffectType.MOB)) {
+
+                        }
+
+                    } catch (SQLException e) {
+                        //Log the issue
+                    } finally {
+                        try {
+                            if (statement != null)
+                                statement.close();
+                            if (con != null)
+                                con.close();
+                        } catch (SQLException ignored) {
+                        }
                     }
                 }
             }
