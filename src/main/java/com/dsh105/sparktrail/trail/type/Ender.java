@@ -17,7 +17,7 @@ public class Ender extends Effect {
     public boolean play() {
         boolean shouldPlay = super.play();
         if (shouldPlay) {
-            for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+            for (Location l : this.displayType.getLocations(this.getHolder().getEffectPlayLocation())) {
                 this.getWorld().playEffect(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), org.bukkit.Effect.ENDER_SIGNAL, 0);
             }
         }

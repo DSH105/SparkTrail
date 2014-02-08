@@ -24,9 +24,9 @@ public class Dust extends PacketEffect {
     public Object createPacket() {
         return new PacketPlayOutWorldParticles(
                 this.getNmsName() + "_" + idValue + "_" + metaValue,
-                (float) this.getX(),
-                (float) this.getY(),
-                (float) this.getZ(),
+                (float) this.getHolder().getEffectPlayLocation().getX(),
+                (float) this.getHolder().getEffectPlayLocation().getY(),
+                (float) this.getHolder().getEffectPlayLocation().getZ(),
                 0.5F, 1F, 0.5F,
                 this.getSpeed(), this.getParticleAmount());
     }
@@ -36,9 +36,9 @@ public class Dust extends PacketEffect {
         try {
             PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
                     this.getNmsName() + "_" + idValue + "_" + metaValue,
-                    (float) p.getLocation().getX(),
+                    (float) (p.getLocation().getX() + 0.5D),
                     (float) p.getLocation().getY(),
-                    (float) p.getLocation().getZ(),
+                    (float) (p.getLocation().getZ() + 0.5D),
                     0.5F, 1F, 0.5F,
                     this.getSpeed(), this.getParticleAmount());
             ReflectionUtil.sendPacket(p, packet);

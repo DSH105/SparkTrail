@@ -24,7 +24,7 @@ public class Firework extends Effect {
     public boolean play() {
         boolean shouldPlay = super.play();
         if (shouldPlay) {
-            for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+            for (Location l : this.displayType.getLocations(this.getHolder().getEffectPlayLocation())) {
                 ReflectionUtil.spawnFirework(new Location(l.getWorld(), l.getX(), l.getY() + 1, l.getZ()), this.fireworkEffect);
             }
         }
@@ -35,9 +35,9 @@ public class Firework extends Effect {
         try {
             PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
                     "fireworksSpark",
-                    (float) p.getLocation().getX(),
+                    (float) (p.getLocation().getX() + 0.5D),
                     (float) p.getLocation().getY(),
-                    (float) p.getLocation().getZ(),
+                    (float) (p.getLocation().getZ() + 0.5D),
                     0.5F, 1F, 0.5F,
                     50F, 30);
             ReflectionUtil.sendPacket(p, packet);

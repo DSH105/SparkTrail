@@ -20,7 +20,7 @@ public class Potion extends Effect {
     public boolean play() {
         boolean shouldPlay = super.play();
         if (shouldPlay) {
-            for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+            for (Location l : this.displayType.getLocations(this.getHolder().getEffectPlayLocation())) {
                 this.getWorld().playEffect(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), org.bukkit.Effect.POTION_BREAK, this.potionType.getValue());
             }
         }
@@ -28,7 +28,7 @@ public class Potion extends Effect {
     }
 
     public void playDemo(Player p) {
-        p.playEffect(p.getLocation(), org.bukkit.Effect.POTION_BREAK, PotionType.AQUA.getValue());
+        p.playEffect(new Location(p.getWorld(), p.getLocation().getX() + 0.5D, p.getLocation().getY(), p.getLocation().getZ() + 0.5D), org.bukkit.Effect.POTION_BREAK, PotionType.AQUA.getValue());
     }
 
     public enum PotionType {

@@ -19,9 +19,9 @@ public abstract class PacketEffect extends Effect {
     public Object createPacket() {
         return new PacketPlayOutWorldParticles(
                 this.getNmsName(),
-                (float) this.getX(),
-                (float) this.getY(),
-                (float) this.getZ(),
+                (float) this.getHolder().getEffectPlayLocation().getX(),
+                (float) this.getHolder().getEffectPlayLocation().getY(),
+                (float) this.getHolder().getEffectPlayLocation().getZ(),
                 0.5F, 1F, 0.5F,
                 this.getSpeed(), this.getParticleAmount());
     }
@@ -37,7 +37,7 @@ public abstract class PacketEffect extends Effect {
         //TODO: VNP support
         boolean shouldPlay = super.play();
         if (shouldPlay) {
-            for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+            for (Location l : this.displayType.getLocations(this.getHolder().getEffectPlayLocation())) {
                 try {
                     ReflectionUtil.sendPacket(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.createPacket());
                 } catch (Exception e) {
@@ -52,9 +52,9 @@ public abstract class PacketEffect extends Effect {
         try {
             PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
                     this.getNmsName(),
-                    (float) p.getLocation().getX(),
+                    (float) (p.getLocation().getX() + 0.5D),
                     (float) p.getLocation().getY(),
-                    (float) p.getLocation().getZ(),
+                    (float) (p.getLocation().getZ() + 0.5D),
                     0.5F, 1F, 0.5F,
                     this.getSpeed(), this.getParticleAmount());
             ReflectionUtil.sendPacket(p, packet);

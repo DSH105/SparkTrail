@@ -31,7 +31,7 @@ public class ItemSpray extends Effect {
     public boolean play() {
         boolean shouldPlay = super.play();
         if (shouldPlay) {
-            for (Location l : this.displayType.getLocations(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()))) {
+            for (Location l : this.displayType.getLocations(this.getHolder().getEffectPlayLocation())) {
                 for (int i = 1; i <= 5; i++) {
                     Item item = this.getWorld().dropItemNaturally(l, new ItemStack(this.idValue, 1, (short) this.metaValue));
                     item.setVelocity(item.getVelocity().normalize().multiply(0.4F));
@@ -46,7 +46,7 @@ public class ItemSpray extends Effect {
     @Override
     public void playDemo(Player p) {
         for (int i = 1; i <= 5; i++) {
-            Item item = this.getWorld().dropItemNaturally(p.getLocation(), new ItemStack(this.idValue, 1, (short) this.metaValue));
+            Item item = this.getWorld().dropItemNaturally(new Location(p.getWorld(), p.getLocation().getX() + 0.5D, p.getLocation().getY(), p.getLocation().getZ() + 0.5D), new ItemStack(this.idValue, 1, (short) this.metaValue));
             item.setPickupDelay(Integer.MAX_VALUE);
             new ItemSprayRemoveTask(item);
         }

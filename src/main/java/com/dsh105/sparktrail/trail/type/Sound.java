@@ -17,14 +17,14 @@ public class Sound extends Effect {
 
     @Override
     public void playDemo(Player p) {
-        p.playSound(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()), this.sound, 10.0F, 1.0F);
+        p.playSound(this.getHolder().getEffectPlayLocation(), this.sound, 10.0F, 1.0F);
     }
 
     @Override
     public boolean play() {
         boolean shouldPlay = super.play();
         if (shouldPlay) {
-            this.broadcast(new Location(this.getWorld(), this.getX(), this.getY(), this.getZ()));
+            this.broadcast(this.getHolder().getEffectPlayLocation());
         }
         return shouldPlay;
     }

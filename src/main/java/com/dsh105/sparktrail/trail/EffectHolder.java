@@ -253,6 +253,10 @@ public class EffectHolder extends BukkitRunnable {
         this.locZ = z;
     }
 
+    public Location getEffectPlayLocation() {
+        return new Location(this.world, this.locX + 0.5D, this.locY, this.locZ + 0.5D);
+    }
+
     public EffectDetails getDetails() {
         return this.details;
     }
