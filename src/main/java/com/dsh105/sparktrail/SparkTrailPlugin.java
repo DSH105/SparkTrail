@@ -1,5 +1,7 @@
 package com.dsh105.sparktrail;
 
+import com.dsh105.dshutils.DSHPlugin;
+import com.dsh105.dshutils.util.VersionUtil;
 import com.dsh105.sparktrail.api.SparkTrailAPI;
 import com.dsh105.sparktrail.chat.MenuChatListener;
 import com.dsh105.sparktrail.command.CommandComplete;
@@ -19,14 +21,11 @@ import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 import com.dsh105.dshutils.Metrics;
 import com.dsh105.dshutils.Updater;
-import com.dsh105.dshutils.Version;
 import com.dsh105.dshutils.command.CustomCommand;
-import com.dsh105.dshutils.command.VersionIncompatibleCommand;
 import com.dsh105.dshutils.config.YAMLConfig;
 import com.dsh105.dshutils.config.YAMLConfigManager;
 import com.dsh105.dshutils.logger.ConsoleLogger;
 import com.dsh105.dshutils.logger.Logger;
-import com.dsh105.dshutils.util.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -45,10 +44,8 @@ import java.sql.Statement;
 import java.util.Iterator;
 
 
-public class SparkTrailPlugin extends JavaPlugin {
+public class SparkTrailPlugin extends DSHPlugin {
 
-    private static SparkTrailPlugin plugin;
-    private YAMLConfigManager configManager;
     private YAMLConfig config;
     private YAMLConfig dataConfig;
     private YAMLConfig langConfig;
@@ -73,17 +70,15 @@ public class SparkTrailPlugin extends JavaPlugin {
     public String cmdString = "trail";
 
     public void onEnable() {
-        this.plugin = this;
+        super.onEnable();
         PluginManager manager = getServer().getPluginManager();
-
-        ConsoleLogger.initiate(this);
         Logger.initiate(this, "SparkTrail", "[SparkTrail]");
 
-        if (!(Version.getNMSPackage()).equalsIgnoreCase(ReflectionUtil.getVersionString(this))) {
+        if (!VersionUtil.compareVersions()) {
             ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "SparkTrail " + ChatColor.YELLOW
                     + this.getDescription().getVersion() + ChatColor.GREEN
                     + " is only compatible with:");
-            ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.YELLOW + "    " + Version.getMinecraftVersion() + "-" + Version.getCraftBukkitVersion() + ".");
+            ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.YELLOW + "    " + VersionUtil.getMinecraftVersion() + "-" + VersionUtil.getCraftBukkitVersion() + ".");
             ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "Initialisation failed. Please update the plugin.");
 
             manager.disablePlugin(this);
@@ -92,12 +87,11 @@ public class SparkTrailPlugin extends JavaPlugin {
 
         this.api = new SparkTrailAPI();
 
-        configManager = new YAMLConfigManager(this);
         String[] header = {"SparkTrail By DSH105", "---------------------",
                 "Configuration for SparkTrail 3",
                 "See the SparkTrail Wiki before editing this file"};
         try {
-            config = configManager.getNewConfig("config.yml", header);
+            config = this.getConfigManager().getNewConfig("config.yml", header);
             new ConfigOptions(config);
         } catch (Exception e) {
             Logger.log(Logger.LogLevel.SEVERE, "Failed to generate Configuration File (config.yml).", e, true);
@@ -115,7 +109,7 @@ public class SparkTrailPlugin extends JavaPlugin {
         }
 
         try {
-            dataConfig = configManager.getNewConfig("data.yml");
+            dataConfig = this.getConfigManager().getNewConfig("data.yml");
         } catch (Exception e) {
             Logger.log(Logger.LogLevel.SEVERE, "Failed to generate Configuration File (data.yml).", e, true);
         }
@@ -124,7 +118,7 @@ public class SparkTrailPlugin extends JavaPlugin {
         String[] langHeader = {"SparkTrail By DSH105", "---------------------",
                 "Language Configuration File"};
         try {
-            langConfig = configManager.getNewConfig("language.yml", langHeader);
+            langConfig = this.getConfigManager().getNewConfig("language.yml", langHeader);
             try {
                 for (Lang l : Lang.values()) {
                     String[] desc = l.getDescription();
@@ -199,9 +193,8 @@ public class SparkTrailPlugin extends JavaPlugin {
 
         // Register custom commands
         // Command string based off the string defined in config.yml
-        CustomCommand.initiate(this);
         try {
-            Class craftServer = Class.forName("org.bukkit.craftbukkit." + ReflectionUtil.getVersionString(this) + ".CraftServer");
+            Class craftServer = Class.forName("org.bukkit.craftbukkit." + VersionUtil.getServerVersion() + ".CraftServer");
             if (craftServer.isInstance(Bukkit.getServer())) {
                 final Field f = craftServer.getDeclaredField("commandMap");
                 f.setAccessible(true);
@@ -239,6 +232,7 @@ public class SparkTrailPlugin extends JavaPlugin {
     }
 
     public void onDisable() {
+        super.onDisable();
         Iterator<ItemSpray.ItemSprayRemoveTask> i = ItemSpray.TASKS.iterator();
         while (i.hasNext()) {
             ItemSpray.ItemSprayRemoveTask task = i.next();
@@ -252,7 +246,7 @@ public class SparkTrailPlugin extends JavaPlugin {
     }
 
     public static SparkTrailPlugin getInstance() {
-        return plugin;
+        return (SparkTrailPlugin) getPluginInstance();
     }
 
     public SparkTrailAPI getAPI() {
@@ -281,7 +275,7 @@ public class SparkTrailPlugin extends JavaPlugin {
             getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
                 @Override
                 public void run() {
-                    Updater updater = new Updater(plugin, 47704, file, updateType, false);
+                    Updater updater = new Updater(getInstance(), 47704, file, updateType, false);
                     update = updater.getResult() == Updater.UpdateResult.UPDATE_AVAILABLE;
                     if (update) {
                         name = updater.getLatestName();

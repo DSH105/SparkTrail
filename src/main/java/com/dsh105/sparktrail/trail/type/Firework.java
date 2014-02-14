@@ -32,17 +32,13 @@ public class Firework extends Effect {
     }
 
     public void playDemo(Player p) {
-        try {
-            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                    "fireworksSpark",
-                    (float) (p.getLocation().getX() + 0.5D),
-                    (float) p.getLocation().getY(),
-                    (float) (p.getLocation().getZ() + 0.5D),
-                    0.5F, 1F, 0.5F,
-                    50F, 30);
-            ReflectionUtil.sendPacket(p, packet);
-        } catch (Exception e) {
-            Logger.log(Logger.LogLevel.SEVERE, "Failed to send Packet Object (PacketPlayOutWorldParticles) to player [" + p.getName() + "].", e, true);
-        }
+        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
+                "fireworksSpark",
+                (float) (p.getLocation().getX() + 0.5D),
+                (float) p.getLocation().getY(),
+                (float) (p.getLocation().getZ() + 0.5D),
+                0.5F, 1F, 0.5F,
+                50F, 30);
+        ReflectionUtil.sendPacket(p, packet);
     }
 }
