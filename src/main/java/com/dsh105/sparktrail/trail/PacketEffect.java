@@ -34,7 +34,6 @@ public abstract class PacketEffect extends Effect {
 
     @Override
     public boolean play() {
-        //TODO: VNP support
         boolean shouldPlay = super.play();
         if (shouldPlay) {
             for (Location l : this.displayType.getLocations(this.getHolder().getEffectPlayLocation())) {

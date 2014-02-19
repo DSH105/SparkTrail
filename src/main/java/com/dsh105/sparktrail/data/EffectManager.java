@@ -39,6 +39,11 @@ public class EffectManager {
         this.effects.add(effectHolder);
     }
 
+    public void clearFromMemory(EffectHolder holder) {
+        holder.stop();
+        this.effects.remove(holder);
+    }
+
     public void clearEffects() {
         Iterator<EffectHolder> i = effects.iterator();
         while (i.hasNext()) {
@@ -124,8 +129,7 @@ public class EffectManager {
 
     public void clear(EffectHolder e) {
         clearFromFile(e);
-        e.stop();
-        effects.remove(e);
+        this.clearFromMemory(e);
     }
 
     public EffectHolder createFromFile(Location location) {
@@ -282,7 +286,6 @@ public class EffectManager {
     public void remove(EffectHolder e) {
         save(e);
         SQLEffectManager.instance.save(e);
-        e.stop();
-        effects.remove(e);
+        this.clearFromMemory(e);
     }
 }
