@@ -1,5 +1,6 @@
 package com.dsh105.sparktrail.menu;
 
+import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.MenuOpenEvent;
 import com.dsh105.sparktrail.chat.MenuChatListener;
@@ -9,7 +10,6 @@ import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Serialise;
-import com.dsh105.dshutils.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

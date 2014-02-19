@@ -1,5 +1,8 @@
 package com.dsh105.sparktrail.command;
 
+import com.dsh105.dshutils.pagination.Paginator;
+import com.dsh105.dshutils.util.EnumUtil;
+import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.chat.BlockData;
 import com.dsh105.sparktrail.data.EffectCreator;
@@ -15,9 +18,6 @@ import com.dsh105.sparktrail.trail.type.Swirl;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
 import com.dsh105.sparktrail.util.Serialise;
-import com.dsh105.dshutils.pagination.Paginator;
-import com.dsh105.dshutils.util.EnumUtil;
-import com.dsh105.dshutils.util.StringUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;

@@ -1,6 +1,12 @@
 package com.dsh105.sparktrail;
 
 import com.dsh105.dshutils.DSHPlugin;
+import com.dsh105.dshutils.Metrics;
+import com.dsh105.dshutils.Updater;
+import com.dsh105.dshutils.command.CustomCommand;
+import com.dsh105.dshutils.config.YAMLConfig;
+import com.dsh105.dshutils.logger.ConsoleLogger;
+import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.dshutils.util.VersionUtil;
 import com.dsh105.sparktrail.api.SparkTrailAPI;
 import com.dsh105.sparktrail.chat.MenuChatListener;
@@ -19,13 +25,6 @@ import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
-import com.dsh105.dshutils.Metrics;
-import com.dsh105.dshutils.Updater;
-import com.dsh105.dshutils.command.CustomCommand;
-import com.dsh105.dshutils.config.YAMLConfig;
-import com.dsh105.dshutils.config.YAMLConfigManager;
-import com.dsh105.dshutils.logger.ConsoleLogger;
-import com.dsh105.dshutils.logger.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,7 +32,6 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;

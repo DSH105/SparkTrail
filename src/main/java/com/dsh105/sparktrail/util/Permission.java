@@ -36,10 +36,10 @@ public enum Permission {
     STOP("sparktrail.trail.stop"),
     START("sparktrail.trail.start"),
     DEMO("sparktrail.trail.demo"),
-    INFO("sparktrail.trail.info"),
-    ;
+    INFO("sparktrail.trail.info"),;
 
     String perm;
+
     Permission(String perm) {
         this.perm = perm;
     }

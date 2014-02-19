@@ -1,13 +1,9 @@
 package com.dsh105.sparktrail.trail;
 
-import com.dsh105.sparktrail.util.PluginHook;
-import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.dshutils.util.ReflectionUtil;
 import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.kitteh.vanish.VanishPlugin;
 
 
 public abstract class PacketEffect extends Effect {

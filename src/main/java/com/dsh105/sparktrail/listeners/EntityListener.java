@@ -3,7 +3,6 @@ package com.dsh105.sparktrail.listeners;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.type.ItemSpray;
-import org.bukkit.craftbukkit.v1_7_R1.CraftChunk;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;

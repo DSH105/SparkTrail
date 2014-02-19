@@ -1,6 +1,5 @@
 package com.dsh105.sparktrail.command;
 
-import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;

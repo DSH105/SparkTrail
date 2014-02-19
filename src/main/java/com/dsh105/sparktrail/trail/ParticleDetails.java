@@ -62,9 +62,7 @@ public class ParticleDetails {
             return new Object[]{this.smokeType};
         } else if (particleType == ParticleType.SWIRL) {
             return new Object[]{this.swirlType, this.uuid};
-        }
-
-        else if (particleType == ParticleType.SOUND) {
+        } else if (particleType == ParticleType.SOUND) {
             return new Object[]{this.sound};
         }
         return o;

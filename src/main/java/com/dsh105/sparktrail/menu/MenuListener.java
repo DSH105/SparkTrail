@@ -1,5 +1,7 @@
 package com.dsh105.sparktrail.menu;
 
+import com.dsh105.dshutils.logger.Logger;
+import com.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.sparktrail.chat.MenuChatListener;
 import com.dsh105.sparktrail.chat.WaitingData;
 import com.dsh105.sparktrail.data.EffectCreator;
@@ -14,8 +16,6 @@ import com.dsh105.sparktrail.trail.type.Swirl;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
 import com.dsh105.sparktrail.util.Serialise;
-import com.dsh105.dshutils.logger.Logger;
-import com.dsh105.dshutils.util.EnumUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

@@ -1,13 +1,12 @@
 package com.dsh105.sparktrail.data;
 
+import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.sparktrail.trail.Effect;
 import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.EffectHolder.EffectType;
 import com.dsh105.sparktrail.trail.ParticleDetails;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.trail.type.*;
-import com.dsh105.sparktrail.trail.type.Sound;
-import com.dsh105.dshutils.logger.Logger;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 

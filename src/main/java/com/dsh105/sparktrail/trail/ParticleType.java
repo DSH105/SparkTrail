@@ -1,13 +1,12 @@
 package com.dsh105.sparktrail.trail;
 
+import com.dsh105.dshutils.logger.Logger;
+import com.dsh105.dshutils.util.EnumUtil;
+import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.trail.EffectHolder.EffectType;
 import com.dsh105.sparktrail.trail.type.*;
 import com.dsh105.sparktrail.trail.type.Void;
-import com.dsh105.sparktrail.trail.type.Sound;
-import com.dsh105.dshutils.logger.Logger;
-import com.dsh105.dshutils.util.EnumUtil;
-import com.dsh105.dshutils.util.StringUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

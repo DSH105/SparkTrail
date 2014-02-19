@@ -1,5 +1,7 @@
 package com.dsh105.sparktrail.chat;
 
+import com.dsh105.dshutils.logger.Logger;
+import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.data.EffectCreator;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.listeners.InteractDetails;
@@ -11,8 +13,6 @@ import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
 import com.dsh105.sparktrail.util.Serialise;
-import com.dsh105.dshutils.logger.Logger;
-import com.dsh105.dshutils.util.StringUtil;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

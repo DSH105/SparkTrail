@@ -1,5 +1,8 @@
 package com.dsh105.sparktrail.data;
 
+import com.dsh105.dshutils.config.YAMLConfig;
+import com.dsh105.dshutils.logger.Logger;
+import com.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.mysql.SQLEffectManager;
 import com.dsh105.sparktrail.trail.Effect;
@@ -8,9 +11,6 @@ import com.dsh105.sparktrail.trail.ParticleDetails;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.trail.type.*;
 import com.dsh105.sparktrail.util.Serialise;
-import com.dsh105.dshutils.config.YAMLConfig;
-import com.dsh105.dshutils.logger.Logger;
-import com.dsh105.dshutils.util.EnumUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -155,7 +155,7 @@ public class EffectManager {
     public EffectHolder createFromFile(String playerName) {
         //Player p = Bukkit.getPlayerExact(playerName);
         /*if (p == null) {
-			return null;
+            return null;
 		}*/
         String path = "effects.player." + playerName;
         YAMLConfig config = SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.DATA);

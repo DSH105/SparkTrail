@@ -1,10 +1,10 @@
 package com.dsh105.sparktrail.trail.type;
 
+import com.dsh105.dshutils.logger.Logger;
+import com.dsh105.dshutils.util.ReflectionUtil;
 import com.dsh105.sparktrail.trail.Effect;
 import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleType;
-import com.dsh105.dshutils.logger.Logger;
-import com.dsh105.dshutils.util.ReflectionUtil;
 import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
