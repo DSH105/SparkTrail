@@ -232,7 +232,6 @@ public class SparkTrailPlugin extends DSHPlugin {
     }
 
     public void onDisable() {
-        super.onDisable();
         Iterator<ItemSpray.ItemSprayRemoveTask> i = ItemSpray.TASKS.iterator();
         while (i.hasNext()) {
             ItemSpray.ItemSprayRemoveTask task = i.next();
@@ -243,6 +242,7 @@ public class SparkTrailPlugin extends DSHPlugin {
         if (this.EH != null) {
             this.EH.clearEffects();
         }
+        super.onDisable();
     }
 
     public static SparkTrailPlugin getInstance() {
