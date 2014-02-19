@@ -22,9 +22,9 @@ public class LastPlayLoc {
         if (l.getBlockX() == this.locX
                 && l.getBlockY() == this.locY
                 && l.getBlockZ() == this.locZ) {
-            this.set(l);
             return true;
         }
+        this.set(l);
         return false;
     }
 }

@@ -1,5 +1,6 @@
 package com.dsh105.sparktrail.trail;
 
+import com.dsh105.dshutils.logger.ConsoleLogger;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.EffectPlayEvent;
 import com.dsh105.sparktrail.trail.type.*;
@@ -64,28 +65,42 @@ public abstract class Effect {
     }
 
     public boolean play() {
-        if (this.getEffectType().equals(EffectHolder.EffectType.PLAYER) && this.displayType.equals(DisplayType.FEET)) {
+        if (this.getEffectType().equals(EffectHolder.EffectType.PLAYER)) {
             Player p = Bukkit.getPlayerExact(this.getHolder().getDetails().playerName);
             if (p == null) {
                 return false;
             }
+
             boolean vanished = false;
             if (PluginHook.getVNP() != null) {
                 VanishPlugin vnp = PluginHook.getVNP();
                 vanished = vnp.getManager().isVanished(this.getHolder().getDetails().playerName);
             }
             if (vanished) {
-                this.playDemo(p);
+                if (this.checkForFeetDisplay(p, true)) {
+                    this.playDemo(p);
+                }
                 return false;
             }
+
+            if (this.checkForFeetDisplay(p, false)) {
+                return !this.callPlayEvent();
+            }
+        }
+        return !this.callPlayEvent();
+    }
+
+    private boolean checkForFeetDisplay(Player p, boolean defaultFlag) {
+        if (this.displayType.equals(DisplayType.FEET)) {
             if (this.lastPlayLoc == null) {
                 this.lastPlayLoc = new LastPlayLoc(p.getLocation());
             }
             if (!this.lastPlayLoc.isSimilar(p.getLocation())) {
                 return !this.callPlayEvent();
             }
+            return false;
         }
-        return !this.callPlayEvent();
+        return defaultFlag;
     }
 
     public abstract void playDemo(Player p);
