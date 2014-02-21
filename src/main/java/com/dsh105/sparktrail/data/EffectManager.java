@@ -115,17 +115,19 @@ public class EffectManager {
     }
 
     public void clearFromFile(EffectHolder e) {
-        YAMLConfig config = SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.DATA);
-        String path = "effects.";
-        if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
-            path = path + "player." + e.getDetails().playerName;
-        } else if (e.getEffectType() == EffectHolder.EffectType.LOCATION) {
-            path = path + "location." + DataFactory.serialiseLocation(e.getLocation());
-        } else if (e.getEffectType() == EffectHolder.EffectType.MOB) {
-            path = path + "mob." + e.getDetails().mobUuid;
+        if (e != null) {
+            YAMLConfig config = SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.DATA);
+            String path = "effects.";
+            if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
+                path = path + "player." + e.getDetails().playerName;
+            } else if (e.getEffectType() == EffectHolder.EffectType.LOCATION) {
+                path = path + "location." + DataFactory.serialiseLocation(e.getLocation());
+            } else if (e.getEffectType() == EffectHolder.EffectType.MOB) {
+                path = path + "mob." + e.getDetails().mobUuid;
+            }
+            config.set(path, null);
+            config.saveConfig();
         }
-        config.set(path, null);
-        config.saveConfig();
     }
 
     public void clear(EffectHolder e) {
