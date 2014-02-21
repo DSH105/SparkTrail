@@ -4,12 +4,14 @@ import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.MenuOpenEvent;
 import com.dsh105.sparktrail.chat.MenuChatListener;
+import com.dsh105.sparktrail.conversation.InputFactory;
+import com.dsh105.sparktrail.conversation.TimeoutFunction;
+import com.dsh105.sparktrail.data.DataFactory;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.trail.Effect;
 import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.util.Lang;
-import com.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -31,7 +33,7 @@ public class ParticleMenu extends Menu {
     public EffectHolder.EffectType effectType;
 
     public ParticleMenu(Player viewer, UUID mobUuid) {
-        this(viewer, EffectHolder.EffectType.MOB, "Trail GUI - " + StringUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
+        this(viewer, EffectHolder.EffectType.MOB, "Trail GUI - " + StringUtil.capitalise(DataFactory.getMob(mobUuid).getType().toString()));
         this.mobUuid = mobUuid;
         setItems();
     }
@@ -66,8 +68,9 @@ public class ParticleMenu extends Menu {
                     @Override
                     public void onClick() {
                         if (this.getViewer() != null) {
-                            Lang.sendTo(this.getViewer(), Lang.ENTER_TIMEOUT.toString());
-                            MenuChatListener.AWAITING_TIMEOUT_INPUT.add(this.getViewer().getName());
+                            //Lang.sendTo(this.getViewer(), Lang.ENTER_TIMEOUT.toString());
+                            InputFactory.promptInt(this.getViewer(), new TimeoutFunction(this.getViewer()));
+                            //MenuChatListener.AWAITING_TIMEOUT_INPUT.add(this.getViewer().getName());
                         }
                     }
                 },
@@ -146,9 +149,9 @@ public class ParticleMenu extends Menu {
             }
         }
 
-        int i2 = 0;
-        for (int i3 = size - 1; i3 < endItems.length; i3--) {
-            inv.setItem(i3, endItems[i2].getStack());
+        int index = 0;
+        for (int slot = size - 1; index < endItems.length; slot--) {
+            inv.setItem(slot, endItems[index++].getStack());
         }
     }
 

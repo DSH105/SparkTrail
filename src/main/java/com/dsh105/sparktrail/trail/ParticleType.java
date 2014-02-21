@@ -4,16 +4,19 @@ import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
+import com.dsh105.sparktrail.data.DataFactory;
 import com.dsh105.sparktrail.trail.EffectHolder.EffectType;
 import com.dsh105.sparktrail.trail.type.*;
 import com.dsh105.sparktrail.trail.type.Void;
 import org.bukkit.ChatColor;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 
 public enum ParticleType {
@@ -132,5 +135,53 @@ public enum ParticleType {
             Logger.log(Logger.LogLevel.SEVERE, "Failed to create new Effect instance [" + this.toString() + "].", e, true);
         }
         return effect;
+    }
+
+    public HashSet<Object[]> getDataFrom(String s) {
+        HashSet<Object[]> set = new HashSet<Object[]>();
+        ArrayList<String> list = new ArrayList<String>();
+        if (s.contains(":")) {
+            for (String srt : s.split(":")) {
+                list.add(srt);
+            }
+        } else {
+            list.add(s);
+        }
+        for (String str : list) {
+            if (this == CRITICAL) {
+                if (EnumUtil.isEnumType(Critical.CriticalType.class, str.toUpperCase())) {
+                    set.add(new Object[]{Critical.CriticalType.valueOf(str.toUpperCase())});
+                }
+            } else if (this == FIREWORK) {
+                FireworkEffect fe = DataFactory.deserialiseFireworkEffect(str, "-");
+                if (fe != null) {
+                    set.add(new Object[]{fe});
+                }
+            } else if (this == BLOCKBREAK || this == ITEMSPRAY) {
+                if (str.contains("-")) {
+                    String[] split = str.split("-");
+                    if (StringUtil.isInt(split[0]) && StringUtil.isInt(split[1])) {
+                        set.add(new Object[]{Integer.parseInt(split[0]), Integer.parseInt(split[1])});
+                    }
+                }
+            } else if (this == POTION) {
+                if (EnumUtil.isEnumType(Potion.PotionType.class, str.toUpperCase())) {
+                    set.add(new Object[]{Potion.PotionType.valueOf(str.toUpperCase())});
+                }
+            } else if (this == SMOKE) {
+                if (EnumUtil.isEnumType(Smoke.SmokeType.class, str.toUpperCase())) {
+                    set.add(new Object[]{Smoke.SmokeType.valueOf(str.toUpperCase())});
+                }
+            } else if (this == SWIRL) {
+                if (EnumUtil.isEnumType(Swirl.SwirlType.class, str.toUpperCase())) {
+                    set.add(new Object[]{Swirl.SwirlType.valueOf(str.toUpperCase())});
+                }
+            } else if (this == SOUND) {
+                if (EnumUtil.isEnumType(org.bukkit.Sound.class, str.toUpperCase())) {
+                    set.add(new Object[]{org.bukkit.Sound.valueOf(str.toUpperCase())});
+                }
+            }
+        }
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import com.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.chat.BlockData;
+import com.dsh105.sparktrail.data.DataFactory;
 import com.dsh105.sparktrail.data.EffectCreator;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.listeners.InteractDetails;
@@ -17,7 +18,6 @@ import com.dsh105.sparktrail.trail.type.Smoke;
 import com.dsh105.sparktrail.trail.type.Swirl;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
-import com.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
@@ -29,7 +29,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 
 
@@ -99,7 +98,7 @@ public class TrailCommand implements CommandExecutor {
 
                 EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                 if (eh == null) {
-                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
+                    eh = EffectCreator.createPlayerHolder(p.getName());
                 }
 
                 ArrayList<ParticleType> list = new ArrayList<ParticleType>();
@@ -206,13 +205,13 @@ public class TrailCommand implements CommandExecutor {
                                     return true;
                                 }
 
-                                BlockData bd = Serialise.findBlockData(StringUtil.combineSplit(1, args, " "));
+                                BlockData bd = DataFactory.findBlockData(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.blockId = bd.id;
                                 pd.blockMeta = bd.data;
                                 EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                                 if (eh == null) {
-                                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
+                                    eh = EffectCreator.createPlayerHolder(p.getName());
                                 }
                                 if (eh.hasEffect(pt)) {
                                     eh.removeEffect(pt);
@@ -231,12 +230,12 @@ public class TrailCommand implements CommandExecutor {
                                     return true;
                                 }
 
-                                FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(1, args, " "));
+                                FireworkEffect fe = DataFactory.generateFireworkEffectFrom(StringUtil.combineSplit(1, args, " "));
                                 ParticleDetails pd = new ParticleDetails(pt);
                                 pd.fireworkEffect = fe;
                                 EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                                 if (eh == null) {
-                                    eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
+                                    eh = EffectCreator.createPlayerHolder(p.getName());
                                 }
                                 if (eh.hasEffect(pt)) {
                                     eh.removeEffect(pt);
@@ -264,7 +263,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                         if (eh == null) {
-                            eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
+                            eh = EffectCreator.createPlayerHolder(p.getName());
                         }
                         if (eh.hasEffect(pt)) {
                             eh.removeEffect(pt);
@@ -314,7 +313,7 @@ public class TrailCommand implements CommandExecutor {
                 if (Permission.SOUND.hasPerm(sender, true, false)) {
                     EffectHolder eh = EffectManager.getInstance().getEffect(sender.getName());
                     if (eh == null || eh.getEffects().isEmpty()) {
-                        eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), sender.getName());
+                        eh = EffectCreator.createPlayerHolder(sender.getName());
                     }
                     if (!EnumUtil.isEnumType(org.bukkit.Sound.class, args[1].toUpperCase())) {
                         Lang.sendTo(sender, Lang.NO_SOUND_IN_STRING.toString().replace("%string%", args[1]));
@@ -345,7 +344,7 @@ public class TrailCommand implements CommandExecutor {
                         sender.sendMessage(SparkTrailPlugin.getInstance().secondaryColour + "------------ " + SparkTrailPlugin.getInstance().primaryColour + "Player" + " Trail Effects ------------");
                         for (EffectHolder eh : list) {
                             sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + eh.getDetails().playerName);
-                            sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + " ---> " + SparkTrailPlugin.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
+                            sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + " ---> " + SparkTrailPlugin.getInstance().secondaryColour + DataFactory.serialiseEffects(eh.getEffects(), true, true, false));
                         }
                         return true;
                     } else return true;
@@ -380,8 +379,8 @@ public class TrailCommand implements CommandExecutor {
                         }
                         sender.sendMessage(SparkTrailPlugin.getInstance().secondaryColour + "------------ " + SparkTrailPlugin.getInstance().primaryColour + "Location" + " Trail Effects ------------");
                         for (EffectHolder eh : list) {
-                            sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + Serialise.serialiseLocation(eh.getLocation()));
-                            sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + " ---> " + SparkTrailPlugin.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
+                            sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + DataFactory.serialiseLocation(eh.getLocation()));
+                            sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + " ---> " + SparkTrailPlugin.getInstance().secondaryColour + DataFactory.serialiseEffects(eh.getEffects(), true, true, false));
                         }
                         return true;
                     } else return true;
@@ -419,10 +418,10 @@ public class TrailCommand implements CommandExecutor {
                         }
                         sender.sendMessage(SparkTrailPlugin.getInstance().secondaryColour + "------------ " + SparkTrailPlugin.getInstance().primaryColour + "Mob" + " Trail Effects ------------");
                         for (EffectHolder eh : list) {
-                            Entity e = Serialise.getMob(eh.getDetails().mobUuid);
+                            Entity e = DataFactory.getMob(eh.getDetails().mobUuid);
                             if (e != null) {
                                 sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + StringUtil.capitalise(e.getType().toString()));
-                                sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + " ---> " + SparkTrailPlugin.getInstance().secondaryColour + Serialise.serialiseEffects(eh.getEffects()));
+                                sender.sendMessage(SparkTrailPlugin.getInstance().primaryColour + " ---> " + SparkTrailPlugin.getInstance().secondaryColour + DataFactory.serialiseEffects(eh.getEffects(), true, true, false));
                             }
                         }
                         return true;
@@ -504,7 +503,7 @@ public class TrailCommand implements CommandExecutor {
                     if (pd != null) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                         if (eh == null) {
-                            eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), p.getName());
+                            eh = EffectCreator.createPlayerHolder(p.getName());
                         }
                         if (eh.hasEffect(pd)) {
                             eh.removeEffect(pd);
@@ -607,7 +606,7 @@ public class TrailCommand implements CommandExecutor {
             }
         } else if (args.length == 4 && args[0].equalsIgnoreCase("location")) {
             if (Permission.LOC_STOP.hasPerm(sender, true, false)) {
-                Location l = Serialise.getLocation(sender, args, 1);
+                Location l = DataFactory.getLocation(sender, args, 1);
                 if (l == null) {
                     return true;
                 }
@@ -619,7 +618,7 @@ public class TrailCommand implements CommandExecutor {
             } else return true;
         } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("stop")) {
             if (Permission.LOC_STOP.hasPerm(sender, true, true)) {
-                Location l = Serialise.getLocation(sender, args, 2);
+                Location l = DataFactory.getLocation(sender, args, 2);
                 if (l == null) {
                     return true;
                 }
@@ -636,7 +635,7 @@ public class TrailCommand implements CommandExecutor {
             } else return true;
         } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("start")) {
             if (Permission.LOC_START.hasPerm(sender, true, true)) {
-                Location l = Serialise.getLocation(sender, args, 2);
+                Location l = DataFactory.getLocation(sender, args, 2);
                 if (l == null) {
                     return true;
                 }
@@ -651,7 +650,7 @@ public class TrailCommand implements CommandExecutor {
             } else return true;
         } else if (args.length == 5 && args[0].equals("location") && args[1].equalsIgnoreCase("clear")) {
             if (Permission.LOC_CLEAR.hasPerm(sender, true, true)) {
-                Location l = Serialise.getLocation(sender, args, 2);
+                Location l = DataFactory.getLocation(sender, args, 2);
                 if (l == null) {
                     return true;
                 }
@@ -662,7 +661,7 @@ public class TrailCommand implements CommandExecutor {
             } else return true;
         } else if (args.length == 5 || (args.length >= 6 && (args[4].equalsIgnoreCase("blockbreak") || args[4].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("location")) {
-                Location l = Serialise.getLocation(sender, args, 1);
+                Location l = DataFactory.getLocation(sender, args, 1);
                 if (l == null) {
                     return true;
                 }
@@ -676,7 +675,7 @@ public class TrailCommand implements CommandExecutor {
                                 return true;
                             }
 
-                            BlockData bd = Serialise.findBlockData(StringUtil.combineSplit(5, args, " "));
+                            BlockData bd = DataFactory.findBlockData(StringUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.blockId = bd.id;
                             pd.blockMeta = bd.data;
@@ -689,7 +688,7 @@ public class TrailCommand implements CommandExecutor {
                                 Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Firework").replace("%extra_info%", "Separate each parameter with a space."));
                                 return true;
                             }
-                            FireworkEffect fe = Serialise.findFirework(StringUtil.combineSplit(5, args, " "));
+                            FireworkEffect fe = DataFactory.generateFireworkEffectFrom(StringUtil.combineSplit(5, args, " "));
                             ParticleDetails pd = new ParticleDetails(pt);
                             pd.fireworkEffect = fe;
                             add(l, pt, sender, pd);
@@ -710,7 +709,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(l);
                         if (eh == null) {
-                            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), l);
+                            eh = EffectCreator.createLocHolder(l);
                         }
                         if (eh.hasEffect(pt)) {
                             eh.removeEffect(pt);
@@ -726,7 +725,7 @@ public class TrailCommand implements CommandExecutor {
             }
         } else if (args.length == 6) {
             if (args[0].equalsIgnoreCase("location")) {
-                Location l = Serialise.getLocation(sender, args, 1);
+                Location l = DataFactory.getLocation(sender, args, 1);
                 if (l == null) {
                     return true;
                 }
@@ -775,7 +774,7 @@ public class TrailCommand implements CommandExecutor {
                     if (pd != null) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(l);
                         if (eh == null) {
-                            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), l);
+                            eh = EffectCreator.createLocHolder(l);
                         }
                         if (eh.hasEffect(pd)) {
                             eh.removeEffect(pd);
@@ -799,7 +798,7 @@ public class TrailCommand implements CommandExecutor {
     public void add(Location l, ParticleType pt, CommandSender sender, ParticleDetails pd) {
         EffectHolder eh = EffectManager.getInstance().getEffect(l);
         if (eh == null) {
-            eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), l);
+            eh = EffectCreator.createLocHolder(l);
         }
         if (eh.hasEffect(pd)) {
             eh.removeEffect(pd);

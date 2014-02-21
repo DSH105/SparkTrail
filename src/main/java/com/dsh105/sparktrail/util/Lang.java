@@ -17,6 +17,7 @@ public enum Lang {
     INT_ONLY("int_only", "&e%string% &aneeds to be an integer."),
     INT_ONLY_WITH_ARGS("int_only_with_args", "&e%string% &a[Arg &e%argNum%&a] needs to be an integer."),
     NO_SOUND_IN_STRING("no_sound_in_string", "&aError parsing String: [&e%string%&a]. Sound Trail could not be created."),
+    WHUPS("whups", "&aWhups. Something bad happened. Please report this, along with information on what you did."),
 
     PLAYER_LIST_NO_ACTIVE_EFFECTS("player_list_no_active_effects", "&aThere are no Player Trail effects active."),
     PLAYER_NO_ACTIVE_EFFECTS("player_no_active_effects", "&aThere are no Player Trail effects active for &e%player%&a."),
@@ -29,7 +30,7 @@ public enum Lang {
     TIMEOUT_SET("timeout_set", "&aTimeout has been set to &e%timeout%&a."),
     MAX_EFFECTS_ALLOWED("max_effects_allowed", "&aMaximum number of effects reached."),
     EFFECT_CREATION_FAILED("effect_creation_failed", "&aEffect creation has failed. SparkTrail may have encountered a severe error."),
-    EFFECT_CREATION_CANCELLED("effect_creation_cancelled", "&e%effect% &aeffect creation cancelled."),
+    CANCEL_EFFECT_CREATION("cancel_effect_creation", "&aEffect creation cancelled."),
     EFFECT_ADDED("effect_added", "&e%effect% &aeffect added."),
     EFFECT_REMOVED("effect_removed", "&e%effect% &aeffect removed."),
     EFFECTS_LOADED("effects_loaded", "&aYour Trail effects have been loaded."),
@@ -63,6 +64,12 @@ public enum Lang {
     POTION_HELP("potion_help", "&ePotion &aeffects: &eAqua&a, &eBlack&a, &eBlue&a, &eCrimson&a, &eDarkBlue&a, &eDarkGreen&a, &eDarkRed&a, &eGold&a, &eGray&a, &eGreen&a, &ePink&a, &eRed&a."),
     SMOKE_HELP("smoke_help", "&eSmoke &aeffects: &eRed&a, &eBlack&a, &eRainbow&a."),
     SWIRL_HELP("swirl_help", "&eSwirl &aeffects: &eLightBlue&a, &eBlue&a, &eDarkBlue&a, &eRed&a, &eDarkRed&a, &eGreen&a, &eDarkGreen&a, &eYellow&a, &eOrange&a, &eGray&a, &eBlack&a, &eWhite&a, &ePurple&a, &ePink&a."),
+
+    INPUT_FIRST_IDVALUE("input_first_idvalue", "&aWhat ID value would you like this effect to have?"),
+    INPUT_SECOND_METAVALUE("input_second_idvalue", "&aWhat Block Meta value would you like this effect to have?"),
+    INVALID_INPUT("invalid_input", "&aInvalid. Retry or enter &eexit &ato cancel."),
+    INPUT_FIREWORK("input_firework", "&aWhat firework effects would you like this effect to have? Separate each parameter with a space."),
+    INPUT_TIMEOUT("input_timeout", "&aHow long until this set of effects times out?"),
 
     MENU_ERROR("menu_error", "&aThere has been a problem with the Trail GUI Menu. Please see the console for details."),
     OPEN_MENU("open_menu", "&aOpening Trail Effect GUI"),
@@ -123,7 +130,7 @@ public enum Lang {
         }
     }
 
-    public String toString_() {
+    public String getRaw() {
         return SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.LANG).getString(this.path, this.def);
     }
 }

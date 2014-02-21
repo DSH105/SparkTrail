@@ -3,9 +3,9 @@ package com.dsh105.sparktrail.trail;
 import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.EffectPlayEvent;
+import com.dsh105.sparktrail.data.DataFactory;
 import com.dsh105.sparktrail.trail.type.*;
 import com.dsh105.sparktrail.util.PluginHook;
-import com.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -120,7 +120,7 @@ public abstract class Effect {
         } else if (this.particleType == ParticleType.ITEMSPRAY) {
             return "ID: " + ((ItemSpray) this).idValue + ", Meta:" + ((ItemSpray) this).metaValue;
         } else if (this.particleType == ParticleType.FIREWORK) {
-            return Serialise.serialiseFireworkEffect(((Firework) this).fireworkEffect);
+            return DataFactory.serialiseFireworkEffect(((Firework) this).fireworkEffect, ",");
         }
         /*else if (this.particleType == ParticleType.NOTE) {
             return StringUtil.capitalise(((Note) this).noteType.toString());

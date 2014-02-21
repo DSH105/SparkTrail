@@ -1,51 +1,65 @@
 package com.dsh105.sparktrail.data;
 
 import com.dsh105.dshutils.logger.Logger;
+import com.dsh105.sparktrail.chat.WaitingData;
 import com.dsh105.sparktrail.trail.Effect;
 import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.EffectHolder.EffectType;
-import com.dsh105.sparktrail.trail.ParticleDetails;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.trail.type.*;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 
-import java.util.HashSet;
 import java.util.UUID;
 
 
 public class EffectCreator {
 
-    private static EffectHolder createHolder(EffectHolder effectHolder, HashSet<ParticleDetails> particles) {
-        HashSet<Effect> effects = new HashSet<Effect>();
-        for (ParticleDetails pd : particles) {
-            Effect effect = createEffect(effectHolder, pd.getParticleType(), pd.getDetails());
-            if (effect != null) {
-                effects.add(effect);
-            }
-        }
-        effectHolder.setEffects(effects);
+    private static EffectHolder createHolder(EffectHolder effectHolder) {
         EffectManager.getInstance().addHolder(effectHolder);
         effectHolder.start();
         return effectHolder;
     }
 
-    public static EffectHolder createLocHolder(HashSet<ParticleDetails> particles, Location location) {
+    public static EffectHolder createLocHolder(Location location) {
         EffectHolder effectHolder = new EffectHolder(EffectType.LOCATION);
         effectHolder.updateLocation(location);
-        return createHolder(effectHolder, particles);
+        return createHolder(effectHolder);
     }
 
-    public static EffectHolder createPlayerHolder(HashSet<ParticleDetails> particles, String playerName) {
+    public static EffectHolder createPlayerHolder(String playerName) {
         EffectHolder effectHolder = new EffectHolder(EffectType.PLAYER);
         effectHolder.getDetails().playerName = playerName;
-        return createHolder(effectHolder, particles);
+        return createHolder(effectHolder);
     }
 
-    public static EffectHolder createMobHolder(HashSet<ParticleDetails> particles, UUID uuid) {
+    public static EffectHolder createMobHolder(UUID uuid) {
         EffectHolder effectHolder = new EffectHolder(EffectType.MOB);
         effectHolder.getDetails().mobUuid = uuid;
-        return createHolder(effectHolder, particles);
+        return createHolder(effectHolder);
+    }
+
+    public static EffectHolder prepareNew(WaitingData data) {
+        EffectHolder eh = null;
+        if (data.effectType == EffectHolder.EffectType.LOCATION) {
+            eh = EffectManager.getInstance().getEffect(data.location);
+        } else if (data.effectType == EffectHolder.EffectType.PLAYER) {
+            eh = EffectManager.getInstance().getEffect(data.playerName);
+        } else if (data.effectType == EffectHolder.EffectType.MOB) {
+            eh = EffectManager.getInstance().getEffect(data.mobUuid);
+        }
+
+        if (eh == null) {
+            if (data.effectType == EffectHolder.EffectType.PLAYER) {
+                eh = EffectCreator.createPlayerHolder(data.playerName);
+            } else if (data.effectType == EffectHolder.EffectType.LOCATION) {
+                Location l = data.location;
+                eh = EffectCreator.createLocHolder(l);
+            } else if (data.effectType == EffectHolder.EffectType.MOB) {
+                eh = EffectCreator.createMobHolder(data.mobUuid);
+            }
+        }
+        return eh;
     }
 
     public static Effect createEffect(EffectHolder effectHolder, ParticleType particleType, Object[] o) {
@@ -75,15 +89,7 @@ public class EffectCreator {
                 return null;
             }
             e = new ItemSpray(effectHolder, (Integer) o[0], (Integer) o[1]);
-        }
-        /*else if (particleType == ParticleType.NOTE) {
-            if (!checkArray(o, new Class[] {Note.NoteType.class})) {
-				Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Particle effect (" + particleType.toString() + ").", true);
-				return null;
-			}
-			e = particleType.getNoteInstance(effectHolder, (Note.NoteType) o[0]);
-		}*/
-        else if (particleType == ParticleType.POTION) {
+        } else if (particleType == ParticleType.POTION) {
             if (!checkArray(o, new Class[]{Potion.PotionType.class})) {
                 Logger.log(Logger.LogLevel.WARNING, "Encountered Class Cast error initiating Trail effect (" + particleType.toString() + ").", true);
                 return null;

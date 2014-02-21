@@ -27,8 +27,17 @@ public class ParticleDetails {
     public Swirl.SwirlType swirlType = Swirl.SwirlType.WHITE;
     public org.bukkit.Sound sound = Sound.ANVIL_BREAK;
 
+    public Object[] o = new Object[]{};
+    private boolean prepared = false;
+
     public ParticleDetails(ParticleType particleType) {
         this.particleType = particleType;
+    }
+
+    public ParticleDetails set(Object[] o) {
+        this.o = o;
+        this.prepared = true;
+        return this;
     }
 
     public void setMob(UUID uuid) {
@@ -45,7 +54,10 @@ public class ParticleDetails {
     }
 
     public Object[] getDetails() {
-        Object[] o = new Object[]{};
+        if (this.prepared) {
+            return this.o;
+        }
+
         if (particleType == ParticleType.BLOCKBREAK || particleType == ParticleType.ITEMSPRAY) {
             return new Object[]{this.blockId, this.blockMeta};
         } else if (particleType == ParticleType.CRITICAL) {

@@ -4,6 +4,7 @@ import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.api.event.MenuOpenEvent;
+import com.dsh105.sparktrail.data.DataFactory;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.trail.Effect;
 import com.dsh105.sparktrail.trail.EffectHolder;
@@ -13,7 +14,6 @@ import com.dsh105.sparktrail.trail.type.Potion;
 import com.dsh105.sparktrail.trail.type.Smoke;
 import com.dsh105.sparktrail.trail.type.Swirl;
 import com.dsh105.sparktrail.util.Lang;
-import com.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -46,7 +46,7 @@ public class DataMenu extends Menu {
     public ParticleType particleType;
 
     public DataMenu(Player viewer, UUID mobUuid, ParticleType particleType) {
-        this(viewer, EffectHolder.EffectType.MOB, StringUtil.capitalise(particleType.toString()) + " - Trail GUI - " + StringUtil.capitalise(Serialise.getMob(mobUuid).getType().toString()));
+        this(viewer, EffectHolder.EffectType.MOB, StringUtil.capitalise(particleType.toString()) + " - Trail GUI - " + StringUtil.capitalise(DataFactory.getMob(mobUuid).getType().toString()));
         this.particleType = particleType;
         this.mobUuid = mobUuid;
         setItems();

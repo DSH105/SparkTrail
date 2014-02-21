@@ -47,12 +47,6 @@ public class EffectHolder extends BukkitRunnable {
         return this.persistent;
     }
 
-    public void setEffects(HashSet<Effect> effects) {
-        for (Effect e : effects) {
-            this.effects.add(e);
-        }
-    }
-
     public HashSet<Effect> getEffects() {
         return this.effects;
     }

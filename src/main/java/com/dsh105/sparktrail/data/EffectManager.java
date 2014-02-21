@@ -10,7 +10,6 @@ import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleDetails;
 import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.trail.type.*;
-import com.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -40,8 +39,10 @@ public class EffectManager {
     }
 
     public void clearFromMemory(EffectHolder holder) {
-        holder.stop();
-        this.effects.remove(holder);
+        if (holder != null) {
+            holder.stop();
+            this.effects.remove(holder);
+        }
     }
 
     public void clearEffects() {
@@ -70,7 +71,7 @@ public class EffectManager {
             if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
                 path = path + "player." + e.getDetails().playerName + ".";
             } else if (e.getEffectType() == EffectHolder.EffectType.LOCATION) {
-                path = path + "location." + Serialise.serialiseLocation(e.getLocation()) + ".";
+                path = path + "location." + DataFactory.serialiseLocation(e.getLocation()) + ".";
             } else if (e.getEffectType() == EffectHolder.EffectType.MOB) {
                 path = path + "mob." + e.getDetails().mobUuid + ".";
             }
@@ -89,7 +90,7 @@ public class EffectManager {
                     } else if (pt == ParticleType.CRITICAL) {
                         value = ((Critical) effect).criticalType.toString();
                     } else if (pt == ParticleType.FIREWORK) {
-                        value = Serialise.serialiseFireworkEffect(((Firework) effect).fireworkEffect);
+                        value = DataFactory.serialiseFireworkEffect(((Firework) effect).fireworkEffect, ",");
                     }
                 /*else if (pt == ParticleType.NOTE) {
                     value = ((Note) effect).noteType.toString();
@@ -119,7 +120,7 @@ public class EffectManager {
         if (e.getEffectType() == EffectHolder.EffectType.PLAYER) {
             path = path + "player." + e.getDetails().playerName;
         } else if (e.getEffectType() == EffectHolder.EffectType.LOCATION) {
-            path = path + "location." + Serialise.serialiseLocation(e.getLocation());
+            path = path + "location." + DataFactory.serialiseLocation(e.getLocation());
         } else if (e.getEffectType() == EffectHolder.EffectType.MOB) {
             path = path + "mob." + e.getDetails().mobUuid;
         }
@@ -134,11 +135,11 @@ public class EffectManager {
 
     public EffectHolder createFromFile(Location location) {
         YAMLConfig config = SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.DATA);
-        String path = "effects.location." + Serialise.serialiseLocation(location);
+        String path = "effects.location." + DataFactory.serialiseLocation(location);
         if (config.get(path) == null) {
             return null;
         }
-        EffectHolder eh = EffectCreator.createLocHolder(new HashSet<ParticleDetails>(), location);
+        EffectHolder eh = EffectCreator.createLocHolder(location);
         return createFromFile(path, eh);
     }
 
@@ -148,7 +149,7 @@ public class EffectManager {
         if (config.get(path) == null) {
             return null;
         }
-        EffectHolder eh = EffectCreator.createMobHolder(new HashSet<ParticleDetails>(), uuid);
+        EffectHolder eh = EffectCreator.createMobHolder(uuid);
         return createFromFile(path, eh);
     }
 
@@ -162,7 +163,7 @@ public class EffectManager {
         if (config.get(path) == null) {
             return null;
         }
-        EffectHolder eh = EffectCreator.createPlayerHolder(new HashSet<ParticleDetails>(), playerName);
+        EffectHolder eh = EffectCreator.createPlayerHolder(playerName);
         return createFromFile(path, eh);
     }
 
@@ -194,9 +195,9 @@ public class EffectManager {
                             return null;
                         }
                     } else if (pt == ParticleType.FIREWORK) {
-                        pd.fireworkEffect = Serialise.deserialiseFireworkEffect(value);
+                        pd.fireworkEffect = DataFactory.deserialiseFireworkEffect(value, ",");
                     }
-					/*else if (pt == ParticleType.NOTE) {
+                    /*else if (pt == ParticleType.NOTE) {
 						try {
 							pd.noteType = Note.NoteType.valueOf(value);
 						} catch (Exception e) {

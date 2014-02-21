@@ -1,6 +1,8 @@
 package com.dsh105.sparktrail.listeners;
 
 import com.dsh105.sparktrail.chat.MenuChatListener;
+import com.dsh105.sparktrail.conversation.InputFactory;
+import com.dsh105.sparktrail.conversation.YesNoFunction;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.menu.ParticleMenu;
 import com.dsh105.sparktrail.trail.EffectHolder;
@@ -26,9 +28,8 @@ public class InteractListener implements Listener {
         Player p = event.getPlayer();
         if (INTERACTION.containsKey(p.getName()) && INTERACTION.get(p.getName()).interactType.equals(InteractDetails.InteractType.MOB)) {
             if (event.getRightClicked() instanceof Player) {
-                MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
+                InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.RETRY_MOB_INTERACT.toString()));
                 INTERACTION.remove(p.getName());
-                Lang.sendTo(p, Lang.RETRY_MOB_INTERACT.toString());
                 return;
             }
             Entity e = event.getRightClicked();
@@ -39,8 +40,7 @@ public class InteractListener implements Listener {
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.STOP)) {
                 EffectHolder eh = EffectManager.getInstance().getEffect(e.getUniqueId());
                 if (eh == null) {
-                    MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
-                    Lang.sendTo(p, Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString());
+                    InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString()));
                 } else {
                     EffectManager.getInstance().remove(eh);
                     Lang.sendTo(p, Lang.MOB_EFFECTS_STOPPED.toString());
@@ -49,8 +49,7 @@ public class InteractListener implements Listener {
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.START)) {
                 EffectHolder eh = EffectManager.getInstance().getEffect(e.getUniqueId());
                 if (eh == null) {
-                    MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
-                    Lang.sendTo(p, Lang.MOB_NO_EFFECTS_RETRY_INTERACT.toString());
+                    InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.MOB_NO_EFFECTS_RETRY_INTERACT.toString()));
                 } else {
                     Lang.sendTo(p, Lang.MOB_EFFECTS_STARTED.toString());
                 }
@@ -58,8 +57,7 @@ public class InteractListener implements Listener {
             } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.CLEAR)) {
                 EffectHolder eh = EffectManager.getInstance().createFromFile(e.getUniqueId());
                 if (eh == null) {
-                    MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
-                    Lang.sendTo(p, Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString());
+                    InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.MOB_NO_ACTIVE_EFFECTS_RETRY_INTERACT.toString()));
                 } else {
                     EffectManager.getInstance().clear(eh);
                     Lang.sendTo(p, Lang.MOB_EFFECTS_CLEARED.toString());
@@ -76,9 +74,8 @@ public class InteractListener implements Listener {
         if (INTERACTION.containsKey(p.getName())) {
             if (INTERACTION.get(p.getName()).interactType.equals(InteractDetails.InteractType.BLOCK)) {
                 if (!(event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-                    MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
+                    InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.RETRY_BLOCK_INTERACT.toString()));
                     INTERACTION.remove(p.getName());
-                    Lang.sendTo(p, Lang.RETRY_BLOCK_INTERACT.toString());
                     return;
                 }
                 Location l = event.getClickedBlock().getLocation();
@@ -89,8 +86,7 @@ public class InteractListener implements Listener {
                 } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.STOP)) {
                     EffectHolder eh = EffectManager.getInstance().getEffect(l);
                     if (eh == null) {
-                        MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
-                        Lang.sendTo(p, Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString());
+                        InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString()));
                     } else {
                         EffectManager.getInstance().remove(eh);
                         Lang.sendTo(p, Lang.LOC_EFFECTS_STOPPED.toString());
@@ -99,8 +95,7 @@ public class InteractListener implements Listener {
                 } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.START)) {
                     EffectHolder eh = EffectManager.getInstance().createFromFile(l);
                     if (eh == null) {
-                        MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
-                        Lang.sendTo(p, Lang.LOC_NO_EFFECTS_RETRY_BLOCK_INTERACT.toString());
+                        InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.LOC_NO_EFFECTS_RETRY_BLOCK_INTERACT.toString()));
                     } else {
                         Lang.sendTo(p, Lang.LOC_EFFECTS_STARTED.toString());
                     }
@@ -108,8 +103,7 @@ public class InteractListener implements Listener {
                 } else if (INTERACTION.get(p.getName()).modifyType.equals(InteractDetails.ModifyType.CLEAR)) {
                     EffectHolder eh = EffectManager.getInstance().getEffect(l);
                     if (eh == null) {
-                        MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
-                        Lang.sendTo(p, Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString());
+                        InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.LOC_NO_ACTIVE_EFFECTS_RETRY_BLOCK_INTERACT.toString()));
                     } else {
                         EffectManager.getInstance().clear(eh);
                         Lang.sendTo(p, Lang.LOC_EFFECTS_CLEARED.toString());
@@ -118,9 +112,8 @@ public class InteractListener implements Listener {
                 }
                 event.setCancelled(true);
             } else if (INTERACTION.get(p.getName()).equals(InteractDetails.InteractType.MOB)) {
-                MenuChatListener.RETRY_INTERACT.put(p.getName(), INTERACTION.get(p.getName()));
+                InputFactory.promptInt(p, new YesNoFunction(INTERACTION.get(p.getName()), Lang.RETRY_MOB_INTERACT.toString()));
                 INTERACTION.remove(p.getName());
-                Lang.sendTo(p, Lang.RETRY_MOB_INTERACT.toString());
                 return;
             }
             event.setCancelled(true);

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class Sound extends Effect {
 
-    private org.bukkit.Sound sound;
+    public org.bukkit.Sound sound;
 
     public Sound(EffectHolder effectHolder, org.bukkit.Sound sound) {
         super(effectHolder, ParticleType.SOUND);

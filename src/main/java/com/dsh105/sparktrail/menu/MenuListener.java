@@ -4,6 +4,8 @@ import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.sparktrail.chat.MenuChatListener;
 import com.dsh105.sparktrail.chat.WaitingData;
+import com.dsh105.sparktrail.conversation.InputFactory;
+import com.dsh105.sparktrail.data.DataFactory;
 import com.dsh105.sparktrail.data.EffectCreator;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.trail.EffectHolder;
@@ -15,7 +17,6 @@ import com.dsh105.sparktrail.trail.type.Smoke;
 import com.dsh105.sparktrail.trail.type.Swirl;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
-import com.dsh105.sparktrail.util.Serialise;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -113,12 +114,13 @@ public class MenuListener implements Listener {
                                 wd.location = menu.location;
                                 wd.mobUuid = menu.mobUuid;
                                 wd.playerName = menu.playerName;
-                                MenuChatListener.AWAITING_DATA.put(player.getName(), wd);
+                                InputFactory.prompt(player, pt, wd);
+                                /*MenuChatListener.AWAITING_DATA.put(player.getName(), wd);
                                 if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
                                     Lang.sendTo(player, Lang.ENTER_BLOCK_OR_ITEM.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray"));
                                 } else if (pt == ParticleType.FIREWORK) {
                                     Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
-                                }
+                                }*/
                                 player.closeInventory();
                                 event.setCancelled(true);
                                 ParticleMenu.openMenus.remove(player.getName());
@@ -378,7 +380,7 @@ public class MenuListener implements Listener {
             try {
                 eh = EffectManager.getInstance().getEffect(menu.location);
             } catch (Exception e) {
-                Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + Serialise.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ")", e, true);
+                Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + DataFactory.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ")", e, true);
                 return null;
             }
         } else if (effectType == EffectHolder.EffectType.PLAYER) {
@@ -388,14 +390,13 @@ public class MenuListener implements Listener {
         }
 
         if (eh == null) {
-            HashSet<ParticleDetails> hashSet = new HashSet<ParticleDetails>();
             if (effectType == EffectHolder.EffectType.PLAYER) {
                 Player p = Bukkit.getPlayerExact(menu.playerName);
                 if (p == null) {
                     Logger.log(Logger.LogLevel.SEVERE, "Failed to create Player Effect (" + menu.playerName + ") while finding Effect Holder (" + particleType.toString() + ") [Reported from MenuListener].", true);
                     return null;
                 }
-                eh = EffectCreator.createPlayerHolder(hashSet, menu.playerName);
+                eh = EffectCreator.createPlayerHolder(menu.playerName);
             } else if (effectType == EffectHolder.EffectType.LOCATION) {
                 Location l;
                 try {
@@ -406,12 +407,12 @@ public class MenuListener implements Listener {
                     l = null;
                 }
                 if (l == null) {
-                    Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + Serialise.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ") [Reported from MenuListener].", true);
+                    Logger.log(Logger.LogLevel.SEVERE, "Failed to create Location (" + DataFactory.serialiseLocation(menu.location) + ") whilst finding EffectHolder (" + particleType.toString() + ") [Reported from MenuListener].", true);
                     return null;
                 }
-                eh = EffectCreator.createLocHolder(hashSet, l);
+                eh = EffectCreator.createLocHolder(l);
             } else if (effectType == EffectHolder.EffectType.MOB) {
-                eh = EffectCreator.createMobHolder(hashSet, menu.mobUuid);
+                eh = EffectCreator.createMobHolder(menu.mobUuid);
             }
         }
 

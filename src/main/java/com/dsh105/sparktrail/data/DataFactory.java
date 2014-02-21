@@ -1,10 +1,18 @@
-package com.dsh105.sparktrail.util;
+package com.dsh105.sparktrail.data;
 
 import com.dsh105.dshutils.logger.ConsoleLogger;
 import com.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.chat.BlockData;
+import com.dsh105.sparktrail.trail.EffectHolder;
+import com.dsh105.sparktrail.trail.ParticleDetails;
+import com.dsh105.sparktrail.trail.ParticleType;
+import com.dsh105.sparktrail.trail.type.*;
+import com.dsh105.sparktrail.trail.type.Sound;
+import com.dsh105.sparktrail.util.FireworkColour;
+import com.dsh105.sparktrail.util.FireworkType;
+import com.dsh105.sparktrail.util.Lang;
 import org.bukkit.*;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
@@ -14,7 +22,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 
-public class Serialise {
+public class DataFactory {
 
     public static BlockData findBlockData(String msg) {
         if (msg.contains(" ")) {
@@ -34,7 +42,7 @@ public class Serialise {
         }
     }
 
-    public static FireworkEffect findFirework(String msg) {
+    public static FireworkEffect generateFireworkEffectFrom(String msg) {
         FireworkEffect fe = null;
         ArrayList<Color> colours = new ArrayList<Color>();
         FireworkEffect.Type type = FireworkEffect.Type.BALL;
@@ -152,7 +160,25 @@ public class Serialise {
         return l.getWorld().getName() + "," + l.getBlockX() + "," + l.getBlockY() + "," + l.getBlockZ();
     }
 
-    public static String serialiseFireworkEffect(FireworkEffect fe) {
+    public static Location deserialiseLocation(String s) {
+        if (s.contains(",")) {
+            String[] split = s.split(",");
+            if (split.length == 4) {
+                World w = Bukkit.getWorld(split[0]);
+                if (w != null) {
+                    for (int i = 1; i < 4; i++) {
+                        if (!StringUtil.isInt(split[i])) {
+                            return null;
+                        }
+                    }
+                    return new Location(w, Integer.parseInt(split[1]), Integer.parseInt(split[2]), Integer.parseInt(split[3]));
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String serialiseFireworkEffect(FireworkEffect fe, String separator) {
         List<Color> colours = fe.getColors();
         FireworkEffect.Type type = fe.getType();
         boolean flicker = fe.hasFlicker();
@@ -160,20 +186,20 @@ public class Serialise {
 
         String s = "";
         for (Color c : colours) {
-            s = s + FireworkColour.getByColor(c).toString() + ",";
+            s += FireworkColour.getByColor(c).toString() + separator;
         }
-        s = s + FireworkType.getByType(type).toString().toLowerCase() + (flicker ? ",flicker" : "") + (trail ? ",trail" : "");
+        s += FireworkType.getByType(type).toString().toLowerCase() + (flicker ? separator + "flicker" : "") + (trail ? separator + "trail" : "");
         return s;
     }
 
-    public static FireworkEffect deserialiseFireworkEffect(String s) {
+    public static FireworkEffect deserialiseFireworkEffect(String s, String separator) {
         FireworkEffect fe;
         ArrayList<Color> colours = new ArrayList<Color>();
         FireworkEffect.Type type = FireworkEffect.Type.BALL;
         boolean flicker = false;
         boolean trail = false;
 
-        String[] split = s.split(",");
+        String[] split = s.split(separator);
         for (int i = 0; i < split.length; i++) {
             if (s.equalsIgnoreCase("flicker")) {
                 flicker = true;
@@ -195,17 +221,76 @@ public class Serialise {
         return fe;
     }
 
-    public static String serialiseEffects(HashSet<com.dsh105.sparktrail.trail.Effect> effects) {
+    public static String serialiseEffects(HashSet<com.dsh105.sparktrail.trail.Effect> effects, boolean capitalise, boolean includeSpace, boolean includeData) {
         if (effects.isEmpty()) {
             return "";
         }
         StringBuilder builder = new StringBuilder();
         for (com.dsh105.sparktrail.trail.Effect e : effects) {
-            builder.append(StringUtil.capitalise(e.getParticleType().toString()));
-            builder.append(", ");
+            String s = capitalise ? StringUtil.capitalise(e.getParticleType().toString()) : e.getParticleType().toString().toLowerCase();
+            builder.append(s);
+            if (includeData) {
+                ParticleType pt = e.getParticleType();
+                if (e.getParticleType().requiresDataMenu()) {
+                    builder.append(";");
+                    if (pt == ParticleType.CRITICAL) {
+                        builder.append(((Critical) e).criticalType.toString());
+                    } else if (pt == ParticleType.FIREWORK) {
+                        builder.append(serialiseFireworkEffect(((Firework) e).fireworkEffect, "-"));
+                    } else if (pt == ParticleType.BLOCKBREAK) {
+                        builder.append(((BlockBreak) e).idValue + "-" + ((BlockBreak) e).metaValue);
+                    } else if (pt == ParticleType.ITEMSPRAY) {
+                        builder.append(((BlockBreak) e).idValue + "-" + ((BlockBreak) e).metaValue);
+                    } else if (pt == ParticleType.POTION) {
+                        builder.append(((Potion) e).potionType.toString());
+                    } else if (pt == ParticleType.SMOKE) {
+                        builder.append(((Smoke) e).smokeType.toString());
+                    } else if (pt == ParticleType.SWIRL) {
+                        builder.append(((Swirl) e).swirlType.toString());
+                    } else if (pt == ParticleType.SOUND) {
+                        builder.append(((Sound) e).sound.toString());
+                    }
+                }
+            }
+            builder.append("," + (includeSpace ? " " : ""));
         }
         builder.deleteCharAt(builder.length() - 2);
         return builder.toString();
+    }
+
+    public static void deserialiseEffect(String s, EffectHolder holder) {
+        ParticleType pt = null;
+        if (s.contains(";")) {
+            String[] split = s.split(";");
+            String effect = split[0];
+            if (EnumUtil.isEnumType(ParticleType.class, effect.toUpperCase())) {
+                pt = ParticleType.valueOf(effect.toUpperCase());
+            }
+
+            if (pt != null) {
+                String data = split[1];
+                for (Object[] o : pt.getDataFrom(data)) {
+                    holder.addEffect(new ParticleDetails(pt).set(o), false);
+                }
+            }
+        } else if (EnumUtil.isEnumType(ParticleType.class, s.toUpperCase())) {
+            pt = ParticleType.valueOf(s.toUpperCase());
+            if (pt != null) {
+                holder.addEffect(pt, false);
+            }
+        }
+    }
+
+    public static EffectHolder addEffectsFrom(String s, EffectHolder holder) {
+        if (s.contains(",")) {
+            String[] split = s.split(",");
+            for (int i = 0; i < split.length; i++) {
+                deserialiseEffect(split[i], holder);
+            }
+        } else {
+            deserialiseEffect(s, holder);
+        }
+        return holder;
     }
 
 }

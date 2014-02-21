@@ -120,7 +120,7 @@ public class SparkTrailPlugin extends DSHPlugin {
             try {
                 for (Lang l : Lang.values()) {
                     String[] desc = l.getDescription();
-                    langConfig.set(l.getPath(), langConfig.getString(l.getPath(), l.toString_()
+                    langConfig.set(l.getPath(), langConfig.getString(l.getPath(), l.getRaw()
                             .replace("&a", "&" + this.primaryColour.getChar())
                             .replace("&e", "&" + this.secondaryColour.getChar())),
                             desc);
