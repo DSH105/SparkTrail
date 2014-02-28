@@ -79,7 +79,7 @@ public class TrailCommand implements CommandExecutor {
                 Lang.sendTo(sender, Lang.INTERACT_MOB.toString());
                 return true;
             } else return true;
-        } else if (args.length == 1 || (args.length >= 2 && (args[0].equalsIgnoreCase("blockbreak") || args[0].equalsIgnoreCase("firework")))) {
+        } else if (args.length == 1 || (args.length >= 2 && (args[0].equalsIgnoreCase("blockbreak") || args[0].equalsIgnoreCase("itemspray") || args[0].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("help")) {
                 if (Permission.TRAIL.hasPerm(sender, true, true)) {
                     sender.sendMessage(c2 + "------------ SparkTrail Help 1/" + help.getIndex() + " ------------");
@@ -659,7 +659,7 @@ public class TrailCommand implements CommandExecutor {
                 Lang.sendTo(sender, Lang.LOC_EFFECTS_CLEARED.toString());
                 return true;
             } else return true;
-        } else if (args.length == 5 || (args.length >= 6 && (args[4].equalsIgnoreCase("blockbreak") || args[4].equalsIgnoreCase("firework")))) {
+        } else if (args.length == 5 || (args.length >= 6 && (args[4].equalsIgnoreCase("blockbreak") || args[4].equalsIgnoreCase("itemspray") || args[4].equalsIgnoreCase("firework")))) {
             if (args[0].equalsIgnoreCase("location")) {
                 Location l = DataFactory.getLocation(sender, args, 1);
                 if (l == null) {
