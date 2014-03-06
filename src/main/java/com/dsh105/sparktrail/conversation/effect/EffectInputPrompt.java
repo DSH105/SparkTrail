@@ -44,7 +44,7 @@ public class EffectInputPrompt extends ValidatingPrompt {
                 this.successPrompt = new EffectInputSuccessPrompt(this.particleType, this.data, fe);
                 return true;
             }
-        } else if (this.particleType == ParticleType.BLOCKBREAK) {
+        } else if (this.particleType == ParticleType.BLOCKBREAK || this.particleType == ParticleType.ITEMSPRAY) {
             if (!StringUtil.isInt(s)) {
                 return false;
             }
