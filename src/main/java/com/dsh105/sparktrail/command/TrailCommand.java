@@ -201,7 +201,7 @@ public class TrailCommand implements CommandExecutor {
                         if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
                             if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
                                 if (args.length == 1) {
-                                    Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray").replace("%extra_info%", "Structure: &e<IdValue> <BlockMeta>"));
+                                    Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray").replace("%extra_info%", "Structure: " + ChatColor.YELLOW + "<IdValue> <BlockMeta>"));
                                     return true;
                                 }
 
@@ -213,11 +213,11 @@ public class TrailCommand implements CommandExecutor {
                                 if (eh == null) {
                                     eh = EffectCreator.createPlayerHolder(p.getName());
                                 }
-                                if (eh.hasEffect(pt)) {
-                                    eh.removeEffect(pt);
+                                if (eh.hasEffect(pd)) {
+                                    eh.removeEffect(pd);
                                     Lang.sendTo(p, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                                 } else {
-                                    if (eh.addEffect(pt, true)) {
+                                    if (eh.addEffect(pd, true)) {
                                         Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
                                     }
                                 }
@@ -237,11 +237,11 @@ public class TrailCommand implements CommandExecutor {
                                 if (eh == null) {
                                     eh = EffectCreator.createPlayerHolder(p.getName());
                                 }
-                                if (eh.hasEffect(pt)) {
-                                    eh.removeEffect(pt);
+                                if (eh.hasEffect(pd)) {
+                                    eh.removeEffect(pd);
                                     Lang.sendTo(p, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                                 } else {
-                                    if (eh.addEffect(pt, true)) {
+                                    if (eh.addEffect(pd, true)) {
                                         Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
                                     }
                                 }
