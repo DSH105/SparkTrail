@@ -134,6 +134,8 @@ public class SparkTrailPlugin extends DSHPlugin {
         }
         langConfig.reloadConfig();
 
+        this.prefix = Lang.PREFIX.toString();
+
         this.EH = new EffectManager();
         this.SQLH = new SQLEffectManager();
 
