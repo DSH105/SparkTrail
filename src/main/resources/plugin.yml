@@ -12,7 +12,7 @@ commands:
 permissions:
     sparktrail.update:
         default: op
-    sparktrail.reload:
+    sparktrail.trail.reload:
         default: op
     sparktrail.trail:
         default: op
