@@ -10,6 +10,7 @@ public enum Permission {
 
     UPDATE("sparktrail.update"),
     TRAIL("sparktrail.trail"),
+    RELOAD("sparktrail.trail.reload"),
 
     PLAYER_INFO("sparktrail.trail.player.info"),
     PLAYER_START("sparktrail.trail.player.start"),

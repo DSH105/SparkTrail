@@ -20,6 +20,7 @@ public enum Lang {
     INT_ONLY_WITH_ARGS("int_only_with_args", "&e%string% &a[Arg &e%argNum%&a] needs to be an integer."),
     NO_SOUND_IN_STRING("no_sound_in_string", "&aError parsing String: [&e%string%&a]. Sound Trail could not be created."),
     WHUPS("whups", "&aWhups. Something bad happened. Please report this, along with information on what you did."),
+    CONFIGS_RELOADED("configs_reloaded", "&aConfiguration files reloaded."),
 
     PLAYER_LIST_NO_ACTIVE_EFFECTS("player_list_no_active_effects", "&aThere are no Player Trail effects active."),
     PLAYER_NO_ACTIVE_EFFECTS("player_no_active_effects", "&aThere are no Player Trail effects active for &e%player%&a."),

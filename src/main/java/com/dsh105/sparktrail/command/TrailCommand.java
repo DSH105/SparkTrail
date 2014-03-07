@@ -18,6 +18,7 @@ import com.dsh105.sparktrail.trail.type.Smoke;
 import com.dsh105.sparktrail.trail.type.Swirl;
 import com.dsh105.sparktrail.util.Lang;
 import com.dsh105.sparktrail.util.Permission;
+import com.onarandombox.multiverseinventories.util.Perm;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
@@ -80,6 +81,14 @@ public class TrailCommand implements CommandExecutor {
                 return true;
             } else return true;
         } else if (args.length == 1 || (args.length >= 2 && (args[0].equalsIgnoreCase("blockbreak") || args[0].equalsIgnoreCase("itemspray") || args[0].equalsIgnoreCase("firework")))) {
+            if (args[0].equalsIgnoreCase("reload")) {
+                if (Permission.RELOAD.hasPerm(sender, true, true)) {
+                    SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.MAIN).reloadConfig();
+                    SparkTrailPlugin.getInstance().getConfig(SparkTrailPlugin.ConfigType.LANG).reloadConfig();
+                    Lang.sendTo(sender, Lang.CONFIGS_RELOADED.toString());
+                    return true;
+                } else return true;
+            }
             if (args[0].equalsIgnoreCase("help")) {
                 if (Permission.TRAIL.hasPerm(sender, true, true)) {
                     sender.sendMessage(c2 + "------------ SparkTrail Help 1/" + help.getIndex() + " ------------");

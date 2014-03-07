@@ -12,6 +12,8 @@ commands:
 permissions:
     sparktrail.update:
         default: op
+    sparktrail.reload:
+        default: op
     sparktrail.trail:
         default: op
     sparktrail.trail.sound:
@@ -518,6 +520,8 @@ permissions:
             sparktrail.trail.self.*: true
             sparktrail.trail.location.*: true
             sparktrail.trail.mob.*: true
+            sparktrail.update: true
+            sparktrail.trail.reload: true
     sparktrail.trail.self.*:
         default: op
         children:
