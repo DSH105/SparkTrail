@@ -4,7 +4,7 @@
     <groupId>com.dsh105</groupId>
     <artifactId>SparkTrail</artifactId>
     <name>SparkTrail</name>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
     <url>http://dev.bukkit.org/bukkit-plugins/sparktrail/</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
