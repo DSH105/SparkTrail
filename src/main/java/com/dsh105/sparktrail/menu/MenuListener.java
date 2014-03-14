@@ -56,11 +56,7 @@ public class MenuListener implements Listener {
         int slot = event.getRawSlot();
 
         if (title.startsWith("Trail GUI")) {
-            try {
-                if (slot < 0 || slot > inv.getSize()) {
-                    return;
-                }
-            } catch (Exception e) {
+            if (slot < 0 || slot > inv.getSize()) {
                 return;
             }
 
@@ -158,6 +154,13 @@ public class MenuListener implements Listener {
                 Logger.log(Logger.LogLevel.SEVERE, "Encountered exception in Trail Menu", e, true);
             }
         } else if (title.contains(" - Trail GUI - ")) {
+            if (slot < 0 || slot > inv.getSize()) {
+                return;
+            }
+
+            if (inv.getItem(slot) == null) {
+                return;
+            }
             try {
                 if (slot <= 26) {
                     DataMenu menu = DataMenu.openMenus.get(player.getName());
