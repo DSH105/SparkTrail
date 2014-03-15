@@ -12,6 +12,7 @@ public enum Permission {
     TRAIL("sparktrail.trail"),
     RELOAD("sparktrail.trail.reload"),
 
+    PLAYER_TRAIL("sparktrail.player.trail"),
     PLAYER_INFO("sparktrail.trail.player.info"),
     PLAYER_START("sparktrail.trail.player.start"),
     PLAYER_STOP("sparktrail.trail.player.stop"),
@@ -66,7 +67,7 @@ public enum Permission {
         return false;
     }
 
-    public static boolean hasEffectPerm(Player player, boolean sendMessage, String perm, EffectHolder.EffectType effectType) {
+    public static boolean hasEffectPerm(Player player, boolean sendMessage, String perm) {
         if (player.hasPermission(perm)) {
             return true;
         }
@@ -76,13 +77,13 @@ public enum Permission {
         return false;
     }
 
-    public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, EffectHolder.EffectType effectType) {
-        String perm = "sparktrail.trail." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
-        return hasEffectPerm(player, sendMessage, perm, effectType);
+    public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, String effectType) {
+        String perm = "sparktrail.trail" + effectType == null ? "" : "." + effectType.toLowerCase() + ".type." + particleType.toString().toLowerCase();
+        return hasEffectPerm(player, sendMessage, perm);
     }
 
-    public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, String data, EffectHolder.EffectType effectType) {
-        String perm = "sparktrail.trail." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
-        return hasEffectPerm(player, sendMessage, perm + "." + data, effectType);
+    public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, String data, String effectType) {
+        String perm = "sparktrail.trail" + effectType == null ? "" : "." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
+        return hasEffectPerm(player, sendMessage, perm + "." + data);
     }
 }

@@ -84,14 +84,14 @@ public class MenuListener implements Listener {
                     if (inv.getItem(slot).equals(pt.getMenuItem()) || inv.getItem(slot).equals(pt.getMenuItem(false)) || inv.getItem(slot).equals(pt.getMenuItem(true))) {
                         if (!pt.requiresDataMenu()) {
                             if (inv.getItem(slot).equals(pt.getMenuItem(false))) {
-                                if (Permission.hasEffectPerm(player, true, pt, menu.effectType)) {
+                                if (Permission.hasEffectPerm(player, true, pt, s.equals(player.getName()) ? null : menu.effectType.toString().toLowerCase())) {
                                     if (removeEffect(player, menu.effectType, pt, menu, s)) {
                                         Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", pt.getName()));
                                         inv.setItem(slot, pt.getMenuItem(true));
                                     }
                                 }
                             } else if (inv.getItem(slot).equals(pt.getMenuItem(true))) {
-                                if (Permission.hasEffectPerm(player, true, pt, menu.effectType)) {
+                                if (Permission.hasEffectPerm(player, true, pt, menu.effectType.toString().toLowerCase())) {
                                     if (addEffect(player, menu.effectType, pt, menu, s)) {
                                         Lang.sendTo(player, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
                                         inv.setItem(slot, pt.getMenuItem(false));
@@ -205,7 +205,7 @@ public class MenuListener implements Listener {
                                             ParticleDetails pd = new ParticleDetails(pt);
                                             Critical.CriticalType criticalType = Critical.CriticalType.valueOf(pdi.toString().toUpperCase());
                                             pd.criticalType = criticalType;
-                                            if (Permission.hasEffectPerm(player, true, pt, criticalType.toString().toLowerCase(), menu.effectType)) {
+                                            if (Permission.hasEffectPerm(player, true, pt, criticalType.toString().toLowerCase(), data.equals(player.getName()) ? null : menu.effectType.toString().toLowerCase())) {
                                                 if (b) {
                                                     if (removeEffect(player, pd, menu.effectType, menu, data)) {
                                                         Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Critical"));
@@ -242,7 +242,7 @@ public class MenuListener implements Listener {
                                             Potion.PotionType potionType = Potion.PotionType.valueOf(pdi.toString().toUpperCase());
                                             ParticleDetails pd = new ParticleDetails(pt);
                                             pd.potionType = potionType;
-                                            if (Permission.hasEffectPerm(player, true, pt, potionType.toString().toLowerCase(), menu.effectType)) {
+                                            if (Permission.hasEffectPerm(player, true, pt, potionType.toString().toLowerCase(), data.equals(player.getName()) ? null : menu.effectType.toString().toLowerCase())) {
                                                 if (b) {
                                                     if (removeEffect(player, pd, menu.effectType, menu, data)) {
                                                         Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Potion"));
@@ -261,7 +261,7 @@ public class MenuListener implements Listener {
                                             Smoke.SmokeType smokeType = Smoke.SmokeType.valueOf(pdi.toString().toUpperCase());
                                             ParticleDetails pd = new ParticleDetails(pt);
                                             pd.smokeType = smokeType;
-                                            if (Permission.hasEffectPerm(player, true, pt, smokeType.toString().toLowerCase(), menu.effectType)) {
+                                            if (Permission.hasEffectPerm(player, true, pt, smokeType.toString().toLowerCase(), data.equals(player.getName()) ? null : menu.effectType.toString().toLowerCase())) {
                                                 if (b) {
                                                     if (removeEffect(player, pd, menu.effectType, menu, data)) {
                                                         Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Smoke"));
@@ -281,7 +281,7 @@ public class MenuListener implements Listener {
                                             ParticleDetails pd = new ParticleDetails(pt);
                                             pd.swirlType = swirlType;
                                             pd.setPlayer(player.getName(), player.getUniqueId());
-                                            if (Permission.hasEffectPerm(player, true, pt, swirlType.toString().toLowerCase(), menu.effectType)) {
+                                            if (Permission.hasEffectPerm(player, true, pt, swirlType.toString().toLowerCase(), data.equals(player.getName()) ? null : menu.effectType.toString().toLowerCase())) {
                                                 if (b) {
                                                     if (removeEffect(player, pd, menu.effectType, menu, data)) {
                                                         Lang.sendTo(player, Lang.EFFECT_REMOVED.toString().replace("%effect%", "Swirl"));

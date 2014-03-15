@@ -112,7 +112,7 @@ public class TrailCommand implements CommandExecutor {
                 ArrayList<ParticleType> list = new ArrayList<ParticleType>();
                 for (ParticleType pt : ParticleType.values()) {
                     if (!pt.requiresDataMenu()) {
-                        if (Permission.hasEffectPerm(p, false, pt, EffectHolder.EffectType.PLAYER) && !eh.hasEffect(pt)) {
+                        if (Permission.hasEffectPerm(p, false, pt, null) && !eh.hasEffect(pt)) {
                             list.add(pt);
                         }
                     }
@@ -123,7 +123,7 @@ public class TrailCommand implements CommandExecutor {
                     return true;
                 }
                 ParticleType pt = list.get(new Random().nextInt(list.size()));
-                if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
+                if (Permission.hasEffectPerm(p, true, pt, null)) {
                     if (eh.addEffect(pt, true)) {
                         Lang.sendTo(p, Lang.EFFECT_ADDED.toString().replace("%effect%", pt.getName()));
                     }
@@ -207,7 +207,7 @@ public class TrailCommand implements CommandExecutor {
                     Player p = (Player) sender;
                     if (pt.requiresDataMenu()) {
                         if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
-                            if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
+                            if (Permission.hasEffectPerm(p, true, pt, null)) {
                                 if (args.length == 1) {
                                     Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray").replace("%extra_info%", "Structure: " + ChatColor.YELLOW + "<IdValue> <BlockMeta>"));
                                     return true;
@@ -232,7 +232,7 @@ public class TrailCommand implements CommandExecutor {
                             }
                             return true;
                         } else if (pt == ParticleType.FIREWORK) {
-                            if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
+                            if (Permission.hasEffectPerm(p, true, pt, null)) {
                                 if (args.length == 1) {
                                     Lang.sendTo(p, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Firework").replace("%extra_info%", "Separate each parameter with a space."));
                                     return true;
@@ -268,7 +268,7 @@ public class TrailCommand implements CommandExecutor {
                             Lang.sendTo(sender, Lang.SWIRL_HELP.toString());
                             return true;
                         }
-                    } else if (Permission.hasEffectPerm(p, true, pt, EffectHolder.EffectType.PLAYER)) {
+                    } else if (Permission.hasEffectPerm(p, true, pt, null)) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(p.getName());
                         if (eh == null) {
                             eh = EffectCreator.createPlayerHolder(p.getName());
@@ -357,7 +357,7 @@ public class TrailCommand implements CommandExecutor {
                         return true;
                     } else return true;
                 }
-                if (Permission.TRAIL.hasPerm(sender, true, false)) {
+                if (Permission.PLAYER_TRAIL.hasPerm(sender, true, false)) {
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target == null) {
                         Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
@@ -465,7 +465,7 @@ public class TrailCommand implements CommandExecutor {
                     if (pt == ParticleType.CRITICAL) {
                         if (EnumUtil.isEnumType(Critical.CriticalType.class, args[1].toUpperCase())) {
                             Critical.CriticalType type = Critical.CriticalType.valueOf(args[1].toUpperCase());
-                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.PLAYER)) {
+                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), null)) {
                                 pd = new ParticleDetails(pt);
                                 pd.criticalType = type;
                             } else return true;
@@ -476,7 +476,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (pt == ParticleType.POTION) {
                         if (EnumUtil.isEnumType(Potion.PotionType.class, args[1].toUpperCase())) {
                             Potion.PotionType type = Potion.PotionType.valueOf(args[1].toUpperCase());
-                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.PLAYER)) {
+                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), null)) {
                                 pd = new ParticleDetails(pt);
                                 pd.potionType = type;
                             } else return true;
@@ -487,7 +487,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (pt == ParticleType.SMOKE) {
                         if (EnumUtil.isEnumType(Smoke.SmokeType.class, args[1].toUpperCase())) {
                             Smoke.SmokeType type = Smoke.SmokeType.valueOf(args[1].toUpperCase());
-                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.PLAYER)) {
+                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), null)) {
                                 pd = new ParticleDetails(pt);
                                 pd.smokeType = type;
                             } else return true;
@@ -498,7 +498,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (pt == ParticleType.SWIRL) {
                         if (EnumUtil.isEnumType(Swirl.SwirlType.class, args[1].toUpperCase())) {
                             Swirl.SwirlType type = Swirl.SwirlType.valueOf(args[1].toUpperCase());
-                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.PLAYER)) {
+                            if (Permission.hasEffectPerm(p, true, pt, type.toString().toLowerCase(), null)) {
                                 pd = new ParticleDetails(pt);
                                 pd.swirlType = type;
                                 pd.setPlayer(p.getName(), p.getUniqueId());
@@ -677,7 +677,7 @@ public class TrailCommand implements CommandExecutor {
                 if (EnumUtil.isEnumType(ParticleType.class, args[4].toUpperCase())) {
                     ParticleType pt = ParticleType.valueOf(args[4].toUpperCase());
                     if (pt == ParticleType.BLOCKBREAK || pt == ParticleType.ITEMSPRAY) {
-                        if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
+                        if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, "location")) {
                             if (args.length == 5) {
                                 Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", pt == ParticleType.BLOCKBREAK ? "Block Break" : "ItemSpray").replace("%extra_info%", "Separate each parameter with a space."));
                                 return true;
@@ -691,7 +691,7 @@ public class TrailCommand implements CommandExecutor {
                         }
                         return true;
                     } else if (pt == ParticleType.FIREWORK) {
-                        if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
+                        if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, "location")) {
                             if (args.length == 5) {
                                 Lang.sendTo(sender, Lang.INVALID_EFFECT_ARGS.toString().replace("%effect%", "Firework").replace("%extra_info%", "Separate each parameter with a space."));
                                 return true;
@@ -714,7 +714,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (pt == ParticleType.SWIRL) {
                         Lang.sendTo(sender, Lang.SWIRL_NOT_ALLOWED.toString());
                         return true;
-                    } else if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, EffectHolder.EffectType.PLAYER)) {
+                    } else if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, "location")) {
                         EffectHolder eh = EffectManager.getInstance().getEffect(l);
                         if (eh == null) {
                             eh = EffectCreator.createLocHolder(l);
@@ -745,7 +745,7 @@ public class TrailCommand implements CommandExecutor {
                     if (pt == ParticleType.CRITICAL) {
                         if (EnumUtil.isEnumType(Critical.CriticalType.class, args[5].toUpperCase())) {
                             Critical.CriticalType type = Critical.CriticalType.valueOf(args[5].toUpperCase());
-                            if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.LOCATION)) {
+                            if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), "location")) {
                                 pd = new ParticleDetails(pt);
                                 pd.criticalType = type;
                             } else return true;
@@ -756,7 +756,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (pt == ParticleType.POTION) {
                         if (EnumUtil.isEnumType(Potion.PotionType.class, args[5].toUpperCase())) {
                             Potion.PotionType type = Potion.PotionType.valueOf(args[5].toUpperCase());
-                            if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.LOCATION)) {
+                            if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), "location")) {
                                 pd = new ParticleDetails(pt);
                                 pd.potionType = type;
                             } else return true;
@@ -767,7 +767,7 @@ public class TrailCommand implements CommandExecutor {
                     } else if (pt == ParticleType.SMOKE) {
                         if (EnumUtil.isEnumType(Smoke.SmokeType.class, args[5].toUpperCase())) {
                             Smoke.SmokeType type = Smoke.SmokeType.valueOf(args[5].toUpperCase());
-                            if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), EffectHolder.EffectType.LOCATION)) {
+                            if (!(sender instanceof Player) || Permission.hasEffectPerm(((Player) sender), true, pt, type.toString().toLowerCase(), "location")) {
                                 pd = new ParticleDetails(pt);
                                 pd.smokeType = type;
                             } else return true;
