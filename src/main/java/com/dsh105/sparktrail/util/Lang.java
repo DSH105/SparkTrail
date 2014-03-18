@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public enum Lang {
 
-    PREFIX("no_permission", "&2ST&a » &r"),
+    PREFIX("prefix", "&2ST&a » &r"),
 
     NO_PERMISSION("no_permission", "&aYou are not permitted to do that."),
     COMMAND_ERROR("cmd_error", "&aError for input string: &e%cmd%&a. Use &e/" + SparkTrailPlugin.getInstance().cmdString + " help &afor help."),
