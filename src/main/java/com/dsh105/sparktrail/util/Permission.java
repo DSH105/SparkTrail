@@ -78,12 +78,12 @@ public enum Permission {
     }
 
     public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, String effectType) {
-        String perm = "sparktrail.trail" + effectType == null ? "" : "." + effectType.toLowerCase() + ".type." + particleType.toString().toLowerCase();
+        String perm = "sparktrail.trail" + effectType == null ? "" : ("." + effectType.toLowerCase()) + ".type." + particleType.toString().toLowerCase();
         return hasEffectPerm(player, sendMessage, perm);
     }
 
     public static boolean hasEffectPerm(Player player, boolean sendMessage, ParticleType particleType, String data, String effectType) {
-        String perm = "sparktrail.trail" + effectType == null ? "" : "." + effectType.toString().toLowerCase() + ".type." + particleType.toString().toLowerCase();
+        String perm = "sparktrail.trail" + effectType == null ? "" : ("." + effectType.toString().toLowerCase()) + ".type." + particleType.toString().toLowerCase();
         return hasEffectPerm(player, sendMessage, perm + "." + data);
     }
 }
