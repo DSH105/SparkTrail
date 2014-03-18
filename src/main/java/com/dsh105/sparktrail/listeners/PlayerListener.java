@@ -3,10 +3,13 @@ package com.dsh105.sparktrail.listeners;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.data.EffectManager;
 import com.dsh105.sparktrail.trail.EffectHolder;
+import com.dsh105.sparktrail.trail.type.ItemSpray;
 import com.dsh105.sparktrail.util.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryPickupItemEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -38,6 +41,15 @@ public class PlayerListener implements Listener {
                     }
                 }
             }.runTaskLater(SparkTrailPlugin.getInstance(), 20L);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryPickup(InventoryPickupItemEvent event) {
+        if (event.getInventory().getType() == InventoryType.HOPPER) {
+            if (ItemSpray.UUID_LIST.contains(event.getItem().getUniqueId())) {
+                event.setCancelled(true);
+            }
         }
     }
 }
