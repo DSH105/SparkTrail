@@ -19,7 +19,6 @@ package com.dsh105.sparktrail.menu;
 
 import com.dsh105.dshutils.logger.Logger;
 import com.dsh105.dshutils.util.EnumUtil;
-import com.dsh105.sparktrail.chat.MenuChatListener;
 import com.dsh105.sparktrail.chat.WaitingData;
 import com.dsh105.sparktrail.conversation.InputFactory;
 import com.dsh105.sparktrail.data.DataFactory;

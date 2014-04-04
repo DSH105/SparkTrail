@@ -18,8 +18,6 @@
 package com.dsh105.sparktrail.chat;
 
 import com.dsh105.dshutils.util.StringUtil;
-import com.dsh105.sparktrail.listeners.InteractDetails;
-import com.dsh105.sparktrail.listeners.InteractListener;
 import com.dsh105.sparktrail.trail.ParticleDemo;
 import com.dsh105.sparktrail.util.Lang;
 import org.bukkit.entity.Player;

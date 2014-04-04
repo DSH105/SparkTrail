@@ -21,7 +21,8 @@ import com.dsh105.dshutils.util.ReflectionUtil;
 import com.dsh105.sparktrail.trail.Effect;
 import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleType;
-import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
+import com.dsh105.sparktrail.util.ParticleUtil;
+import com.dsh105.sparktrail.util.protocol.wrapper.WrapperPacketWorldParticles;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -48,13 +49,6 @@ public class Firework extends Effect {
     }
 
     public void playDemo(Player p) {
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                "fireworksSpark",
-                (float) (p.getLocation().getX() + 0.5D),
-                (float) p.getLocation().getY(),
-                (float) (p.getLocation().getZ() + 0.5D),
-                0.5F, 1F, 0.5F,
-                50F, 30);
-        ReflectionUtil.sendPacket(p, packet);
+        ParticleUtil.showPlayer(WrapperPacketWorldParticles.ParticleType.FIREWORK_SPARK, p, p.getLocation());
     }
 }

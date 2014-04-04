@@ -76,6 +76,8 @@ public class SparkTrailPlugin extends DSHPlugin {
     public long size = 0;
     public boolean updateCheck = false;
 
+    public static boolean isUsingNetty;
+
     public BoneCP dbPool;
     public CommandMap CM;
 
@@ -86,10 +88,18 @@ public class SparkTrailPlugin extends DSHPlugin {
 
     public void onEnable() {
         super.onEnable();
+
+        // meh
+        if (Bukkit.getVersion().contains("1.7")) {
+            isUsingNetty = true;
+        } else if (Bukkit.getVersion().contains("1.6")) {
+            isUsingNetty = false;
+        }
+
         PluginManager manager = getServer().getPluginManager();
         Logger.initiate(this, "SparkTrail", "[SparkTrail]");
 
-        if (!VersionUtil.compareVersions()) {
+        /*if (!VersionUtil.compareVersions()) {
             ConsoleLogger.log(Logger.LogLevel.NORMAL, ChatColor.GREEN + "SparkTrail " + ChatColor.YELLOW
                     + this.getDescription().getVersion() + ChatColor.GREEN
                     + " is only compatible with:");
@@ -98,7 +108,7 @@ public class SparkTrailPlugin extends DSHPlugin {
 
             manager.disablePlugin(this);
             return;
-        }
+        }*/
 
         this.api = new SparkTrailAPI();
 

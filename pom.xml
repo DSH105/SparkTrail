@@ -30,10 +30,8 @@
         <vnp.version>3.18.4-SNAPSHOT</vnp.version>
         <slf4j.version>1.7.5</slf4j.version>
         <bonecp.version>0.8.0-rc3</bonecp.version>
-        <minecraft.version>1.7.2</minecraft.version>
-        <craftbukkit.version>R0.3</craftbukkit.version>
-        <cb_package>v1_7_R1</cb_package>
-        <main.class>com.dsh105.sparktrail.SparkTrailPlugin</main.class>
+        <minecraft.version>1.7.5</minecraft.version>
+        <craftbukkit.version>R0.1</craftbukkit.version>
     </properties>
     <distributionManagement>
         <repository>
@@ -136,11 +134,9 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>${main.class}</Main-Class>
                             <Plugin-Version>${project.version}</Plugin-Version>
                             <Minecraft-Version>${minecraft.version}</Minecraft-Version>
                             <CraftBukkit-Version>${craftbukkit.version}</CraftBukkit-Version>
-                            <NMS-Package>${cb_package}</NMS-Package>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -157,6 +153,7 @@
                         </goals>
                         <configuration>
                             <minimizeJar>true</minimizeJar>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <artifactSet>
                                 <includes>
                                     <include>com.jolbox:bonecp</include>

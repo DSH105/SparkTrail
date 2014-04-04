@@ -18,14 +18,18 @@
 package com.dsh105.sparktrail.trail.type;
 
 import com.dsh105.dshutils.logger.Logger;
-import com.dsh105.dshutils.util.ReflectionUtil;
+import com.dsh105.dshutils.util.GeometryUtil;
 import com.dsh105.sparktrail.trail.Effect;
 import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleType;
-import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
+import com.dsh105.sparktrail.util.ParticleUtil;
+import com.dsh105.sparktrail.util.protocol.wrapper.WrappedDataWatcher;
+import com.dsh105.sparktrail.util.protocol.wrapper.WrapperPacketEntityMetadata;
+import com.dsh105.sparktrail.util.protocol.wrapper.WrapperPacketWorldParticles;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.UUID;
 
@@ -57,15 +61,13 @@ public class Swirl extends Effect {
                 }
             }
             if (entity != null) {
-                try {
-                    Object nmsEntity = entity.getClass().getMethod("getHandle")
-                            .invoke(entity);
-                    Object dw = ReflectionUtil.getMethod(nmsEntity.getClass(), "getDataWatcher")
-                            .invoke(nmsEntity);
-                    ReflectionUtil.getMethod(dw.getClass(), "watch")
-                            .invoke(dw, new Object[]{7, Integer.valueOf(this.swirlType.getValue())});
-                } catch (Exception e) {
-                    Logger.log(Logger.LogLevel.SEVERE, "Failed to access Entity Datawatcher (Swirl Effect).", e, true);
+                WrappedDataWatcher dataWatcher = new WrappedDataWatcher(entity);
+                dataWatcher.watch(7, Integer.valueOf(this.swirlType.getValue()));
+                WrapperPacketEntityMetadata meta = new WrapperPacketEntityMetadata();
+                meta.setEntityId(entity.getEntityId());
+                meta.setMetadata(dataWatcher);
+                for (Player p : GeometryUtil.getNearbyPlayers(entity.getLocation(), 50)) {
+                    meta.send(p);
                 }
             } else {
                 Logger.log(Logger.LogLevel.SEVERE, "Failed to find correct Entity from UUID (Swirl Effect).", false);
@@ -75,14 +77,7 @@ public class Swirl extends Effect {
     }
 
     public void playDemo(Player p) {
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                "mobSpell",
-                (float) (p.getLocation().getX() + 0.5D),
-                (float) p.getLocation().getY(),
-                (float) (p.getLocation().getZ() + 0.5D),
-                0.5F, 1F, 0.5F,
-                0F, 100);
-        ReflectionUtil.sendPacket(p, packet);
+        ParticleUtil.showPlayer(WrapperPacketWorldParticles.ParticleType.SPELL, p, p.getLocation(), new Vector(this.r.nextFloat(), this.r.nextFloat(), this.r.nextFloat()), 0F, 100);
     }
 
     @Override
@@ -95,15 +90,13 @@ public class Swirl extends Effect {
             }
         }
         if (entity != null) {
-            try {
-                Object nmsEntity = entity.getClass().getMethod("getHandle")
-                        .invoke(entity);
-                Object dw = ReflectionUtil.getMethod(nmsEntity.getClass(), "getDataWatcher")
-                        .invoke(nmsEntity);
-                ReflectionUtil.getMethod(dw.getClass(), "watch")
-                        .invoke(dw, new Object[]{8, Integer.valueOf(0)});
-            } catch (Exception e) {
-                Logger.log(Logger.LogLevel.SEVERE, "Failed to access Entity Datawatcher (Swirl Effect).", e, true);
+            WrappedDataWatcher dataWatcher = new WrappedDataWatcher(entity);
+            dataWatcher.watch(7, Integer.valueOf(0));
+            WrapperPacketEntityMetadata meta = new WrapperPacketEntityMetadata();
+            meta.setEntityId(entity.getEntityId());
+            meta.setMetadata(dataWatcher);
+            for (Player p : GeometryUtil.getNearbyPlayers(entity.getLocation(), 50)) {
+                meta.send(p);
             }
         } else {
             Logger.log(Logger.LogLevel.SEVERE, "Failed to find correct Entity from UUID (Swirl Effect).", false);

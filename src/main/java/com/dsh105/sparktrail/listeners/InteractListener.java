@@ -17,7 +17,6 @@
 
 package com.dsh105.sparktrail.listeners;
 
-import com.dsh105.sparktrail.chat.MenuChatListener;
 import com.dsh105.sparktrail.conversation.InputFactory;
 import com.dsh105.sparktrail.conversation.YesNoFunction;
 import com.dsh105.sparktrail.data.EffectManager;

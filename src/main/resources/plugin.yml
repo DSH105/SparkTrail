@@ -3,7 +3,7 @@ version: ${project.version}
 author: DSH105
 description: The Next Generation of Dynamic Particle Effect Control
 website: ${project.url}
-main: ${main.class}
+main: com.dsh105.sparktrail.SparkTrailPlugin
 commands:
     stupdate:
         description: Update the plugin.

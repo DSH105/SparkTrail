@@ -17,11 +17,10 @@
 
 package com.dsh105.sparktrail.trail;
 
-import com.dsh105.dshutils.util.ReflectionUtil;
-import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
+import com.dsh105.dshutils.util.GeometryUtil;
+import com.dsh105.sparktrail.util.protocol.wrapper.WrapperPacketWorldParticles;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
 
 public abstract class PacketEffect extends Effect {
 
@@ -29,14 +28,15 @@ public abstract class PacketEffect extends Effect {
         super(effectHolder, particleType);
     }
 
-    public Object createPacket() {
-        return new PacketPlayOutWorldParticles(
-                this.getNmsName(),
-                (float) this.getHolder().getEffectPlayLocation().getX(),
-                (float) this.getHolder().getEffectPlayLocation().getY(),
-                (float) this.getHolder().getEffectPlayLocation().getZ(),
-                0.5F, 1F, 0.5F,
-                this.getSpeed(), this.getParticleAmount());
+    public WrapperPacketWorldParticles createPacket() {
+        WrapperPacketWorldParticles particles = new WrapperPacketWorldParticles();
+        particles.setParticle(this.getNmsName());
+        particles.setOffsetX(r.nextFloat());
+        particles.setOffsetY(r.nextFloat());
+        particles.setOffsetZ(r.nextFloat());
+        particles.setParticleSpeed(this.getSpeed());
+        particles.setParticleAmount(this.getParticleAmount());
+        return particles;
     }
 
     public abstract String getNmsName();
@@ -50,20 +50,23 @@ public abstract class PacketEffect extends Effect {
         boolean shouldPlay = super.play();
         if (shouldPlay) {
             for (Location l : this.displayType.getLocations(this.getHolder().getEffectPlayLocation())) {
-                ReflectionUtil.sendPacket(new Location(l.getWorld(), l.getX(), l.getY(), l.getZ()), this.createPacket());
+                WrapperPacketWorldParticles particles = this.createPacket();
+                particles.setX((float) (l.getX() + 0.5D));
+                particles.setY((float) l.getY());
+                particles.setZ((float) (l.getZ() + 0.5D));
+                for (Player p : GeometryUtil.getNearbyPlayers(l, 50)) {
+                    particles.send(p);
+                }
             }
         }
         return shouldPlay;
     }
 
     public void playDemo(Player p) {
-        PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(
-                this.getNmsName(),
-                (float) (p.getLocation().getX() + 0.5D),
-                (float) p.getLocation().getY(),
-                (float) (p.getLocation().getZ() + 0.5D),
-                0.5F, 1F, 0.5F,
-                this.getSpeed(), this.getParticleAmount());
-        ReflectionUtil.sendPacket(p, packet);
+        WrapperPacketWorldParticles particles = this.createPacket();
+        particles.setX((float) (p.getLocation().getX() + 0.5D));
+        particles.setY((float) p.getLocation().getY());
+        particles.setZ((float) (p.getLocation().getZ() + 0.5D));
+        particles.send(p);
     }
 }

@@ -217,7 +217,7 @@ public class EffectManager {
                         pd.fireworkEffect = DataFactory.deserialiseFireworkEffect(value, ",");
                     }
                     /*else if (pt == ParticleType.NOTE) {
-						try {
+                        try {
 							pd.noteType = Note.NoteType.valueOf(value);
 						} catch (Exception e) {
 							Logger.log(Logger.LogLevel.WARNING, "Error creating Effect (" + key + "). Either SparkTrail didn't save properly or the data file was edited.", true);

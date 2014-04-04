@@ -19,7 +19,6 @@ package com.dsh105.sparktrail.conversation;
 
 import com.dsh105.sparktrail.listeners.InteractDetails;
 import com.dsh105.sparktrail.listeners.InteractListener;
-import com.dsh105.sparktrail.trail.ParticleType;
 import com.dsh105.sparktrail.util.Lang;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.entity.Player;

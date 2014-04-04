@@ -17,7 +17,6 @@
 
 package com.dsh105.sparktrail.util;
 
-import com.dsh105.sparktrail.trail.EffectHolder;
 import com.dsh105.sparktrail.trail.ParticleType;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

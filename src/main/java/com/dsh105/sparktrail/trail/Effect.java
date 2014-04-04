@@ -29,8 +29,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.kitteh.vanish.VanishPlugin;
 
+import java.util.Random;
+
 
 public abstract class Effect {
+
+    protected Random r = new Random();
 
     private EffectHolder holder;
 
