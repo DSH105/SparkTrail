@@ -35,7 +35,7 @@ public class Dust extends PacketEffect {
 
     @Override
     public String getNmsName() {
-        return "blockdust_" + idValue + metaValue;
+        return "blockdust_" + idValue + "_" + metaValue;
     }
 
     @Override
