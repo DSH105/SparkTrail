@@ -120,6 +120,7 @@ public class MenuListener implements Listener {
                                     if (inv.getItem(slot).equals(pt.getMenuItem(false))) {
                                         removeEffect(player, menu.effectType, pt, menu);
                                         inv.setItem(slot, pt.getMenuItem(true));
+                                        player.closeInventory();
                                         event.setCancelled(true);
                                         return;
                                     }
@@ -159,12 +160,16 @@ public class MenuListener implements Listener {
                                         dm.open(false);
                                     }
                                 }
+                                player.closeInventory();
+                                DataMenu.openMenus.remove(player.getName());
+                                event.setCancelled(true);
                                 return;
                             }
                         }
                     }
                 }
 
+                player.closeInventory();
                 event.setCancelled(true);
                 return;
             } catch (Exception e) {
@@ -209,6 +214,8 @@ public class MenuListener implements Listener {
                                 pm.open(false);
                             }
                         }
+                        player.closeInventory();
+                        event.setCancelled(true);
                         return;
                     }
 
@@ -319,9 +326,11 @@ public class MenuListener implements Listener {
                         }
                     }
 
+                    player.closeInventory();
                     event.setCancelled(true);
                 }
             } catch (Exception e) {
+                player.closeInventory();
                 event.setCancelled(true);
                 Logger.log(Logger.LogLevel.SEVERE, "Encountered exception in Trail Menu", e, true);
             }
