@@ -120,8 +120,8 @@ public class MenuListener implements Listener {
                                     if (inv.getItem(slot).equals(pt.getMenuItem(false))) {
                                         removeEffect(player, menu.effectType, pt, menu);
                                         inv.setItem(slot, pt.getMenuItem(true));
-                                        player.closeInventory();
                                         event.setCancelled(true);
+                                        player.closeInventory();
                                         return;
                                     }
                                     WaitingData wd = new WaitingData(menu.effectType, pt);
@@ -135,15 +135,15 @@ public class MenuListener implements Listener {
                                 } else if (pt == ParticleType.FIREWORK) {
                                     Lang.sendTo(player, Lang.ENTER_FIREWORK.toString());
                                 }*/
-                                    player.closeInventory();
                                     event.setCancelled(true);
+                                    player.closeInventory();
                                     ParticleMenu.openMenus.remove(player.getName());
                                     event.setCancelled(true);
                                     return;
                                 }
                             } else {
-                                player.closeInventory();
                                 event.setCancelled(true);
+                                player.closeInventory();
                                 ParticleMenu.openMenus.remove(player.getName());
                                 DataMenu dm = null;
                                 if (menu.effectType == EffectHolder.EffectType.PLAYER) {
@@ -160,17 +160,15 @@ public class MenuListener implements Listener {
                                         dm.open(false);
                                     }
                                 }
-                                player.closeInventory();
                                 DataMenu.openMenus.remove(player.getName());
-                                event.setCancelled(true);
                                 return;
                             }
                         }
                     }
                 }
 
-                player.closeInventory();
                 event.setCancelled(true);
+                player.closeInventory();
                 return;
             } catch (Exception e) {
                 event.setCancelled(true);
@@ -195,8 +193,6 @@ public class MenuListener implements Listener {
                     //String data = split[2];
 
                     if (inv.getItem(slot) != null && inv.getItem(slot).equals(DataMenu.BACK)) {
-                        player.closeInventory();
-                        event.setCancelled(true);
                         DataMenu.openMenus.remove(player.getName());
 
                         ParticleMenu pm = null;
@@ -214,8 +210,8 @@ public class MenuListener implements Listener {
                                 pm.open(false);
                             }
                         }
-                        player.closeInventory();
                         event.setCancelled(true);
+                        player.closeInventory();
                         return;
                     }
 
@@ -326,12 +322,12 @@ public class MenuListener implements Listener {
                         }
                     }
 
-                    player.closeInventory();
                     event.setCancelled(true);
+                    player.closeInventory();
                 }
             } catch (Exception e) {
-                player.closeInventory();
                 event.setCancelled(true);
+                player.closeInventory();
                 Logger.log(Logger.LogLevel.SEVERE, "Encountered exception in Trail Menu", e, true);
             }
         }
