@@ -22,6 +22,7 @@ import com.dsh105.dshutils.util.EnumUtil;
 import com.dsh105.dshutils.util.StringUtil;
 import com.dsh105.sparktrail.SparkTrailPlugin;
 import com.dsh105.sparktrail.chat.BlockData;
+import com.dsh105.sparktrail.config.ConfigOptions;
 import com.dsh105.sparktrail.data.DataFactory;
 import com.dsh105.sparktrail.data.EffectCreator;
 import com.dsh105.sparktrail.data.EffectManager;
@@ -74,6 +75,10 @@ public class TrailCommand implements CommandExecutor {
         if (args.length == 0) {
             if (Permission.TRAIL.hasPerm(sender, true, false)) {
                 Player p = (Player) sender;
+                if (!ConfigOptions.instance.getConfig().getBoolean("enableMenu", true)) {
+                    Lang.sendTo(sender, Lang.MENU_DISABLED.toString());
+                    return true;
+                }
                 ParticleMenu pm = new ParticleMenu(p, p.getName());
                 if (pm.fail) {
                     Lang.sendTo(sender, Lang.MENU_ERROR.toString());
@@ -378,6 +383,10 @@ public class TrailCommand implements CommandExecutor {
                     Player target = Bukkit.getPlayer(args[1]);
                     if (target == null) {
                         Lang.sendTo(sender, Lang.NULL_PLAYER.toString().replace("%player%", args[1]));
+                        return true;
+                    }
+                    if (!ConfigOptions.instance.getConfig().getBoolean("enableMenu", true)) {
+                        Lang.sendTo(sender, Lang.MENU_DISABLED.toString());
                         return true;
                     }
                     ParticleMenu pm = new ParticleMenu(((Player) sender), target.getName());

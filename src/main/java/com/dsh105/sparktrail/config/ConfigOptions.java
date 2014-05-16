@@ -82,6 +82,7 @@ public class ConfigOptions extends Options {
 
         set("autosave", true, "If true, SparkTrail will autosave all pet data to prevent data", "loss in the event of a server crash.");
         set("autosaveTimer", 180, "AutoSave interval (in seconds)");
+        set("enableMenu", true);
 
         // Just set this to 1 so we can have a description
         set("maxEffectAmount", 1, "Maximum amount of effects a player, location or mob is allowed to have. -1 allows an", "unlimited number.");
