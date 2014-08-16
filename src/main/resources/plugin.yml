@@ -1,9 +1,9 @@
 name: ${project.name}
-version: ${project.version}
+version: ${project.version}-bjenkins-build-number
 author: DSH105
 description: The Next Generation of Dynamic Particle Effect Control
 website: ${project.url}
-main: com.dsh105.sparktrail.SparkTrailPlugin
+main: com.dsh105.sparktrailv4.SparkTrailCore
 commands:
     stupdate:
         description: Update the plugin.
